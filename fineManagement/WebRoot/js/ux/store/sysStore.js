@@ -13,9 +13,7 @@ finems.sysStore = function() {
 					           {field: 'classname', title: '分类', width: 120, sortable: true},
 					           {field: 'specifications', title: '规格', width: 60, sortable: true},
 					           {field: 'unit', title: '单位', width: 60, sortable: true},
-					           {field: 'purchaseCount', title: '数量', width: 80, sortable: true},
-					           {field: 'unitPrice', title: '单价', width: 80, sortable: true},
-					           {field: 'totalprice', title: '总价', width: 80, sortable: true},
+					           {field: 'purchaseCount', title: '数量', width: 100, sortable: true},
 					           {field: 'brandName', title: '品牌', width: 120, sortable: true},
 					           {field: 'syssign', title: '状态', width: 80, sortable: true, 
 					        	   formatter: function(value, row, index) {
