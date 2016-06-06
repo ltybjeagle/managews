@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.finemanagement.dao.basic.SysGreenhouseTypeDao" > 
+<resultMap id="BaseResultMap" type="com.finemanagement.entity.basic.SysGreenhouseType" >
+	<result column="id" property="id"/>
+	<result column="greenhouseName" property="greenhouseName"/>
+	<result column="greenhouseCount" property="greenhouseCount"/>
+	<result column="remark" property="remark"/>
+</resultMap>
+
+<sql id="Base_Column_List" >
+	m.id,m.greenhouseName,m.remark
+</sql>
+
+<sql id="Example_Where_Clause">
+	where 1=1
+	<trim suffixOverrides="," >
+		<if test="id != null and id > 0" >
+			and id = #{id}
+		</if>
+		<if test="greenhouseName != null and greenhouseName != ''" >
+		    and greenhouseName like '%'+#{greenhouseName}+'%'
+		</if>
+	</trim>
+</sql>
+
+<insert id="add" parameterType="Object" >
+	insert into sys_greenhouse_type(greenhouseName,remark) values(#{greenhouseName},#{remark})
+</insert>
+
+<update id="updateBySelective" parameterType="Object" >
+	update sys_greenhouse_type set 
+	<trim suffixOverrides="," >
+		<if test="greenhouseName != null and greenhouseName != '' ">
+			greenhouseName=#{greenhouseName},
+		</if>
+		<if test="remark != null and remark != '' ">
+			remark=#{remark},
+		</if>
+	</trim> where id=#{id}
+</update>
+
+<delete id="delete" parameterType="Object">
+	delete from sys_greenhouse_type where id = #{id}
+</delete>
+
+<select id="queryById" resultMap="BaseResultMap" parameterType="Object">
+	select <include refid="Base_Column_List" /> from sys_greenhouse_type m  where m.id = #{id}
+</select>
+
+<select id="queryByList" resultMap="BaseResultMap" parameterType="Object">
+	select <include refid="Base_Column_List"/>,(select count(*) from sys_greenhouse c where c.typeid = m.id) as greenhouseCount 
+	from sys_greenhouse_type m <include refid="Example_Where_Clause"/> 
+</select>
+
+<select id="queryDataByList" resultMap="BaseResultMap" parameterType="Object">
+	select <include refid="Base_Column_List"/>,(select count(*) from sys_greenhouse c where c.typeid = m.id) as greenhouseCount 
+	from sys_greenhouse_type m <include refid="Example_Where_Clause"/> 
+</select>
+</mapper>

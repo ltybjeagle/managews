@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.finemanagement.dao.production.SysTaskBreedDao" > 
+<!-- Result Map-->
+<resultMap id="BaseResultMap" type="com.finemanagement.entity.production.SysTaskBreed" >
+	<result column="id" property="id"/>
+	<result column="fowleryid" property="fowleryid"/>
+	<result column="baseid" property="baseid"/>
+	<result column="taskid" property="taskid"/>
+	<result column="breeder" property="breeder"/>
+	<result column="breedTechnician" property="breedTechnician"/>
+	<result column="taskTime" property="taskTime"/>
+	<result column="taskContent" property="taskContent"/>
+	<result column="breederName" property="breederName"/>
+	<result column="breedTechnicianName" property="breedTechnicianName"/>
+	<result column="taskName" property="taskName"/>
+</resultMap>
+
+<!-- sys_base table all fields -->
+<sql id="Base_Column_List" >
+	m.id,m.fowleryid,m.baseid,m.taskid,m.breeder,m.breedTechnician,m.taskTime,m.taskContent
+</sql>
+
+<!-- 查询条件 -->
+<sql id="Example_Where_Clause">
+where 1=1
+<trim suffixOverrides="," >
+	<if test="id != null and id > 0" >
+		and m.id = #{id}
+	</if>
+	<if test="fowleryid != null and fowleryid > 0" >
+	    and fowleryid = #{fowleryid}
+	</if>
+	<if test="baseid != null and baseid > 0" >
+	    and baseid = #{baseid}
+	</if>
+	<if test="taskid != null and taskid > 0" >
+	    and m.taskid = #{taskid}
+	</if>
+	<if test="breeder != null and breeder > 0" >
+	    and m.breeder = #{breeder}
+	</if>
+	<if test="breedTechnician != null and breedTechnician > 0" >
+	    and m.breedTechnician = #{breedTechnician}
+	</if>
+	<if test="taskTime != null and taskTime != ''" >
+	    and m.taskTime = #{taskTime}
+	</if>
+	<if test="taskContent != null and taskContent != ''" >
+	    and m.taskContent = #{taskContent}
+	</if>
+</trim>
+</sql>
+
+<!-- 插入记录 -->
+<insert id="add" parameterType="Object" >
+insert into sys_task_breed(fowleryid,baseid,taskid,breeder,breedTechnician,taskTime,taskContent)
+values(#{fowleryid},#{baseid},#{taskid},#{breeder},#{breedTechnician},#{taskTime},#{taskContent})
+</insert>
+
+<!-- 修改记录，只修改只不为空的字段 -->
+<update id="updateBySelective" parameterType="Object" >
+	update sys_task_breed set 
+	<trim suffixOverrides="," >
+	<if test="taskid != null and taskid > 0 ">
+		taskid=#{taskid},
+	</if>
+	<if test="breeder != null and breeder > 0 ">
+		breeder=#{breeder},
+	</if>
+	<if test="breedTechnician != null and breedTechnician > 0 ">
+		breedTechnician=#{breedTechnician},
+	</if>
+	<if test="taskTime != null and taskTime != '' ">
+		taskTime=#{taskTime},
+	</if>
+	<if test="taskContent != null and taskContent != '' ">
+		taskContent=#{taskContent},
+	</if>
+	</trim> where id=#{id}
+</update>
+
+<!-- 删除记录 -->
+<delete id="delete" parameterType="Object">
+	delete from sys_task_breed where id = #{id}
+</delete>
+
+<!-- 根据id查询 系统角色 -->
+<select id="queryById" resultMap="BaseResultMap" parameterType="Object">
+select <include refid="Base_Column_List" /> from sys_task_breed m  where id = #{id}
+</select>
+
+<select id="queryByList" resultMap="BaseResultMap" parameterType="Object">
+select <include refid="Base_Column_List"/>,u1.nickName as breederName,u2.nickName as breedTechnicianName , type.taskName as taskName
+from sys_task_breed m left join sys_user u1 on u1.id = m.breeder
+left join sys_user u2 on u2.id = m.breedTechnician
+left join sys_taskType type on type.id = m.taskid
+<include refid="Example_Where_Clause"/> 
+<if test="pager.orderCondition != null and pager.orderCondition != ''" >
+${pager.orderCondition}
+</if>
+</select>
+</mapper>

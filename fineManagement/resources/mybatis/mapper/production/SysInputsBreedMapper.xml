@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.finemanagement.dao.production.SysInputsBreedDao" > 
+<!-- Result Map-->
+<resultMap id="BaseResultMap" type="com.finemanagement.entity.production.SysInputsBreed" >
+	<result column="id" property="id"/>
+	<result column="productid" property="productid"/>
+	<result column="inputName" property="inputName"/>
+	<result column="classname" property="classname"/>
+	<result column="unit" property="unit"/>
+	<result column="specifications" property="specifications"/>
+	<result column="brandName" property="brandName"/>
+	<result column="mfName" property="mfName"/>
+	<result column="remark" property="remark"/>
+	<result column="purchaseCount" property="purchaseCount"/>
+	<result column="unitPrice" property="unitPrice"/>
+	<result column="productNo" property="productNo"/>
+	<result column="fowleryid" property="fowleryid"/>
+	<result column="baseid" property="baseid"/>
+	<result column="startTime" property="startTime"/>
+	<result column="breeder" property="breeder"/>
+	<result column="breedTechnician" property="breedTechnician"/>
+	<result column="breederName" property="breederName"/>
+	<result column="breedTechnicianName" property="breedTechnicianName"/>
+</resultMap>
+
+<!-- sys_base table all fields -->
+<sql id="Base_Column_List" >
+	m.id,m.productid,m.inputName,m.classname,m.unit,m.specifications,m.brandName,m.mfName,m.remark,m.purchaseCount,
+	m.unitPrice,m.fowleryid,m.baseid,m.startTime,m.breeder,m.breedTechnician
+</sql>
+
+<!-- 查询条件 -->
+<sql id="Example_Where_Clause">
+where 1=1
+<trim suffixOverrides="," >
+	<if test="id != null" >
+		and id = #{id}
+	</if>
+	<if test="fowleryid != null and fowleryid > 0" >
+	    and fowleryid = #{fowleryid}
+	</if>
+	<if test="baseid != null and baseid > 0" >
+	    and baseid = #{baseid}
+	</if>
+	<if test="productid != null and productid != ''" >
+	    and productid = #{productid}
+	</if>
+	<if test="inputName != null" >
+	    and inputName = #{inputName}
+	</if>
+	<if test="classname != null and classname != ''" >
+	    and classname = #{classname}
+	</if>
+	<if test="unit != null" >
+	    and unit = #{unit}
+	</if>
+	<if test="specifications != null" >
+	    and specifications = #{specifications}
+	</if>
+	<if test="brandName != null and brandName != ''" >
+	    and brandName = #{brandName}
+	</if>
+	<if test="mfName != null and mfName != ''" >
+	    and mfName = #{mfName}
+	</if>
+	<if test="remark != null and remark != ''" >
+	    and remark = #{remark}
+	</if>
+	<if test="purchaseCount != null and purchaseCount != ''" >
+	    and purchaseCount = #{purchaseCount}
+	</if>
+	<if test="unitPrice != null and unitPrice != ''" >
+	    and unitPrice = #{unitPrice}
+	</if>
+	<if test="startTime != null and startTime != ''" >
+	    and startTime = #{startTime}
+	</if>
+	<if test="breeder != null and breeder > 0" >
+	    and m.breeder = #{breeder}
+	</if>
+	<if test="breedTechnician != null and breedTechnician > 0" >
+	    and m.breedTechnician = #{breedTechnician}
+	</if>
+</trim>
+</sql>
+
+<!-- 插入记录 -->
+<insert id="add" parameterType="Object" >
+insert into sys_inputs_breed(productid,inputName,classname,unit,specifications,brandName,mfName,remark,purchaseCount,unitPrice
+,fowleryid,baseid,startTime,breeder,breedTechnician)
+values(#{productid},#{inputName},#{classname},#{unit},#{specifications},#{brandName},#{mfName},#{remark},#{purchaseCount}
+,#{unitPrice},#{fowleryid},#{baseid},#{startTime},#{breeder},#{breedTechnician})
+</insert>
+
+<!-- 修改记录，只修改只不为空的字段 -->
+<update id="updateBySelective" parameterType="Object" >
+	update sys_inputs_breed set 
+	<trim suffixOverrides="," >
+	<if test="productid != null and productid != '' ">
+		productid=#{productid},
+	</if>
+	<if test="inputName != null  ">
+		inputName=#{inputName},
+	</if>
+	<if test="classname != null  ">
+		classname=#{classname},
+	</if>
+	<if test="unit != null  ">
+		unit=#{unit},
+	</if>
+	<if test="specifications != null  ">
+		specifications=#{specifications},
+	</if>
+	<if test="brandName != null  ">
+		brandName=#{brandName},
+	</if>
+	<if test="mfName != null and mfName != '' ">
+		mfName=#{mfName},
+	</if>
+	<if test="remark != null and remark != '' ">
+		remark=#{remark},
+	</if>
+	<if test="purchaseCount != null and purchaseCount != '' ">
+		purchaseCount=#{purchaseCount},
+	</if>
+	<if test="unitPrice != null and unitPrice != '' ">
+		unitPrice=#{unitPrice},
+	</if>
+	<if test="startTime != null and startTime != '' ">
+		startTime=#{startTime},
+	</if>
+	<if test="breeder != null and breeder > 0 ">
+		breeder=#{breeder},
+	</if>
+	<if test="breedTechnician != null and breedTechnician > 0 ">
+		breedTechnician=#{breedTechnician},
+	</if>
+	</trim> where id=#{id}
+</update>
+
+<!-- 删除记录 -->
+<delete id="delete" parameterType="Object">
+	delete from sys_inputs_breed where id = #{id}
+</delete>
+
+<!-- 根据id查询 系统角色 -->
+<select id="queryById" resultMap="BaseResultMap" parameterType="Object">
+select <include refid="Base_Column_List" /> from sys_inputs_breed m  where id = #{id}
+</select>
+
+<select id="queryByList" resultMap="BaseResultMap" parameterType="Object">
+select <include refid="Base_Column_List"/>,pro.productNo,u1.nickName as breederName,u2.nickName as breedTechnicianName  
+from sys_inputs_breed m left join sys_product pro on pro.id = m.productid
+left join sys_user u1 on u1.id = m.breeder
+left join sys_user u2 on u2.id = m.breedTechnician
+<include refid="Example_Where_Clause"/> 
+<if test="pager.orderCondition != null and pager.orderCondition != ''" >
+${pager.orderCondition}
+</if>
+</select>
+</mapper>

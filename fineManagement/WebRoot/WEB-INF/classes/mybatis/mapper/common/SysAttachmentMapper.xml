@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.finemanagement.dao.common.SysAttachmentDao" > 
+<resultMap id="BaseResultMap" type="com.base.entity.Attachment" >
+	<result column="ID" property="ID"/>
+	<result column="RelationNO" property="RelationNO"/>
+	<result column="Url" property="Url"/>
+	<result column="FileName" property="FileName"/>
+	<result column="TableName" property="TableName"/>
+	<result column="CreateTime" property="CreateTime"/>
+</resultMap>
+
+<sql id="Base_Column_List" >
+	m.ID,m.RelationID,m.Url,m.TableName,m.CreateTime,m.FileName
+</sql>
+
+<sql id="Example_Where_Clause">
+	where 1=1
+	<trim suffixOverrides="," >
+		<if test="ID != null and ID !=''">
+			and m.ID = #{ID}
+		</if>
+		<if test="RelationID != null and RelationID !=''">
+			and m.RelationID = #{RelationID}
+		</if>
+		<if test="TableName != null and TableName !=''">
+			and m.TableName = #{TableName}
+		</if>
+	</trim>
+</sql>
+
+<delete id="deleteFile" parameterType="Object">
+	delete from Attachment where ID = #{id}
+</delete>
+
+<insert id="addFile" parameterType="Object" >
+	insert into Attachment(ID, RelationID,FileName,Url,TableName,CreateTime)
+	values(NEWID(), #{RelationID},#{FileName},#{Url},#{TableName},getdate())
+</insert>
+
+<select id="queryDataByList" resultMap="BaseResultMap" parameterType="Object">
+	select <include refid="Base_Column_List"/> from Attachment m 
+	<include refid="Example_Where_Clause"/>
+</select>
+</mapper>

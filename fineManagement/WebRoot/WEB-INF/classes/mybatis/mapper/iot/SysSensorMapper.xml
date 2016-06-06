@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.finemanagement.dao.iot.SysSensorDao" > 
+<!-- Result Map-->
+<resultMap id="BaseResultMap" type="com.finemanagement.entity.iot.SysSensor" >
+	<result column="id" property="id"/>
+	<result column="equipmentNumber" property="equipmentNumber"/>
+	<result column="acquisitionPoint" property="acquisitionPoint"/>
+	<result column="greenhouseid" property="greenhouseid"/>
+	<result column="baseid" property="baseid"/>
+	<result column="baseName" property="baseName"/>
+	<result column="greenhouseName" property="greenhouseName"/>
+</resultMap>
+
+<!-- sys_base table all fields -->
+<sql id="Base_Column_List" >
+	m.id,m.equipmentNumber,m.acquisitionPoint,m.greenhouseid,m.baseid
+</sql>
+
+<!-- 查询条件 -->
+<sql id="Example_Where_Clause">
+where 1=1
+<trim suffixOverrides="," >
+	<if test="id != null" >
+		and id = #{id}
+	</if>
+	<if test="equipmentNumber != null and equipmentNumber != ''" >
+	    and equipmentNumber = #{equipmentNumber}
+	</if>
+	<if test="acquisitionPoint != null and acquisitionPoint != ''" >
+	    and acquisitionPoint = #{acquisitionPoint}
+	</if>
+	<if test="greenhouseid != null and greenhouseid > 0" >
+	    and greenhouseid = #{greenhouseid}
+	</if>
+	<if test="baseid != null and baseid > 0" >
+	    and baseid = #{baseid}
+	</if>
+</trim>
+</sql>
+
+<!-- 插入记录 -->
+<insert id="add" parameterType="Object" >
+insert into sys_sensor(equipmentNumber,acquisitionPoint,greenhouseid,baseid)
+values(#{equipmentNumber},#{acquisitionPoint},#{greenhouseid},#{baseid})
+</insert>
+
+<!-- 修改记录，只修改只不为空的字段 -->
+<update id="updateBySelective" parameterType="Object" >
+	update sys_sensor set 
+	<trim suffixOverrides="," >
+	<if test="equipmentNumber != null and equipmentNumber != ''" >
+	    equipmentNumber = #{equipmentNumber},
+	</if>
+	<if test="acquisitionPoint != null and acquisitionPoint != ''" >
+	    acquisitionPoint = #{acquisitionPoint},
+	</if>
+	<if test="greenhouseid != null and greenhouseid > 0" >
+	    greenhouseid = #{greenhouseid},
+	</if>
+	<if test="baseid != null and baseid > 0" >
+	    baseid = #{baseid},
+	</if>
+	</trim> where id=#{id}
+</update>
+
+<!-- 删除记录 -->
+<delete id="delete" parameterType="Object">
+	delete from sys_sensor where id = #{id}
+</delete>
+
+<select id="queryById" resultMap="BaseResultMap" parameterType="Object">
+	select <include refid="Base_Column_List"/>,b.baseName,g.name as greenhouseName from sys_sensor m 
+	left join sys_base b on m.baseid = b.id
+	left join sys_greenhouse g on m.greenhouseid = g.id
+	where m.id = #{id}
+</select>
+
+<select id="queryByList" resultMap="BaseResultMap" parameterType="Object">
+	select <include refid="Base_Column_List"/>,b.baseName,g.name as greenhouseName from sys_sensor m 
+	left join sys_base b on m.baseid = b.id
+	left join sys_greenhouse g on m.greenhouseid = g.id
+	<include refid="Example_Where_Clause"/> 
+</select>
+</mapper>

@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.finemanagement.dao.store.SysStoreDao" > 
+<resultMap id="BaseResultMap" type="com.finemanagement.entity.store.SysStore" >
+	<result column="id" property="id"/>
+	<result column="productNo" property="productNo"/>
+	<result column="inputName " property="inputName "/>
+	<result column="classifyId" property="classifyId"/>
+	<result column="unit" property="unit"/>
+	<result column="specifications" property="specifications"/>
+	<result column="brandId" property="brandId"/>
+	<result column="mfid" property="mfid"/>
+	<result column="purchaseCount" property="purchaseCount"/>
+	<result column="unitPrice" property="unitPrice"/>
+	<result column="totalprice" property="totalprice"/>
+	<result column="warehouseid" property="warehouseid"/>
+	<result column="sysid" property="sysid"/>
+	<result column="syssign" property="syssign"/>
+	<result column="baseid" property="baseid"/>
+	<result column="greenhouseid" property="greenhouseid"/>
+	<result column="baseName" property="baseName"/>
+	<result column="greenhouseName" property="greenhouseName"/>
+	<result column="whName" property="whName"/>
+	<result column="classname" property="classname"/>
+	<result column="brandName" property="brandName"/>
+	<result column="mfName" property="mfName"/>
+</resultMap>
+
+<sql id="Base_Column_List" >
+	m.id,m.productNo,m.inputName,m.classifyId,m.unit,m.specifications,m.purchaseCount,m.unitPrice,m.totalprice,m.brandId,
+	m.mfid,m.warehouseid,m.sysid,m.principal,m.instoretime,m.remark,m.outstoretime,m.outuser,m.technicalstaff,m.syssign
+</sql>
+
+<sql id="Example_Where_Clause">
+	where 1=1
+	<trim suffixOverrides="," >
+		<if test="id != null and id > 0" >
+			and m.id = #{id}
+		</if>
+		<if test="productNo != null and productNo != ''" >
+		    and m.productNo like '%'+#{productNo}+'%'
+		</if>
+		<if test="inputName != null and inputName != ''" >
+		    and m.inputName like '%'+#{inputName}+'%'
+		</if>
+		<if test="classname != null and classname != ''" >
+		    and m.classname = #{classname}
+		</if>
+		<if test="unit != null and unit != ''" >
+		    and m.unit = #{unit}
+		</if>
+		<if test="specifications != null and specifications != ''" >
+		    and m.specifications = #{specifications}
+		</if>
+		<if test="brandId != null and brandId > 0" >
+		    and m.brandId = #{brandId}
+		</if>
+		<if test="mfid != null and mfid > 0" >
+		    and m.mfid = #{mfid}
+		</if>
+		<if test="syssign != null and syssign != ''" >
+		    and m.syssign = #{syssign}
+		</if>
+		<if test="startInstoretime != null and startInstoretime != ''" >
+		    and m.instoretime &gt;= #{startInstoretime}
+		</if>
+		<if test="endInstoretime != null and endInstoretime != ''" >
+		    and m.instoretime &lt;= #{endInstoretime}
+		</if>
+		<if test="startOutstoretime != null and startOutstoretime != ''" >
+		    and m.outstoretime &gt;= #{startOutstoretime}
+		</if>
+		<if test="endOutstoretime != null and endOutstoretime != ''" >
+		    and m.outstoretime &lt;= #{endOutstoretime}
+		</if>
+		<if test="sysid != null and sysid != ''" >
+		    and m.sysid = #{sysid}
+		</if>
+	</trim>
+</sql>
+
+<insert id="add" parameterType="Object" >
+	insert into sys_store(productNo,inputName,classifyId,unit,specifications,brandId,mfid,purchaseCount,unitPrice,totalprice,
+	warehouseid,technicalstaff,principal,remark,instoretime,syssign,sysid,processInstanceId,classname,brandName,mfName,outstoretime,
+	baseid,greenhouseid,outuser)
+	values(#{productNo},#{inputName},#{classifyId},#{unit},#{specifications},#{brandId},#{mfid},#{purchaseCount},
+	#{unitPrice},#{totalprice},#{warehouseid},#{technicalstaff},#{principal},#{remark},#{instoretime},#{syssign},#{sysid},
+	#{processInstanceId},#{classname},#{brandName},#{mfName},#{outstoretime},#{baseid},#{greenhouseid},#{outuser})
+</insert>
+
+<select id="queryById" resultMap="BaseResultMap" parameterType="Object">
+	select <include refid="Base_Column_List"/>,whName,m.classname,m.brandName,m.mfName,b.baseName,g.name as greenhouseName 
+	from sys_store m 
+	left join sys_warehouse wa on wa.id = m.warehouseid 
+	left join sys_base b on m.baseid = b.id
+	left join sys_greenhouse g on m.greenhouseid = g.id
+	where m.id = #{id}
+</select>
+
+<select id="queryByInStore" resultMap="BaseResultMap" parameterType="Object">
+	select m.id as processInstanceId,m.productid as productNo,m.inputName,m.unit,m.specifications,m.classname,m.brandName,
+	m.mfName,m.unitPrice from  sys_purchase m where m.taskkey = '10' and m.isinstore = '0'
+</select>
+
+<select id="queryByOutStore" resultMap="BaseResultMap" parameterType="Object">
+	select m.id as processInstanceId, pro.productNo,m.inputName,m.unit,m.specifications,m.classname,m.brandName,
+	m.mfName,m.unitPrice,m.purchaseCount from sys_inputs m 
+	left join sys_product pro on pro.id = m.productid
+	where m.isoutstore ='0'
+</select>
+  
+<update id="update" parameterType="Object" >
+	update sys_store set purchaseCount=#{purchaseCount} where productNo=#{productNo}
+</update>
+
+<insert id="outadd" parameterType="Object" >
+	insert into sys_store(productNo,inputName,classifyId,unit,specifications,brandId,mfid,purchaseCount,unitPrice,totalprice,
+	warehouseid,technicalstaff,outuser,outpurchaseCount,outremark,outstoretime,syssign,baseid,greenhouseid,sysid,)
+	values(#{productNo},#{inputName},#{classifyId},#{unit},#{specifications},#{brandId},#{mfid},#{purchaseCount},
+	#{unitPrice},#{totalprice},#{warehouseid},#{technicalstaff},#{outuser},#{outpurchaseCount},#{outremark},#{outstoretime},
+	#{syssign},#{baseid},#{greenhouseid},#{sysid})
+</insert>
+
+<select id="queryByProductNo" resultMap="BaseResultMap" parameterType="Object">
+	select <include refid="Base_Column_List"/> from sys_store m where m.productNo = #{code}
+</select>
+
+<select id="queryByCode" resultMap="BaseResultMap" parameterType="Object">
+	select m.id,m.productNo,m.inputName,m.classifyId,m.unit,m.specifications,m.brandId,m.mfid
+	from  sys_product m  left join sys_classify cla
+	on m.classifyId = cla.id left join sys_brand bra on bra.id = m.brandId
+	left join sys_manufacturer mf on mf.id = m.mfid where m.productNo = #{code}
+</select>
+
+<select id="queryByplanId" resultMap="BaseResultMap" parameterType="Object">
+	select m.id,m.productid as productNo,m.inputName,m.unit,m.specifications,m.classname,m.brandName,m.mfName,m.unitPrice
+	from  sys_purchase m where m.id = #{id}
+</select>
+
+<select id="queryByinput" resultMap="BaseResultMap" parameterType="Object">
+	select m.id ,m.productid as productNo,m.inputName,m.unit,m.specifications,m.classname,m.brandName,m.mfName,m.unitPrice,
+	m.purchaseCount,m.greenhouseid,m.baseid from sys_inputs m where m.id = #{id} 
+</select>
+  
+<update id="updateplan" parameterType="Object" >
+	update sys_purchase set isinstore='1' where id=#{processInstanceId}
+</update>
+ 
+<update id="updateinput" parameterType="Object" >
+	update sys_inputs set isoutstore='1' where id=#{processInstanceId}
+</update>
+
+<select id="queryByIninventoryList" resultMap="BaseResultMap" parameterType="Object">
+	select <include refid="Base_Column_List"/>,whName,m.classname,m.brandName,m.mfName,m.principal,m.instoretime,
+	m.processInstanceId from sys_store m left join sys_warehouse wa on wa.id = m.warehouseid where m.syssign='1'
+</select>
+
+<select id="queryByOutinventoryList" resultMap="BaseResultMap" parameterType="Object">
+	select <include refid="Base_Column_List"/>,whName,m.classname,m.brandName,m.mfName,m.outpurchaseCount,m.outuser,
+	m.outuser,m.processInstanceId from sys_store m left join sys_warehouse  wa on wa.id = m.warehouseid where m.syssign='-1'
+</select>
+
+<select id="queryByList" resultMap="BaseResultMap" parameterType="Object">
+	select m.productNo,m.inputName,m.classifyId,m.unit,m.specifications,m.unitPrice,m.brandId,
+	m.mfid,m.warehouseid,m.sysid,whName,m.classname,m.brandName,m.mfName,
+	sum(convert(int,m.purchaseCount)*convert(int,m.syssign)) as purchaseCount, 
+	sum(convert(int,m.totalprice)*convert(int,m.syssign)) as totalprice from sys_store m left 
+	join sys_warehouse wa on wa.id = m.warehouseid  
+	<include refid="Example_Where_Clause"/> 
+	group by m.productNo,m.inputName,m.classifyId,m.unit,m.specifications,m.brandId,m.mfid,m.warehouseid,m.sysid,
+	whName,m.classname,m.brandName,m.mfName,m.unitPrice
+</select>
+</mapper>

@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.finemanagement.dao.purchase.SysPurchaseDao" > 
+<resultMap id="BaseResultMap" type="com.finemanagement.entity.purchase.SysPurchase" >
+	<result column="id" property="id"/>
+	<result column="productid" property="productid"/>
+	<result column="inputName" property="inputName"/>
+	<result column="classname" property="classname"/>
+	<result column="unit" property="unit"/>
+	<result column="specifications" property="specifications"/>
+	<result column="brandName" property="brandName"/>
+	<result column="mfName" property="mfName"/>
+	<result column="remark" property="remark"/>
+	<result column="purchaseCount" property="purchaseCount"/>
+	<result column="unitPrice" property="unitPrice"/>
+	<result column="productNo" property="productNo"/>
+	<result column="userid" property="userid"/>
+	<result column="processInstanceId" property="processInstanceId"/>
+	<result column="taskid" property="taskid"/>
+	<result column="taskname" property="taskname"/>
+	<result column="taskkey" property="taskkey"/>
+	<result column="isinstore" property="isinstore"/>
+	<result column="createTime" property="createTime"/>
+	<result column="totalAmt" property="totalAmt"/>
+	<result column="auditId" property="auditId"/>
+	<result column="auditName" property="auditName"/>
+	<result column="sysid" property="sysid"/>
+</resultMap>
+
+<sql id="Base_Column_List" >
+	m.id,m.productid,m.inputName,m.classname,m.unit,m.specifications,m.brandName,m.mfName,m.remark,m.purchaseCount,
+	m.unitPrice,m.userid,m.processInstanceId,m.taskname,m.taskkey,m.createTime,m.totalAmt,m.auditId,m.sysid
+</sql>
+
+<sql id="Example_Where_Clause">
+	where 1=1
+	<trim suffixOverrides="," >
+		<if test="id != null and id > 0" >
+			and m.id = #{id}
+		</if>
+		<if test="productid != null and productid > 0" >
+		    and m.productid = #{productid}
+		</if>
+		<if test="inputName != null and inputName != ''" >
+		    and m.inputName like '%'+#{inputName}+'%'
+		</if>
+		<if test="classname != null and classname != ''" >
+		    and m.classname = #{classname}
+		</if>
+		<if test="unit != null and unit != ''" >
+		    and m.unit = #{unit}
+		</if>
+		<if test="specifications != null and specifications > 0" >
+		    and m.specifications = #{specifications}
+		</if>
+		<if test="brandName != null and brandName != ''" >
+		    and m.brandName = #{brandName}
+		</if>
+		<if test="mfName != null and mfName != ''" >
+		    and m.mfName = #{mfName}
+		</if>
+		<if test="remark != null and remark != ''" >
+		    and m.remark = #{remark}
+		</if>
+		<if test="purchaseCount != null and purchaseCount != ''" >
+		    and m.purchaseCount = #{purchaseCount}
+		</if>
+		<if test="unitPrice != null and unitPrice != ''" >
+		    and m.unitPrice = #{unitPrice}
+		</if>
+		<if test="userid != null and userid > 0" >
+		    and m.userid = #{userid}
+		</if>
+		<if test="taskkey != null and taskkey != ''" >
+		    and m.taskkey = #{taskkey}
+		</if>
+		<if test="isinstore != null and isinstore != ''" >
+		    and m.isinstore = #{isinstore}
+		</if>
+		<if test="createTime != null and createTime != ''" >
+		    and m.createTime = #{createTime}
+		</if>
+		<if test="startCreatetTime != null and startCreatetTime != ''" >
+		    and m.createTime &gt;= #{startCreatetTime}
+		</if>
+		<if test="endCreatetTime != null and endCreatetTime != ''" >
+		    and m.createTime &lt;= #{endCreatetTime}
+		</if>
+		<if test="auditId != null and auditId > 0" >
+		    and m.auditId = #{auditId}
+		</if>
+		<if test="productNo != null and productNo != ''" >
+		    and pro.productNo like '%'+#{productNo}+'%'
+		</if>
+		<if test="sysid != null and sysid != ''" >
+		    and m.sysid = #{sysid}
+		</if>
+	</trim>
+</sql>
+
+<insert id="add" parameterType="Object" >
+	insert into sys_purchase(id,productid,inputName,classname,unit,specifications,brandName,mfName,remark,purchaseCount,unitPrice
+	,userid,processInstanceId,taskname,taskkey,isinstore,createTime,totalAmt,sysid)
+	values(#{id},#{productid},#{inputName},#{classname},#{unit},#{specifications},#{brandName},#{mfName},#{remark},#{purchaseCount}
+	,#{unitPrice},#{userid},#{processInstanceId},#{taskname},#{taskkey},'0',#{createTime},#{totalAmt},#{sysid})
+</insert>
+
+<update id="updateBySelective" parameterType="Object" >
+	update sys_purchase set 
+	<trim suffixOverrides="," >
+		<if test="productid != null and productid > 0 ">
+			productid=#{productid},
+		</if>
+		<if test="inputName != null and inputName != '' ">
+			inputName=#{inputName},
+		</if>
+		<if test="classname != null and classname != '' ">
+			classname=#{classname},
+		</if>
+		<if test="unit != null and unit != '' ">
+			unit=#{unit},
+		</if>
+		<if test="specifications != null and specifications != '' ">
+			specifications=#{specifications},
+		</if>
+		<if test="brandName != null and brandName != ''">
+			brandName=#{brandName},
+		</if>
+		<if test="mfName != null and mfName != '' ">
+			mfName=#{mfName},
+		</if>
+		<if test="remark != null and remark != '' ">
+			remark=#{remark},
+		</if>
+		<if test="purchaseCount != null and purchaseCount != '' ">
+			purchaseCount=#{purchaseCount},
+		</if>
+		<if test="unitPrice != null and unitPrice != '' ">
+			unitPrice=#{unitPrice},
+		</if>
+		<if test="processInstanceId != null and processInstanceId != '' ">
+			processInstanceId=#{processInstanceId},
+		</if>
+		<if test="taskname != null and taskname != '' ">
+			taskname=#{taskname},
+		</if>
+		<if test="taskkey != null and taskkey != '' ">
+			taskkey=#{taskkey},
+		</if>
+		<if test="totalAmt != null and totalAmt != '' ">
+			totalAmt=#{totalAmt},
+		</if>
+		<if test="auditId != null and auditId > 0">
+			auditId=#{auditId},
+		</if>
+	</trim> where id=#{id}
+</update>
+
+<delete id="delete" parameterType="Object">
+	delete from sys_purchase where id = #{id}
+</delete>
+
+<select id="queryById" resultMap="BaseResultMap" parameterType="Object">
+	select <include refid="Base_Column_List" />,pro.productNo from sys_purchase m 
+	left join sys_product pro on pro.id = m.productid
+	where m.id = #{id}
+</select>
+
+<select id="queryTaskList" resultMap="BaseResultMap" parameterType="Object">
+	select m.id,m.productid,m.inputName,m.classname,m.unit,m.specifications,m.brandName,m.mfName,m.remark,m.purchaseCount,
+	m.unitPrice,m.userid,m.processInstanceId,ta.ID_ as taskid from sys_purchase m left join act_hi_procinst pr 
+	on m.processInstanceId = pr.ID_ and m.id = pr.BUSINESS_KEY_ left join act_ru_task ta on pr.PROC_DEF_ID_ = ta.PROC_DEF_ID_ 
+	and pr.PROC_INST_ID_ = ta.PROC_INST_ID_ where m.id in (#{id})
+</select>
+
+<select id="queryByList" resultMap="BaseResultMap" parameterType="Object">
+	select <include refid="Base_Column_List"/>,pro.productNo,u.nickName as auditName from sys_purchase m 
+	left join sys_product pro on pro.id = m.productid
+	left join sys_user u on u.id = m.auditId
+	<include refid="Example_Where_Clause"/> 
+</select>
+</mapper>

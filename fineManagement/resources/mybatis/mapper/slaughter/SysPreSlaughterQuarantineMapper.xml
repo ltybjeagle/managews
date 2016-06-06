@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.finemanagement.dao.slaughter.SysPreSlaughterQuarantineDao" > 
+<!-- Result Map-->
+<resultMap id="BaseResultMap" type="com.finemanagement.entity.slaughter.SysPreSlaughterQuarantine" >
+	<result column="id" property="id"/>
+	<result column="quarantineBatch" property="quarantineBatch"/>
+	<result column="breedingBatch" property="breedingBatch"/>
+	<result column="quarantineItem" property="quarantineItem"/>
+	<result column="quarantineQuantity" property="quarantineQuantity"/>
+	<result column="quarantineType" property="quarantineType"/>
+	<result column="quarantineInstitution" property="quarantineInstitution"/>
+	<result column="quarantineOfficer" property="quarantineOfficer"/>
+	<result column="quarantineResults" property="quarantineResults"/>
+	<result column="quarantineTime" property="quarantineTime"/>
+	<result column="createTime" property="createTime"/>
+	<result column="remark" property="remark"/>
+</resultMap>
+
+<!-- sys_base table all fields -->
+<sql id="Base_Column_List" >
+	m.id,m.quarantineBatch,m.breedingBatch,m.quarantineItem,m.quarantineQuantity,m.quarantineType,m.quarantineInstitution,
+	m.quarantineOfficer,m.quarantineResults,m.quarantineTime,m.createTime,m.remark
+</sql>
+
+<!-- 查询条件 -->
+<sql id="Example_Where_Clause">
+where 1=1
+<trim suffixOverrides="," >
+	<if test="id != null" >
+		and id = #{id}
+	</if>
+	<if test="quarantineBatch != null and quarantineBatch != ''" >
+	    and quarantineBatch = #{quarantineBatch}
+	</if>
+	<if test="breedingBatch != null and breedingBatch != ''" >
+	    and breedingBatch = #{breedingBatch}
+	</if>
+	<if test="quarantineItem != null and quarantineItem != ''" >
+	    and quarantineItem = #{quarantineItem}
+	</if>
+	<if test="quarantineQuantity != null and quarantineQuantity != ''" >
+	    and quarantineQuantity = #{quarantineQuantity}
+	</if>
+	<if test="quarantineType != null and quarantineType > 0" >
+	    and quarantineType = #{quarantineType}
+	</if>
+	<if test="quarantineInstitution != null and quarantineInstitution != ''" >
+	    and quarantineInstitution = #{quarantineInstitution}
+	</if>
+	<if test="quarantineOfficer != null and quarantineOfficer != ''" >
+	    and quarantineOfficer = #{quarantineOfficer}
+	</if>
+	<if test="quarantineResults != null and quarantineResults > 0" >
+	    and quarantineResults = #{quarantineResults}
+	</if>
+	<if test="quarantineTime != null and quarantineTime != ''" >
+	    and quarantineTime = #{quarantineTime}
+	</if>
+	<if test="createTime != null and createTime != ''" >
+	    and createTime = #{createTime}
+	</if>
+	<if test="remark != null and remark != ''" >
+	    and remark = #{remark}
+	</if>
+</trim>
+</sql>
+
+<!-- 插入记录 -->
+<insert id="add" parameterType="Object" >
+insert into sys_preSlaughterQuarantine(quarantineBatch,breedingBatch,quarantineItem,quarantineQuantity,quarantineType,
+quarantineInstitution,quarantineOfficer,quarantineResults,quarantineTime,createTime,remark)
+values(#{quarantineBatch},#{breedingBatch},#{quarantineItem},#{quarantineQuantity},#{quarantineType},#{quarantineInstitution},
+#{quarantineOfficer},#{quarantineResults},#{quarantineTime},#{createTime},#{remark})
+</insert>
+
+<!-- 修改记录，只修改只不为空的字段 -->
+<update id="updateBySelective" parameterType="Object" >
+	update sys_preSlaughterQuarantine set 
+	<trim suffixOverrides="," >
+	<if test="quarantineBatch != null and quarantineBatch != ''" >
+	    quarantineBatch = #{quarantineBatch},
+	</if>
+	<if test="breedingBatch != null and breedingBatch != ''" >
+	    breedingBatch = #{breedingBatch},
+	</if>
+	<if test="quarantineItem != null and quarantineItem != ''" >
+	    quarantineItem = #{quarantineItem},
+	</if>
+	<if test="quarantineQuantity != null and quarantineQuantity != ''" >
+	    quarantineQuantity = #{quarantineQuantity},
+	</if>
+	<if test="quarantineType != null and quarantineType > 0" >
+	    quarantineType = #{quarantineType},
+	</if>
+	<if test="quarantineInstitution != null and quarantineInstitution != ''" >
+	    quarantineInstitution = #{quarantineInstitution},
+	</if>
+	<if test="quarantineOfficer != null and quarantineOfficer != ''" >
+	    quarantineOfficer = #{quarantineOfficer},
+	</if>
+	<if test="quarantineResults != null and quarantineResults > 0" >
+	    quarantineResults = #{quarantineResults},
+	</if>
+	<if test="quarantineTime != null and quarantineTime != ''" >
+	    quarantineTime = #{quarantineTime},
+	</if>
+	<if test="createTime != null and createTime != ''" >
+	    createTime = #{createTime},
+	</if>
+	<if test="remark != null and remark != ''" >
+	    remark = #{remark}
+	</if>
+	</trim> where id=#{id}
+</update>
+
+<!-- 删除记录 -->
+<delete id="delete" parameterType="Object">
+	delete from sys_preSlaughterQuarantine where id = #{id}
+</delete>
+
+<select id="queryById" resultMap="BaseResultMap" parameterType="Object">
+select <include refid="Base_Column_List" /> from sys_preSlaughterQuarantine m  where id = #{id}
+</select>
+
+<select id="queryByList" resultMap="BaseResultMap" parameterType="Object">
+select <include refid="Base_Column_List"/> from sys_preSlaughterQuarantine m 
+<include refid="Example_Where_Clause"/> 
+<if test="pager.orderCondition != null and pager.orderCondition != ''" >
+${pager.orderCondition}
+</if>
+</select>
+</mapper>

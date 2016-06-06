@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.finemanagement.dao.production.SysTaskDao" > 
+<resultMap id="BaseResultMap" type="com.finemanagement.entity.production.SysTask" >
+	<result column="id" property="id"/>
+	<result column="greenhouseid" property="greenhouseid"/>
+	<result column="baseid" property="baseid"/>
+	<result column="taskid" property="taskid"/>
+	<result column="plantationMember" property="plantationMember"/>
+	<result column="technician" property="technician"/>
+	<result column="taskTime" property="taskTime"/>
+	<result column="taskContent" property="taskContent"/>
+	<result column="plantationMemberName" property="plantationMemberName"/>
+	<result column="technicianName" property="technicianName"/>
+	<result column="taskName" property="taskName"/>
+	<result column="sysid" property="sysid"/>
+</resultMap>
+
+<sql id="Base_Column_List" >
+	m.id,m.greenhouseid,m.baseid,m.taskid,m.plantationMember,m.technician,m.taskTime,m.taskContent
+</sql>
+
+<sql id="Example_Where_Clause">
+	where 1=1
+	<trim suffixOverrides="," >
+		<if test="id != null and id > 0" >
+			and m.id = #{id}
+		</if>
+		<if test="greenhouseid != null and greenhouseid > 0" >
+		    and greenhouseid = #{greenhouseid}
+		</if>
+		<if test="baseid != null and baseid > 0" >
+		    and baseid = #{baseid}
+		</if>
+		<if test="taskid != null and taskid > 0" >
+		    and m.taskid = #{taskid}
+		</if>
+		<if test="plantationMember != null and plantationMember > 0" >
+		    and m.plantationMember = #{plantationMember}
+		</if>
+		<if test="technician != null and technician > 0" >
+		    and m.technician = #{technician}
+		</if>
+		<if test="taskTime != null and taskTime != ''" >
+		    and m.taskTime = #{taskTime}
+		</if>
+		<if test="startTaskTime != null and startTaskTime != ''" >
+		    and m.taskTime &gt;= #{startTaskTime}
+		</if>
+		<if test="endTaskTime != null and endTaskTime != ''" >
+		    and m.taskTime &lt;= #{endTaskTime}
+		</if>
+		<if test="taskContent != null and taskContent != ''" >
+		    and m.taskContent = #{taskContent}
+		</if>
+		<if test="sysid != null and sysid != ''" >
+		    and m.sysid = #{sysid}
+		</if>
+	</trim>
+</sql>
+
+<insert id="add" parameterType="Object" >
+	insert into sys_task(greenhouseid,baseid,taskid,plantationMember,technician,taskTime,taskContent)
+	values(#{greenhouseid},#{baseid},#{taskid},#{plantationMember},#{technician},#{taskTime},#{taskContent})
+</insert>
+
+<update id="updateBySelective" parameterType="Object" >
+	update sys_task set 
+	<trim suffixOverrides="," >
+		<if test="taskid != null and taskid > 0 ">
+			taskid=#{taskid},
+		</if>
+		<if test="plantationMember != null and plantationMember > 0 ">
+			plantationMember=#{plantationMember},
+		</if>
+		<if test="technician != null and technician > 0 ">
+			technician=#{technician},
+		</if>
+		<if test="taskTime != null and taskTime != '' ">
+			taskTime=#{taskTime},
+		</if>
+		<if test="taskContent != null and taskContent != '' ">
+			taskContent=#{taskContent},
+		</if>
+	</trim> where id=#{id}
+</update>
+
+<delete id="delete" parameterType="Object">
+	delete from sys_task where id = #{id}
+</delete>
+
+<select id="queryById" resultMap="BaseResultMap" parameterType="Object">
+	select <include refid="Base_Column_List"/>,u1.employeeName as plantationMemberName,u2.employeeName as technicianName,
+	type.taskName as taskName from sys_task m left join sys_employees u1 on u1.id = m.plantationMember
+	left join sys_employees u2 on u2.id = m.technician
+	left join sys_taskType type on type.id = m.taskid where m.id = #{id}
+</select>
+
+<select id="queryTaskTypeList" resultMap="BaseResultMap" parameterType="Object">
+	select id,taskName from sys_taskType m <include refid="Example_Where_Clause"/>  
+</select>
+
+<select id="queryByList" resultMap="BaseResultMap" parameterType="Object">
+	select <include refid="Base_Column_List"/>,u1.employeeName as plantationMemberName,u2.employeeName as technicianName,
+	type.taskName as taskName from sys_task m left join sys_employees u1 on u1.id = m.plantationMember
+	left join sys_employees u2 on u2.id = m.technician
+	left join sys_taskType type on type.id = m.taskid
+	<include refid="Example_Where_Clause"/> 
+</select>
+</mapper>

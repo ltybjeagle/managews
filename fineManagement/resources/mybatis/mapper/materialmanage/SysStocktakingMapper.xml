@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.finemanagement.dao.materialmanage.sysStocktakingDao" > 
+<!-- Result Map-->
+<resultMap id="BaseResultMap" type="com.finemanagement.entity.materialmanage.sysStocktakingEntity" >
+	<result column="id" property="id"/>
+	<result column="stocktalingno" property="stocktalingno"/>
+	<result column="principal" property="principal"/>
+	<result column="warehouseid " property="warehouseid"/>
+	<result column="stocktime " property="stocktime"/>
+	<result column="sysid" property="sysid"/>
+	<result column="whName" property="whName"/>
+	<result column="remark" property="remark"/>
+</resultMap>
+
+<!-- sys_base table all fields -->
+<sql id="Base_Column_List" >
+	m.id,m.principal,m.warehouseid,m.stocktalingno,m.remark,m.sysid,m.stocktime
+</sql>
+
+<!-- 查询条件 -->
+<sql id="Example_Where_Clause">
+where 1=1
+<trim suffixOverrides="," >
+	<if test="id != null" >
+		and m.id = #{id}
+	</if>
+	<if test="stocktalingno != null and stocktalingno != ''" >
+	    and m.stocktalingno = #{stocktalingno}
+	</if>
+	<if test="stocktimestart != null and stocktimestart != ''" >
+	    and m.stocktime &gt;= #{stocktimestart}
+	</if>
+	<if test="stocktimeend != null and stocktimeend != ''" >
+	    and m.stocktime &lt;= #{stocktimeend}
+	</if>
+	<if test="sysid != null and sysid !=''">
+		and m.sysid = #{sysid}
+	</if>
+</trim>
+</sql>
+
+<!-- 修改记录，只修改只不为空的字段 -->
+<update id="updateBySelective" parameterType="Object" >
+	update sys_materialmanage set 
+	<trim suffixOverrides="," >
+	<if test="stocktalingno != null and stocktalingno != '' ">
+		stocktalingno=#{stocktalingno},
+	</if>
+	<if test="principal != null  and principal !='' ">
+		principal=#{principal},
+	</if>
+	<if test="warehouseid != null  and warehouseid !='' ">
+		warehouseid=#{warehouseid},
+	</if>
+	<if test="stocktime != null  and stocktime !='' ">
+		stocktime=#{stocktime},
+	</if>
+	<if test="remark != null  and remark !='' ">
+		remark=#{remark},
+	</if>
+	</trim> where id=#{id}
+</update>
+
+<!-- 盘库记录 -->
+<insert id="add" parameterType="Object" >
+	insert into sys_stocktaking(m.stocktalingno,m.principal,m.warehouseid,m.stocktime,sysid,remark)
+	values(#{stocktalingno},#{principal},#{warehouseid},#{stocktime},#{sysid},#{remark})
+</insert>
+<!-- 删除记录 -->
+<delete id="delete" parameterType="Object">
+	delete from sys_stocktaking where id = #{id}
+</delete>
+<!-- 根据id查询 系统角色 -->
+<select id="queryById" resultMap="BaseResultMap" parameterType="Object">
+	select <include refid="Base_Column_List" /> ,whName from sys_stocktaking m
+	left join sys_warehouse wa on wa.id = m.warehouseid
+	where m.id = #{id}
+</select>
+
+<!-- 根据id，修改记录 -->  
+<update id="update" parameterType="Object" >
+update sys_stocktaking set stocktalingno=#{stocktalingno},principal=#{principal},warehouseid=#{warehouseid},remark=#{remark}
+ where id=#{id}
+</update>
+
+<!-- 查询列表 -->
+<select id="queryByList" resultMap="BaseResultMap" parameterType="Object">
+	select <include refid="Base_Column_List"/>,wa.whName from sys_stocktaking m
+	left join sys_warehouse wa on wa.id = m.warehouseid
+	<include refid="Example_Where_Clause"/> 
+</select>
+</mapper>

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.finemanagement.dao.basic.SysBaseDao" > 
+<resultMap id="BaseResultMap" type="com.finemanagement.entity.basic.SysBase" >
+	<result column="id" property="id"/>
+	<result column="baseName" property="baseName"/>
+	<result column="responsible" property="responsible"/>
+	<result column="baseArea" property="baseArea"/>
+	<result column="baseAddress" property="baseAddress"/>
+	<result column="phoneNo" property="phoneNo"/>
+	<result column="createTime" property="createTime"/>
+	<result column="remark" property="remark"/>
+	<result column="coordinate" property="coordinate"/>
+	<result column="sysid" property="sysid"/>
+</resultMap>
+
+<sql id="Base_Column_List" >
+	m.id,m.baseName,m.responsible,m.baseArea,m.baseAddress,m.phoneNo,m.createTime,m.coordinate,m.sysid,m.remark
+</sql>
+
+<sql id="Example_Where_Clause">
+	where 1=1
+	<trim suffixOverrides="," >
+		<if test="id != null and id > 0" >
+			and m.id = #{id}
+		</if>
+		<if test="baseName != null and baseName != ''" >
+		    and m.baseName like '%'+#{baseName}+'%'
+		</if>
+		<if test="responsible != null and responsible != ''" >
+		    and m.responsible = #{responsible}
+		</if>
+		<if test="baseArea != null and baseArea != ''" >
+		    and m.baseArea = #{baseArea}
+		</if>
+		<if test="baseAddress != null and baseAddress != ''" >
+		    and m.baseAddress = #{baseAddress}
+		</if>
+		<if test="phoneNo != null and phoneNo != ''" >
+		    and m.phoneNo = #{phoneNo}
+		</if>
+		<if test="remark != null and remark != ''" >
+		    and m.remark = #{remark}
+		</if>
+		<if test="sysid != null and sysid != ''" >
+		    and m.sysid = #{sysid}
+		</if>
+	</trim>
+</sql>
+
+<insert id="add" parameterType="Object" >
+	insert into sys_base(baseName,responsible,baseArea,baseAddress,phoneNo,createTime,coordinate,sysid,remark)
+	values(#{baseName},#{responsible},#{baseArea},#{baseAddress},#{phoneNo},#{createTime},#{coordinate},#{sysid},#{remark})
+</insert>
+
+<update id="updateBySelective" parameterType="Object" >
+	update sys_base set 
+	<trim suffixOverrides="," >
+	<if test="baseName != null and baseName != '' ">
+		baseName=#{baseName},
+	</if>
+	<if test="responsible != null and responsible != ''">
+		responsible=#{responsible},
+	</if>
+	<if test="baseArea != null and baseArea != ''">
+		baseArea=#{baseArea},
+	</if>
+	<if test="baseAddress != null and baseAddress != ''">
+		baseAddress=#{baseAddress},
+	</if>
+	<if test="coordinate != null and coordinate != ''">
+		coordinate=#{coordinate},
+	</if>
+	<if test="phoneNo != null and phoneNo != ''">
+		phoneNo=#{phoneNo},
+	</if>
+	<if test="createTime != null and createTime != ''">
+		createTime=#{createTime},
+	</if>
+	<if test="remark != null and remark != ''">
+		remark=#{remark},
+	</if>
+	</trim> where id=#{id}
+</update>
+
+<delete id="delete" parameterType="Object">
+	delete from sys_base where id = #{id}
+</delete>
+
+<select id="queryById" resultMap="BaseResultMap" parameterType="Object">
+	select <include refid="Base_Column_List" /> from sys_base m  where m.id = #{id}
+</select>
+
+<select id="queryByList" resultMap="BaseResultMap" parameterType="Object">
+	select <include refid="Base_Column_List"/> from sys_base m <include refid="Example_Where_Clause"/>
+</select>
+
+<select id="queryDataByList" resultMap="BaseResultMap" parameterType="Object">
+	select <include refid="Base_Column_List"/> from sys_base m <include refid="Example_Where_Clause"/>
+</select>
+</mapper>

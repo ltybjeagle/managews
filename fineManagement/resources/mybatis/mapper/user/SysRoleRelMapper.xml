@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.finemanagement.dao.user.SysRoleRelDao" > 
+<resultMap id="BaseResultMap" type="com.finemanagement.entity.user.SysRoleRel" >
+	<result column="roleId" property="roleId"/>
+	<result column="objId" property="objId"/>
+	<result column="relType" property="relType"/>
+</resultMap>
+
+<sql id="Base_Column_List" >
+	 roleId,objId,relType
+</sql>
+   
+<sql id="Example_Where_Clause">
+	where 1=1
+	<trim  suffixOverrides="," >
+		<if test="roleId != null" >
+		    and roleId = #{roleId}
+		</if>
+		<if test="objId != null" >
+		    and objId = #{objId}
+		</if>
+		<if test="relType != null" >
+		    and relType = #{relType}
+		</if>
+	</trim>
+</sql>
+
+<insert id="add" parameterType="Object" >
+	insert into sys_role_rel(roleId,objId,relType)
+	values(#{roleId},#{objId},#{relType})
+</insert>
+
+<update id="update" parameterType="Object" >
+	update sys_role_rel set objId=#{objId},relType=#{relType} where roleId=#{roleId}
+</update>
+ 
+<update id="updateBySelective" parameterType="Object" >
+	update sys_role_rel set 
+	<trim  suffixOverrides="," >
+	<if test="objId != null  ">
+		objId=#{objId},
+	</if>
+	<if test="relType != null  ">
+		relType=#{relType},
+	</if>
+	</trim> where roleId=#{roleId}
+</update>
+
+<delete id="delete" parameterType="Object">
+	delete from sys_role_rel where roleId = #{roleId}
+</delete>
+
+<delete id="deleteByRoleId" parameterType="Object">
+	delete from sys_role_rel where roleId = #{roleId}
+	<if test="relType != null" >
+		and relType =  #{relType}
+	</if>
+</delete>
+
+<delete id="deleteByObjId" parameterType="Object">
+	delete from sys_role_rel where objId = #{objId}
+	<if test="relType != null" >
+		and relType =  #{relType}
+	</if>
+</delete>
+
+<select id="queryByRoleId" resultMap="BaseResultMap"  parameterType="Object">
+	select <include refid="Base_Column_List"/> from sys_role_rel where roleId = #{roleId}
+	<if test="relType != null" >
+		and relType =  #{relType}
+	</if>
+</select>
+ 
+<select id="queryByObjId" resultMap="BaseResultMap" parameterType="Object">
+	select <include refid="Base_Column_List"/> from sys_role_rel where objId = #{objId}
+	<if test="relType != null" >
+		and relType =  #{relType}
+	</if>
+</select>
+ 
+<select id="queryById"  resultMap="BaseResultMap" parameterType="Object">
+	select <include refid="Base_Column_List" /> from sys_role_rel where roleId = #{roleId}
+</select>
+  	
+<select id="queryByList" resultMap="BaseResultMap" parameterType="Object">
+	select <include refid="Base_Column_List"/> from sys_role_rel <include refid="Example_Where_Clause"/>
+</select>
+</mapper>   

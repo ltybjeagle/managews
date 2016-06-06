@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.finemanagement.dao.production.SysBreedDao" > 
+<!-- Result Map-->
+<resultMap id="BaseResultMap" type="com.finemanagement.entity.production.SysBreed" >
+	<result column="id" property="id"/>
+	<result column="fowleryid" property="fowleryid"/>
+	<result column="baseid" property="baseid"/>
+	<result column="variety" property="variety"/>
+	<result column="breedArea" property="breedArea"/>
+	<result column="breeder" property="breeder"/>
+	<result column="breedTechnician" property="breedTechnician"/>
+	<result column="wages" property="wages"/>
+	<result column="startTime" property="startTime"/>
+	<result column="endTime" property="endTime"/>
+	<result column="remark" property="remark"/>
+	<result column="breederName" property="breederName"/>
+	<result column="breedTechnicianName" property="breedTechnicianName"/>
+</resultMap>
+
+<!-- sys_base table all fields -->
+<sql id="Base_Column_List" >
+	m.id,m.fowleryid,m.baseid,m.variety,m.breedArea,m.breeder,m.breedTechnician,m.wages,m.startTime,m.endTime,m.remark
+</sql>
+
+<!-- 查询条件 -->
+<sql id="Example_Where_Clause">
+where 1=1
+<trim suffixOverrides="," >
+	<if test="id != null" >
+		and id = #{id}
+	</if>
+	<if test="fowleryid != null and fowleryid > 0" >
+	    and fowleryid = #{fowleryid}
+	</if>
+	<if test="baseid != null and baseid > 0" >
+	    and baseid = #{baseid}
+	</if>
+	<if test="variety != null and variety != ''" >
+	    and variety = #{variety}
+	</if>
+	<if test="breedArea != breedArea" >
+	    and breedArea = #{breedArea}
+	</if>
+	<if test="breeder != null and breeder > 0" >
+	    and breeder = #{breeder}
+	</if>
+	<if test="breedTechnician != null and breedTechnician > 0" >
+	    and breedTechnician = #{breedTechnician}
+	</if>
+	<if test="wages != null and wages != ''" >
+	    and wages = #{wages}
+	</if>
+	<if test="startTime != null and startTime != ''" >
+	    and startTime = #{startTime}
+	</if>
+	<if test="endTime != null and endTime != ''" >
+	    and endTime = #{endTime}
+	</if>
+	<if test="remark != null and remark != ''" >
+	    and remark = #{remark}
+	</if>
+</trim>
+</sql>
+
+<!-- 插入记录 -->
+<insert id="add" parameterType="Object" >
+insert into sys_breed(fowleryid,baseid,variety,breedArea,breeder,breedTechnician,wages,startTime,endTime,remark)
+values(#{fowleryid},#{baseid},#{variety},#{breedArea},#{breeder},#{breedTechnician},#{wages},#{startTime},#{endTime}
+,#{remark})
+</insert>
+
+<!-- 修改记录，只修改只不为空的字段 -->
+<update id="updateBySelective" parameterType="Object" >
+	update sys_breed set 
+	<trim suffixOverrides="," >
+	<if test="fowleryid != null and fowleryid > 0 ">
+		fowleryid=#{fowleryid},
+	</if>
+	<if test="baseid != null and baseid > 0 ">
+		baseid=#{baseid},
+	</if>
+	<if test="variety != null  ">
+		variety=#{variety},
+	</if>
+	<if test="breedArea != null  ">
+		breedArea=#{breedArea},
+	</if>
+	<if test="breeder != null and breeder > 0 ">
+		breeder=#{breeder},
+	</if>
+	<if test="breedTechnician != null and breedTechnician > 0 ">
+		breedTechnician=#{breedTechnician},
+	</if>
+	<if test="wages != null and wages != '' ">
+		wages=#{wages},
+	</if>
+	<if test="startTime != null and startTime != '' ">
+		startTime=#{startTime},
+	</if>
+	<if test="endTime != null and endTime != '' ">
+		endTime=#{endTime},
+	</if>
+	<if test="remark != null and remark != '' ">
+		remark=#{remark},
+	</if>
+	</trim> where id=#{id}
+</update>
+
+<!-- 删除记录 -->
+<delete id="delete" parameterType="Object">
+	delete from sys_breed where id = #{id}
+</delete>
+
+<select id="queryById" resultMap="BaseResultMap" parameterType="Object">
+select <include refid="Base_Column_List" /> from sys_breed m  where id = #{id}
+</select>
+
+<select id="queryByList" resultMap="BaseResultMap" parameterType="Object">
+select <include refid="Base_Column_List"/>,u1.nickName as breederName,u2.nickName as breedTechnicianName from sys_breed m 
+left join sys_user u1 on u1.id = m.breeder
+left join sys_user u2 on u2.id = m.breedTechnician
+<include refid="Example_Where_Clause"/> 
+<if test="pager.orderCondition != null and pager.orderCondition != ''" >
+${pager.orderCondition}
+</if>
+</select>
+</mapper>

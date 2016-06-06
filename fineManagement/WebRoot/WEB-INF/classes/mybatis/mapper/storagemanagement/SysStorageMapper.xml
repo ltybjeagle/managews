@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.finemanagement.dao.storagemanagement.SysStoremanageDao" > 
+<!-- Result Map-->
+<resultMap id="BaseResultMap" type="com.finemanagement.entity.storagemanagement.sysStoremanageEntity" >
+	<result column="id" property="id"/>
+	<result column="warehouseid" property="warehouseid"/>
+	<result column="principal" property="principal"/>
+	<result column="registertime" property="registertime"/>
+	<result column="description" property="description"/>
+	<result column="remark" property="remark"/>
+	<result column="sysid" property="sysid"/>
+	<result column="whName" property="whName"/>
+</resultMap>
+
+<!-- sys_base table all fields -->
+<sql id="Base_Column_List" >
+	m.id,m.warehouseid,m.principal,m.registertime,m.description,m.remark,m.sysid
+</sql>
+
+<!-- 查询条件 -->
+<sql id="Example_Where_Clause">
+where 1=1
+<trim suffixOverrides="," >
+	<if test="id != null" >
+		and id = #{id}
+	</if>
+	<if test="warehouseid != null and warehouseid != ''" >
+	    and warehouseid = #{warehouseid}
+	</if>	
+</trim>
+</sql>
+
+<!-- 新增记录 -->
+<insert id="add" parameterType="Object" >
+insert into sys_storemanage(warehouseid,principal,registertime,description,remark,sysid)
+values(#{warehouseid},#{principal},#{registertime},#{description},#{remark},
+#{sysid})
+</insert>
+
+<!-- 删除记录 -->
+<delete id="delete" parameterType="Object">
+	delete from sys_storemanage where id = #{id}
+</delete>
+
+<!-- 根据id查询 系统角色 -->
+<select id="queryById" resultMap="BaseResultMap" parameterType="Object">
+select <include refid="Base_Column_List" /> ,whName from sys_storemanage m 
+left join sys_warehouse wa on wa.id = m.warehouseid
+where m.id = #{id}
+</select>
+
+<!-- 根据id，修改记录 -->  
+<update id="update" parameterType="Object" >
+update sys_storemanage set warehouseid=#{warehouseid},principal=#{principal},registertime=#{registertime},description=#{description}
+,remark=#{remark} where id=#{id}
+</update>
+
+<!-- 查询库存列表 -->
+<select id="queryByList" resultMap="BaseResultMap" parameterType="Object">
+select <include refid="Base_Column_List"/>,whName from sys_storemanage m 
+left join sys_warehouse  wa on wa.id = m.warehouseid
+<include refid="Example_Where_Clause"/> 
+<if test="pager.orderCondition != null and pager.orderCondition != ''" >
+${pager.orderCondition}
+</if>
+</select>
+</mapper>

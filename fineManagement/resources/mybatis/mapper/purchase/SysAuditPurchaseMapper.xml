@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.finemanagement.dao.purchase.SysAuditPurchaseDao" > 
+<!-- Result Map-->
+<resultMap id="BaseResultMap" type="com.finemanagement.entity.purchase.SysPurchase" >
+	<result column="id" property="id"/>
+	<result column="productid" property="productid"/>
+	<result column="inputName" property="inputName"/>
+	<result column="classname" property="classname"/>
+	<result column="unit" property="unit"/>
+	<result column="specifications" property="specifications"/>
+	<result column="brandName" property="brandName"/>
+	<result column="mfName" property="mfName"/>
+	<result column="remark" property="remark"/>
+	<result column="purchaseCount" property="purchaseCount"/>
+	<result column="unitPrice" property="unitPrice"/>
+	<result column="productNo" property="productNo"/>
+	<result column="userid" property="userid"/>
+	<result column="processInstanceId" property="processInstanceId"/>
+	<result column="waittaskid" property="waittaskid"/>
+	<result column="taskid" property="taskid"/>
+	<result column="taskname" property="taskname"/>
+	<result column="taskkey" property="taskkey"/>
+	<result column="totalAmt" property="totalAmt"/>
+	<result column="auditId" property="auditId"/>
+	<result column="sysid" property="sysid"/>
+</resultMap>
+
+<!-- sys_base table all fields -->
+<sql id="Base_Column_List" >
+	m.id,m.productid,m.inputName,m.classname,m.unit,m.specifications,m.brandName,m.mfName,m.remark,m.purchaseCount,
+	m.unitPrice,m.userid,m.processInstanceId,m.waittaskid,m.taskname,m.taskkey,m.totalAmt,m.auditId,m.sysid
+</sql>
+
+<!-- 查询条件 -->
+<sql id="Example_Where_Clause">
+where 1=1
+<trim suffixOverrides="," >
+	<if test="id != null" >
+		and id = #{id}
+	</if>
+	<if test="productid != null and productid != ''" >
+	    and productid = #{productid}
+	</if>
+	<if test="inputName != null" >
+	    and inputName = #{inputName}
+	</if>
+	<if test="classname != null and classname != ''" >
+	    and classname = #{classname}
+	</if>
+	<if test="unit != null" >
+	    and unit = #{unit}
+	</if>
+	<if test="specifications != null" >
+	    and specifications = #{specifications}
+	</if>
+	<if test="brandName != null and brandName != ''" >
+	    and brandName = #{brandName}
+	</if>
+	<if test="mfName != null and mfName != ''" >
+	    and mfName = #{mfName}
+	</if>
+	<if test="remark != null and remark != ''" >
+	    and remark = #{remark}
+	</if>
+	<if test="purchaseCount != null and purchaseCount != ''" >
+	    and purchaseCount = #{purchaseCount}
+	</if>
+	<if test="unitPrice != null and unitPrice != ''" >
+	    and unitPrice = #{unitPrice}
+	</if>
+	<if test="userid != null and userid > 0" >
+	    and userid = #{userid}
+	</if>
+	<if test="startCreatetTime != null and startCreatetTime != ''" >
+	    and m.createTime &gt;= #{startCreatetTime}
+	</if>
+	<if test="endCreatetTime != null and endCreatetTime != ''" >
+	    and m.createTime &lt;= #{endCreatetTime}
+	</if>
+	<if test="taskkey != null and taskkey != ''" >
+	    and m.taskkey = #{taskkey}
+	</if>
+	<if test="waittaskid != null and waittaskid > 0" >
+	    and m.waittaskid = #{waittaskid}
+	</if>
+	<if test="sysid != null and sysid != ''" >
+	    and m.sysid = #{sysid}
+	</if>
+</trim>
+</sql>
+
+<!-- 修改记录，只修改只不为空的字段 -->
+<update id="updateBySelective" parameterType="Object" >
+	update sys_purchase set 
+	<trim suffixOverrides="," >
+	<if test="productid != null and productid != '' ">
+		productid=#{productid},
+	</if>
+	<if test="inputName != null  ">
+		inputName=#{inputName},
+	</if>
+	<if test="classname != null  ">
+		classname=#{classname},
+	</if>
+	<if test="unit != null  ">
+		unit=#{unit},
+	</if>
+	<if test="specifications != null  ">
+		specifications=#{specifications},
+	</if>
+	<if test="brandName != null  ">
+		brandName=#{brandName},
+	</if>
+	<if test="mfName != null and mfName != '' ">
+		mfName=#{mfName},
+	</if>
+	<if test="remark != null and remark != '' ">
+		remark=#{remark},
+	</if>
+	<if test="purchaseCount != null and purchaseCount != '' ">
+		purchaseCount=#{purchaseCount},
+	</if>
+	<if test="unitPrice != null and unitPrice != '' ">
+		unitPrice=#{unitPrice},
+	</if>
+	<if test="processInstanceId != null and processInstanceId != '' ">
+		processInstanceId=#{processInstanceId},
+	</if>
+	<if test="taskname != null and taskname != '' ">
+		taskname=#{taskname},
+	</if>
+	<if test="taskkey != null and taskkey != '' ">
+		taskkey=#{taskkey},
+	</if>
+	<if test="auditId != null and auditId > 0 ">
+		auditId=#{auditId},
+	</if>
+	</trim> where id=#{id}
+</update>
+
+<!-- 查询处理任务列表 -->
+<select id="queryTaskList" resultMap="BaseResultMap" parameterType="Object">
+select m.id,m.productid,m.inputName,m.classname,m.unit,m.specifications,m.brandName,m.mfName,m.remark,m.purchaseCount,
+m.unitPrice,m.userid,m.processInstanceId,ta.ID_ as taskid,m.totalAmt from sys_purchase m left join act_hi_procinst pr 
+on m.processInstanceId = pr.ID_ and m.id = pr.BUSINESS_KEY_ left join act_ru_task ta on pr.PROC_DEF_ID_ = ta.PROC_DEF_ID_ 
+and pr.PROC_INST_ID_ = ta.PROC_INST_ID_ where m.id in (#{id})
+</select>
+
+<select id="queryByList" resultMap="BaseResultMap" parameterType="Object">
+select <include refid="Base_Column_List"/>,pro.productNo from v_waittask_purchase m 
+left join sys_product pro on pro.id = m.productid
+<include refid="Example_Where_Clause"/>
+<if test="pager.orderCondition != null and pager.orderCondition != ''" >
+${pager.orderCondition}
+</if>
+</select>
+</mapper>

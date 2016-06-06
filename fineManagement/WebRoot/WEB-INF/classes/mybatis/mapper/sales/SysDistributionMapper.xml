@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.finemanagement.dao.sales.SysDistributionDao" > 
+<!-- Result Map-->
+<resultMap id="BaseResultMap" type="com.finemanagement.entity.sales.SysDistribution" >
+	<result column="id" property="id"/>
+	<result column="distributionNo" property="distributionNo"/>
+	<result column="nameOfDishes" property="nameOfDishes"/>
+	<result column="typeOfDishes" property="typeOfDishes"/>
+	<result column="number" property="number"/>
+	<result column="unit" property="unit"/>
+</resultMap>
+
+<!-- sys_base table all fields -->
+<sql id="Base_Column_List" >
+	m.id,m.distributionNo,m.nameOfDishes,m.typeOfDishes,m.number,m.unit
+</sql>
+
+<!-- 查询条件 -->
+<sql id="Example_Where_Clause">
+where 1=1
+<trim suffixOverrides="," >
+	<if test="id != null" >
+		and id = #{id}
+	</if>
+	<if test="distributionNo != null and distributionNo != ''" >
+	    and distributionNo = #{distributionNo}
+	</if>
+	<if test="nameOfDishes != null and nameOfDishes != ''" >
+	    and nameOfDishes = #{nameOfDishes}
+	</if>
+	<if test="typeOfDishes != null and typeOfDishes != ''" >
+	    and typeOfDishes = #{typeOfDishes}
+	</if>
+	<if test="number != null and number != ''" >
+	    and number = #{number}
+	</if>
+	<if test="unit != null and unit != ''" >
+	    and unit = #{unit}
+	</if>
+</trim>
+</sql>
+
+<!-- 插入记录 -->
+<insert id="add" parameterType="Object" >
+insert into sys_distribution(distributionNo,nameOfDishes,typeOfDishes,number,unit)
+values(#{distributionNo},#{nameOfDishes},#{typeOfDishes},#{number},#{unit})
+</insert>
+
+<!-- 修改记录，只修改只不为空的字段 -->
+<update id="updateBySelective" parameterType="Object" >
+	update sys_distribution set 
+	<trim suffixOverrides="," >
+	<if test="distributionNo != null and distributionNo != ''" >
+	    distributionNo = #{distributionNo},
+	</if>
+	<if test="nameOfDishes != null and nameOfDishes != ''" >
+	    nameOfDishes = #{nameOfDishes},
+	</if>
+	<if test="typeOfDishes != null and typeOfDishes != ''" >
+	    typeOfDishes = #{typeOfDishes},
+	</if>
+	<if test="number != null and number != ''" >
+	    number = #{number},
+	</if>
+	<if test="unit != null and unit != ''" >
+	    unit = #{unit}
+	</if>
+	</trim> where id=#{id}
+</update>
+
+<!-- 删除记录 -->
+<delete id="delete" parameterType="Object">
+	delete from sys_distribution where id = #{id}
+</delete>
+
+<!-- 删除记录 -->
+<delete id="deleteDistributionList" parameterType="Object">
+	delete from sys_distribution where distributionNo = #{distributionNo}
+</delete>
+
+<select id="queryById" resultMap="BaseResultMap" parameterType="Object">
+select <include refid="Base_Column_List" /> from sys_distribution m  where id = #{id}
+</select>
+
+<select id="queryByList" resultMap="BaseResultMap" parameterType="Object">
+select <include refid="Base_Column_List"/> from sys_distribution m 
+<include refid="Example_Where_Clause"/> 
+<if test="pager.orderCondition != null and pager.orderCondition != ''" >
+${pager.orderCondition}
+</if>
+</select>
+</mapper>

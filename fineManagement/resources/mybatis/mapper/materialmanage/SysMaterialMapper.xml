@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.finemanagement.dao.materialmanage.SysMaterialmanageDao" > 
+<resultMap id="BaseResultMap" type="com.finemanagement.entity.materialmanage.sysMaterialmanage" >
+	<result column="id" property="id"/>
+	<result column="principal" property="principal"/>
+	<result column="warehouseid " property="warehouseid"/>
+	<result column="brandId" property="brandId"/>
+	<result column="mfid" property="mfid"/>
+	<result column="baseid" property="baseid"/>
+	<result column="greehouseid" property="greehouseid"/>
+	<result column="materialno" property="materialno"/>
+	<result column="materialname" property="materialname"/>
+	<result column="specifications" property="specifications"/>
+	<result column="unit" property="unit"/>
+	<result column="profitloss" property="profitloss"/>
+	<result column="firm" property="firm"/>
+	<result column="differences" property="differences"/>
+	<result column="storecount" property="storecount"/>
+	<result column="consumcount" property="consumcount"/>
+	<result column="returncount" property="returncount"/>
+	<result column="unitPrice" property="unitPrice"/>
+	<result column="totalprice" property="totalprice"/>
+	<result column="consumtime" property="consumtime"/>
+	<result column="returntime" property="returntime"/>
+	<result column="instoretime" property="instoretime"/>
+	<result column="syssign" property="syssign"/>
+	<result column="sysid" property="sysid"/>
+	<result column="remark" property="remark"/>
+	<result column="materialuser" property="materialuser"/>
+	<result column="backuser" property="backuser"/>
+	<result column="whName" property="whName"/>
+	<result column="brandName" property="brandName"/>
+	<result column="mfName" property="mfName"/>
+	<result column="stocktalingno" property="stocktalingno"/>
+</resultMap>
+
+<sql id="Base_Column_List" >
+	m.id,m.principal,m.materialuser,m.backuser,m.warehouseid,m.brandId,m.mfid,m.materialno,m.materialname,m.specifications,
+	m.unit,m.storecount,m.consumcount,m.returncount,m.unitPrice,m.totalprice,m.consumtime,m.returntime,m.instoretime,m.remark,
+	m.profitloss,m.firm,m.differences,m.sysid,m.syssign,m.brandName,m.mfName,m.greehouseid,m.baseid
+</sql>
+
+<sql id="Example_Where_Clause">
+	where 1=1
+	<trim suffixOverrides="," >
+		<if test="id != null and id > 0" >
+			and id = #{id}
+		</if>
+		<if test="materialno != null and materialno != ''" >
+		    and materialno like '%'+#{materialno}+'%'
+		</if>
+		<if test="materialname != null and materialname != ''" >
+		    and materialname like '%'+#{materialname}+'%'
+		</if>
+		<if test="instoretimeend != null and instoretimeend != ''" >
+		    and instoretime &lt;= #{instoretimeend}
+		</if>
+		<if test="instoretimestart != null and instoretimestart != ''" >
+		    and instoretime &gt;= #{instoretimestart}
+		</if>
+		<if test="consumtimestart != null and consumtimestart != ''" >
+		    and consumtime &gt;= #{consumtimestart}
+		</if>
+		<if test="consumtimeend != null and consumtimeend != ''" >
+		    and consumtime &lt;= #{consumtimeend}
+		</if>
+		<if test="returntimestart != null and returntimestart != ''" >
+		    and returntime &gt;= #{returntimestart}
+		</if>
+		<if test="returntimeend != null and returntimeend != ''" >
+		    and returntime &lt;= #{returntimeend}
+		</if>
+		<if test="syssign != null and syssign != ''" >
+		    and syssign = #{syssign}
+		</if>
+		<if test="sysid != null and sysid !=''" >
+			and m.sysid = #{sysid}
+		</if>
+	</trim>
+</sql>
+
+<update id="updateBySelective" parameterType="Object" >
+	update sys_materialmanage set 
+	<trim suffixOverrides="," >
+		<if test="materialno != null and materialno != '' ">
+			materialno=#{materialno},
+		</if>
+		<if test="materialname != null  and materialname !='' ">
+			materialname=#{materialname},
+		</if>
+		<if test="specifications != null  and specifications !='' ">
+			specifications=#{specifications},
+		</if>
+		<if test="unit != null  and unit !='' ">
+			unit=#{unit},
+		</if>
+		<if test="brandName != null  and brandName !='' ">
+			brandName=#{brandName},
+		</if>
+		<if test="mfName != null  and mfName !='' ">
+			mfName=#{mfName},
+		</if>
+		<if test="remark != null and remark != '' ">
+			remark=#{remark},
+		</if>
+	</trim> where id=#{id}
+</update>
+
+<insert id="add" parameterType="Object" >
+	insert into sys_materialmanage(m.profitloss,m.firm,m.differences,m.principal,warehouseid,brandId,mfid,
+	materialno,materialname,specifications,unit,storecount,consumcount,returncount,unitPrice,totalprice,returntime,
+	consumtime,instoretime,remark,syssign,sysid,brandName,mfName,materialuser,baseid,greehouseid,backuser,stocktalingno)
+	values(#{profitloss},#{firm},#{differences},#{principal},#{warehouseid},#{brandId},#{mfid},#{materialno},
+	#{materialname},#{specifications},#{unit},#{storecount},#{consumcount},#{returncount},#{unitPrice},#{totalprice},
+	#{returntime},#{consumtime},#{instoretime},#{remark},#{syssign},#{sysid},#{brandName},#{mfName},#{materialuser},#{baseid},
+	#{greehouseid},#{backuser},#{stocktalingno})
+</insert>
+
+<delete id="delete" parameterType="Object">
+	delete from sys_materialmanage where id = #{id}
+</delete>
+
+<select id="queryById" resultMap="BaseResultMap" parameterType="Object">
+	select <include refid="Base_Column_List" /> ,whName baseName,name as greenhousename from sys_materialmanage m
+	left join sys_warehouse wa on wa.id = m.warehouseid
+	left join sys_base b on b.id = m.baseid
+	left join sys_greenhouse gr on gr.id = m.greehouseid
+	where m.id = #{id}
+</select>
+
+<update id="update" parameterType="Object" >
+	update sys_materialmanage set profitloss=#{profitloss},firm=#{firm},differences=#{differences},
+	warehouseid=#{warehouseid},materialno=#{materialno},remark=#{remark} where id=#{id}
+</update>
+
+<select id="queryByList" resultMap="BaseResultMap" parameterType="Object">
+	select <include refid="Base_Column_List"/>,whName,baseName,name as greenhousename from sys_materialmanage m 
+	left join sys_warehouse  wa on wa.id = m.warehouseid
+	left join sys_base b on b.id = m.baseid
+	left join sys_greenhouse gr on gr.id = m.greehouseid 
+	<include refid="Example_Where_Clause"/> 
+</select>
+
+<select id="queryDataByList" resultMap="BaseResultMap" parameterType="Object">
+	select <include refid="Base_Column_List"/>,whName,baseName,name as greenhousename from sys_materialmanage m 
+	left join sys_warehouse  wa on wa.id = m.warehouseid
+	left join sys_base b on b.id = m.baseid
+	left join sys_greenhouse gr on gr.id = m.greehouseid 
+	<include refid="Example_Where_Clause"/> order by id desc
+</select>
+
+<select id="queryByUniteList" resultMap="BaseResultMap" parameterType="Object">
+	select <include refid="Base_Column_List"/>,whName from sys_materialmanage m 
+	left join sys_warehouse  wa on wa.id = m.warehouseid
+	<include refid="Example_Where_Clause"/> and m.syssign in('0','1','2','3')
+</select>
+</mapper>

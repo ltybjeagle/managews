@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.finemanagement.dao.inputs.SysProductDao" > 
+<resultMap id="BaseResultMap" type="com.finemanagement.entity.inputs.SysProduct" >
+	<result column="id" property="id"/>
+	<result column="productNo" property="productNo"/>
+	<result column="inputName" property="inputName"/>
+	<result column="classifyId" property="classifyId"/>
+	<result column="unit" property="unit"/>
+	<result column="specifications" property="specifications"/>
+	<result column="brandId" property="brandId"/>
+	<result column="mfid" property="mfid"/>
+	<result column="remark" property="remark"/>
+	<result column="classname" property="classname"/>
+	<result column="brandName" property="brandName"/>
+	<result column="mfName" property="mfName"/>
+	<result column="sysid" property="sysid"/>
+</resultMap>
+
+<sql id="Base_Column_List" >
+	m.id,m.productNo,m.inputName,m.classifyId,m.unit,m.specifications,m.brandId,m.mfid,m.remark,m.sysid
+</sql>
+
+<sql id="Example_Where_Clause">
+	where 1=1
+	<trim suffixOverrides="," >
+		<if test="id != null and id > 0" >
+			and m.id = #{id}
+		</if>
+		<if test="productNo != null and productNo != ''" >
+		    and m.productNo like '%'+#{productNo}+'%'
+		</if>
+		<if test="inputName != null and inputName != ''" >
+		    and m.inputName like '%'+#{inputName}+'%'
+		</if>
+		<if test="classifyId != null and classifyId > 0" >
+		    and m.classifyId = #{classifyId}
+		</if>
+		<if test="unit != null and unit != ''" >
+		    and m.unit = #{unit}
+		</if>
+		<if test="specifications != null and specifications != ''" >
+		    and m.specifications = #{specifications}
+		</if>
+		<if test="brandId != null and brandId > 0" >
+		    and m.brandId = #{brandId}
+		</if>
+		<if test="mfid != null and mfid > 0" >
+		    and m.mfid = #{mfid}
+		</if>
+		<if test="remark != null and remark != ''" >
+		    and m.remark = #{remark}
+		</if>
+		<if test="sysid != null and sysid != ''" >
+		    and m.sysid = #{sysid}
+		</if>
+	</trim>
+</sql>
+
+<insert id="add" parameterType="Object" >
+	insert into sys_product(productNo,inputName,classifyId,unit,specifications,brandId,mfid,remark,sysid)
+	values(#{productNo},#{inputName},#{classifyId},#{unit},#{specifications},#{brandId},#{mfid},#{remark},#{sysid})
+</insert>
+
+<update id="updateBySelective" parameterType="Object" >
+	update sys_product set 
+	<trim suffixOverrides="," >
+		<if test="productNo != null and productNo != '' ">
+			productNo=#{productNo},
+		</if>
+		<if test="inputName != null and inputName != ''  ">
+			inputName=#{inputName},
+		</if>
+		<if test="classifyId != null  ">
+			classifyId=#{classifyId},
+		</if>
+		<if test="unit != null and unit != '' ">
+			unit=#{unit},
+		</if>
+		<if test="specifications != null and  specifications != '' ">
+			specifications=#{specifications},
+		</if>
+		<if test="brandId != null">
+			brandId=#{brandId},
+		</if>
+		<if test="mfid != null ">
+			mfid=#{mfid},
+		</if>
+		<if test="remark != null and remark != '' ">
+			remark=#{remark},
+		</if>
+	</trim> where id=#{id}
+</update>
+
+<delete id="delete" parameterType="Object">
+	delete from sys_product where id = #{id}
+</delete>
+
+<select id="queryById" resultMap="BaseResultMap" parameterType="Object">
+	select <include refid="Base_Column_List" /> ,classname,brandName,mfName from sys_product m 
+	left join sys_classify cla on cla.id = m.classifyId 
+	left join sys_brand bra on bra.id = m.brandId 
+	left join sys_manufacturer mf on mf.id = m.mfid 
+	where m.id = #{id}
+</select>
+
+<select id="queryByList" resultMap="BaseResultMap" parameterType="Object">
+	select <include refid="Base_Column_List"/>,classname,brandName,mfName from sys_product m 
+	left join sys_classify cla on cla.id = m.classifyId 
+	left join sys_brand bra on bra.id = m.brandId 
+	left join sys_manufacturer mf on mf.id = m.mfid 
+	<include refid="Example_Where_Clause"/> 
+</select>
+
+<select id="queryDataByList" resultMap="BaseResultMap" parameterType="Object">
+	select <include refid="Base_Column_List"/>,classname,brandName,mfName from sys_product m 
+	left join sys_classify cla on cla.id = m.classifyId 
+	left join sys_brand bra on bra.id = m.brandId 
+	left join sys_manufacturer mf on mf.id = m.mfid 
+	<include refid="Example_Where_Clause"/> order by id desc
+</select>
+</mapper>

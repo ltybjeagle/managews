@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.finemanagement.dao.slaughter.SysSlaughterDao" > 
+<!-- Result Map-->
+<resultMap id="BaseResultMap" type="com.finemanagement.entity.slaughter.SysSlaughter" >
+	<result column="id" property="id"/>
+	<result column="slaughterBatch" property="slaughterBatch"/>
+	<result column="quarantineBatchId" property="quarantineBatchId"/>
+	<result column="quarantineQuantity" property="quarantineQuantity"/>
+	<result column="slaughterPersonnel" property="slaughterPersonnel"/>
+	<result column="slaughterQuantity" property="slaughterQuantity"/>
+	<result column="slaughterTime" property="slaughterTime"/>
+	<result column="quarantineBatch" property="quarantineBatch"/>
+	<result column="createTime" property="createTime"/>
+	<result column="remark" property="remark"/>
+</resultMap>
+
+<!-- sys_base table all fields -->
+<sql id="Base_Column_List" >
+	m.id,m.slaughterBatch,m.quarantineBatchId,m.quarantineQuantity,m.slaughterPersonnel,m.slaughterQuantity,m.slaughterTime,
+	m.createTime,m.remark
+</sql>
+
+<!-- 查询条件 -->
+<sql id="Example_Where_Clause">
+where 1=1
+<trim suffixOverrides="," >
+	<if test="id != null" >
+		and m.id = #{id}
+	</if>
+	<if test="slaughterBatch != null and slaughterBatch != ''" >
+	    and m.slaughterBatch = #{slaughterBatch}
+	</if>
+	<if test="quarantineBatchId != null and quarantineBatchId > 0" >
+	    and m.quarantineBatchId = #{quarantineBatchId}
+	</if>
+	<if test="quarantineQuantity != null and quarantineQuantity != ''" >
+	    and m.quarantineQuantity = #{quarantineQuantity}
+	</if>
+	<if test="slaughterPersonnel != null and slaughterPersonnel != ''" >
+	    and m.slaughterPersonnel = #{slaughterPersonnel}
+	</if>
+	<if test="slaughterQuantity != null and slaughterQuantity != ''" >
+	    and m.slaughterQuantity = #{slaughterQuantity}
+	</if>
+	<if test="slaughterTime != null and slaughterTime != ''" >
+	    and m.slaughterTime = #{slaughterTime}
+	</if>
+	<if test="createTime != null and createTime != ''" >
+	    and m.createTime = #{createTime}
+	</if>
+	<if test="remark != null and remark != ''" >
+	    and m.remark = #{remark}
+	</if>
+	<if test="start_date != null and start_date != '' ">
+		and m.slaughterTime &gt;= #{start_date}
+	</if>
+	<if test="end_date != null and end_date != '' ">
+		and m.slaughterTime &lt;= #{end_date}
+	</if>
+</trim>
+</sql>
+
+<!-- 插入记录 -->
+<insert id="add" parameterType="Object" >
+insert into sys_slaughter(slaughterBatch,quarantineBatchId,quarantineQuantity,slaughterPersonnel,slaughterQuantity,slaughterTime,
+createTime,remark)
+values(#{slaughterBatch},#{quarantineBatchId},#{quarantineQuantity},#{slaughterPersonnel},#{slaughterQuantity},#{slaughterTime},
+#{createTime},#{remark})
+</insert>
+
+<!-- 修改记录，只修改只不为空的字段 -->
+<update id="updateBySelective" parameterType="Object" >
+	update sys_slaughter set 
+	<trim suffixOverrides="," >
+	<if test="slaughterBatch != null and slaughterBatch != ''" >
+	    slaughterBatch = #{slaughterBatch},
+	</if>
+	<if test="quarantineBatchId != null and quarantineBatchId > 0" >
+	    quarantineBatchId = #{quarantineBatchId},
+	</if>
+	<if test="quarantineQuantity != null and quarantineQuantity != ''" >
+	    quarantineQuantity = #{quarantineQuantity},
+	</if>
+	<if test="slaughterPersonnel != null and slaughterPersonnel != ''" >
+	    slaughterPersonnel = #{slaughterPersonnel},
+	</if>
+	<if test="slaughterQuantity != null and slaughterQuantity != ''" >
+	    slaughterQuantity = #{slaughterQuantity},
+	</if>
+	<if test="slaughterTime != null and slaughterTime != ''" >
+	    slaughterTime = #{slaughterTime},
+	</if>
+	<if test="createTime != null and createTime != ''" >
+	    createTime = #{createTime},
+	</if>
+	<if test="remark != null and remark != ''" >
+	    remark = #{remark}
+	</if>
+	</trim> where id=#{id}
+</update>
+
+<!-- 删除记录 -->
+<delete id="delete" parameterType="Object">
+	delete from sys_slaughter where id = #{id}
+</delete>
+
+<select id="queryById" resultMap="BaseResultMap" parameterType="Object">
+select <include refid="Base_Column_List" /> from sys_slaughter m  where id = #{id}
+</select>
+
+<select id="queryByList" resultMap="BaseResultMap" parameterType="Object">
+select <include refid="Base_Column_List"/>,n.quarantineBatch from sys_slaughter m 
+left join sys_preSlaughterQuarantine n on n.id = m.quarantineBatchId
+<include refid="Example_Where_Clause"/> 
+<if test="pager.orderCondition != null and pager.orderCondition != ''" >
+${pager.orderCondition}
+</if>
+</select>
+
+<select id="queryListByProcess" resultMap="BaseResultMap">
+select m.id,m.slaughterBatch from sys_slaughter m where not exists 
+(select 1 from sys_process p where p.slaughterbatch = m.id and p.is_completed = '1')
+</select>
+
+
+<select id="queryByYearList" resultMap="BaseResultMap" parameterType="Object">
+select * from vw_graph_environmental_year m  
+<include refid="Example_Where_Clause"/> 
+<if test="pager.orderCondition != null and pager.orderCondition != ''" >
+${pager.orderCondition}
+</if>
+</select>
+
+<select id="queryByMonthList" resultMap="BaseResultMap" parameterType="Object">
+select * from vw_graph_environmental_month m  
+<include refid="Example_Where_Clause"/> 
+<if test="pager.orderCondition != null and pager.orderCondition != ''" >
+${pager.orderCondition}
+</if>
+</select>
+
+<select id="queryByDateList" resultMap="BaseResultMap" parameterType="Object">
+select * from vw_graph_environmental_date m  
+<include refid="Example_Where_Clause"/> 
+<if test="pager.orderCondition != null and pager.orderCondition != ''" >
+${pager.orderCondition}
+</if>
+</select>
+</mapper>

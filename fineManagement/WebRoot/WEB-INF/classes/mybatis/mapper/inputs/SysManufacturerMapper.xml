@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.finemanagement.dao.inputs.SysManufacturerDao" > 
+<resultMap id="BaseResultMap" type="com.finemanagement.entity.inputs.SysManufacturer" >
+	<result column="id" property="id"/>
+	<result column="mfName" property="mfName"/>
+	<result column="mfArea" property="mfArea"/>
+	<result column="mfPhoneNo" property="mfPhoneNo"/>
+	<result column="remark" property="remark"/>
+	<result column="sysid" property="sysid"/>
+</resultMap>
+
+<sql id="Base_Column_List" >
+	m.id,m.mfName,m.mfArea,m.mfPhoneNo,m.remark,m.sysid
+</sql>
+
+<sql id="Example_Where_Clause">
+	where 1=1
+	<trim suffixOverrides="," >
+		<if test="id != null" >
+			and id = #{id}
+		</if>
+		<if test="mfName != null and mfName != ''" >
+		    and mfName like '%'+#{mfName}+'%'
+		</if>
+		<if test="mfArea != null" >
+		    and mfArea = #{mfArea}
+		</if>
+		<if test="mfPhoneNo != null" >
+		    and mfPhoneNo = #{mfPhoneNo}
+		</if>
+		<if test="remark != null" >
+		    and remark = #{remark}
+		</if>
+		<if test="sysid != null and sysid != ''" >
+		    and sysid = #{sysid}
+		</if>
+	</trim>
+</sql>
+
+<insert id="add" parameterType="Object" >
+	insert into sys_manufacturer(mfName,mfArea,mfPhoneNo,remark,sysid)
+	values(#{mfName},#{mfArea},#{mfPhoneNo},#{remark},#{sysid})
+</insert>
+
+<update id="updateBySelective" parameterType="Object" >
+	update sys_manufacturer set 
+	<trim suffixOverrides="," >
+		<if test="mfName != null and mfName != '' ">
+			mfName=#{mfName},
+		</if>
+		<if test="mfArea != null  ">
+			mfArea=#{mfArea},
+		</if>
+		<if test="mfPhoneNo != null  ">
+			mfPhoneNo=#{mfPhoneNo},
+		</if>
+		<if test="remark != null  ">
+			remark=#{remark},
+		</if>
+	</trim> where id=#{id}
+</update>
+
+<delete id="delete" parameterType="Object">
+	delete from sys_manufacturer where id = #{id}
+</delete>
+
+<select id="queryById" resultMap="BaseResultMap" parameterType="Object">
+	select <include refid="Base_Column_List" /> from sys_manufacturer m  where m.id = #{id}
+</select>
+
+<select id="queryByList" resultMap="BaseResultMap" parameterType="Object">
+	select <include refid="Base_Column_List"/> from sys_manufacturer m 
+	<include refid="Example_Where_Clause"/> 
+</select>
+
+<select id="queryDataByList" resultMap="BaseResultMap" parameterType="Object">
+	select <include refid="Base_Column_List"/> from sys_manufacturer m 
+	<include refid="Example_Where_Clause"/> 
+</select>
+</mapper>
