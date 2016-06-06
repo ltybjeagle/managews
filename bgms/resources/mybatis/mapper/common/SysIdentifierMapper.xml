@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.finemanagement.dao.common.SysIdentifierDao" > 
+<!-- Result Map-->
+<resultMap id="BaseResultMap" type="com.finemanagement.entity.common.SysIdentifier" >
+	<result column="id" property="id"/>
+	<result column="sysid" property="sysid"/>
+	<result column="sysname" property="sysname"/>
+	<result column="isApp" property="isApp"/>
+</resultMap>
+
+<!-- 查询条件 -->
+<sql id="Example_Where_Clause">
+where 1=1
+<trim suffixOverrides="," >
+	<if test="id != null" >
+		and m.id = #{id}
+	</if>
+	<if test="sysname != null and sysname != ''" >
+	 	and m.sysname = #{sysname}
+	</if>
+	<if test="sysid != null and sysid != ''" >
+	    and m.sysid = #{sysid}
+	</if>
+</trim>
+</sql>
+
+<!-- 查询系统角色列表 -->
+<select id="querySysIdentifierList" resultMap="BaseResultMap" parameterType="Object">
+	select id,sysid,sysname from sys_identifier m <include refid="Example_Where_Clause"/>
+</select>
+
+<!-- 查询系统角色列表 -->
+<select id="querySysIdentifierByUser" resultMap="BaseResultMap" parameterType="Object">
+	select iden.id,iden.sysid,iden.sysname,iden.isApp from sys_identifier iden where iden.isApp = '1' and exists (
+	select 1 from sys_role rol where exists (select 1 from sys_role_rel rel where exists ( 
+	select 1 from sys_user u where u.id = #{userid} and u.id = rel.objId and rel.relType = 1) 
+	and rol.id = rel.roleId) and iden.sysid = rol.sysid);
+</select>
+</mapper>
