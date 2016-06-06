@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.finemanagement.dao.basic.SysGreenhouseDao" > 
+<resultMap id="BaseResultMap" type="com.finemanagement.entity.basic.SysGreenhouse" >
+	<result column="id" property="id"/>
+	<result column="name" property="name"/>
+	<result column="ghArea" property="ghArea"/>
+	<result column="baseid" property="baseid"/>
+	<result column="typeid" property="typeid"/>
+	<result column="createTime" property="createTime"/>
+	<result column="remark" property="remark"/>
+	<result column="baseName" property="baseName"/>
+	<result column="greenhouseName" property="greenhouseName"/>
+	<result column="coordinate" property="coordinate"/>
+</resultMap>
+
+<sql id="Base_Column_List" >
+	m.id,m.name,m.ghArea,m.baseid,m.typeid,m.createTime,m.coordinate,m.remark
+</sql>
+
+<sql id="Example_Where_Clause">
+	where 1=1
+	<trim suffixOverrides="," >
+		<if test="id != null and id > 0" >
+			and m.id = #{id}
+		</if>
+		<if test="name != null and name != ''" >
+		    and m.name like '%'+#{name}+'%'
+		</if>
+		<if test="ghArea != null and ghArea != ''" >
+		    and m.ghArea = #{ghArea}
+		</if>
+		<if test="baseid != null and baseid > 0" >
+		    and m.baseid = #{baseid}
+		</if>
+		<if test="typeid != null and typeid > 0" >
+		    and m.typeid = #{typeid}
+		</if>
+		<if test="createTime != null and createTime != ''" >
+		    and m.createTime = #{createTime}
+		</if>
+		<if test="remark != null and remark != ''" >
+		    and m.remark = #{remark}
+		</if>
+	</trim>
+</sql>
+
+<insert id="add" parameterType="Object" >
+	insert into sys_greenhouse(name,ghArea,baseid,typeid,createTime,coordinate,remark) 
+	values(#{name},#{ghArea},#{baseid},#{typeid},#{createTime},#{coordinate},#{remark})
+</insert>
+
+<update id="updateBySelective" parameterType="Object" >
+	update sys_greenhouse set 
+	<trim suffixOverrides="," >
+		<if test="name != null and name != '' ">
+			name=#{name},
+		</if>
+		<if test="ghArea != null and ghArea != '' ">
+			ghArea=#{ghArea},
+		</if>
+		<if test="baseid != null and baseid != '' ">
+			baseid=#{baseid},
+		</if>
+		<if test="typeid != null and typeid != '' ">
+			typeid=#{typeid},
+		</if>
+		<if test="createTime != null and createTime != '' ">
+			createTime=#{createTime},
+		</if>
+		<if test="coordinate != null and coordinate != ''">
+			coordinate=#{coordinate},
+		</if>
+		<if test="remark != null and remark != '' ">
+			remark=#{remark},
+		</if>
+	</trim> where id=#{id}
+</update>
+
+<delete id="delete" parameterType="Object">
+	delete from sys_greenhouse where id = #{id}
+</delete>
+
+<select id="queryById" resultMap="BaseResultMap" parameterType="Object">
+	select <include refid="Base_Column_List"/>,baseName,greenhouseName from sys_greenhouse m 
+	left join sys_base b on m.baseid = b.id
+	left join sys_greenhouse_type type on m.typeid = type.id
+	where m.id = #{id}
+</select>
+
+<select id="queryByList" resultMap="BaseResultMap" parameterType="Object">
+	select <include refid="Base_Column_List"/>,baseName,greenhouseName from sys_greenhouse m 
+	left join sys_base b on m.baseid = b.id
+	left join sys_greenhouse_type type on m.typeid = type.id
+	<include refid="Example_Where_Clause"/> 
+</select>
+
+<select id="queryDataByList" resultMap="BaseResultMap" parameterType="Object">
+	select <include refid="Base_Column_List"/>,baseName,greenhouseName from sys_greenhouse m 
+	left join sys_base b on m.baseid = b.id
+	left join sys_greenhouse_type type on m.typeid = type.id
+	<include refid="Example_Where_Clause"/> 
+</select>
+</mapper>

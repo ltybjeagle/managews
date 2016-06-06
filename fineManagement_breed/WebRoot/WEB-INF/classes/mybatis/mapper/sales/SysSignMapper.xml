@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.finemanagement.dao.sales.SysSignDao" > 
+<!-- Result Map-->
+<resultMap id="BaseResultMap" type="com.finemanagement.entity.sales.SysSign" >
+	<result column="id" property="id"/>
+	<result column="distributionNo" property="distributionNo"/>
+	<result column="releaseTime" property="releaseTime"/>
+	<result column="distributionPId" property="distributionPId"/>
+	<result column="distributionPerson" property="distributionPerson"/>
+	<result column="receivingUnit" property="receivingUnit"/>
+	<result column="distributionStatus" property="distributionStatus"/>
+	<result column="vehiclesId" property="vehiclesId"/>
+	<result column="vehiclesNo" property="vehiclesNo"/>
+	<result column="brand" property="brand"/>
+	<result column="distributionAddress" property="distributionAddress"/>
+	<result column="plateNum" property="plateNum"/>
+	<result column="signTime" property="signTime"/>
+	<result column="signPerson" property="signPerson"/>
+	<result column="sysid" property="sysid"/>
+</resultMap>
+
+<!-- sys_base table all fields -->
+<sql id="Base_Column_List" >
+	m.id,m.distributionNo,m.releaseTime,m.distributionPId,m.receivingUnit,m.distributionStatus,m.vehiclesId,m.brand,
+	m.distributionAddress,m.plateNum,m.signTime,m.signPerson
+</sql>
+
+<!-- 查询条件 -->
+<sql id="Example_Where_Clause">
+where 1=1
+<trim suffixOverrides="," >
+	<if test="id != null" >
+		and m.id = #{id}
+	</if>
+	<if test="distributionNo != null and distributionNo != ''" >
+	    and m.distributionNo = #{distributionNo}
+	</if>
+	<if test="releaseTime != null and releaseTime != ''" >
+	    and m.releaseTime = #{releaseTime}
+	</if>
+	<if test="distributionPId != null and distributionPId > 0" >
+	    and m.distributionPId = #{distributionPId}
+	</if>
+	<if test="receivingUnit != null and receivingUnit != ''" >
+	    and m.receivingUnit = #{receivingUnit}
+	</if>
+	<if test="distributionStatus != null and distributionStatus > 0" >
+	    and m.distributionStatus = #{distributionStatus}
+	</if>
+	<if test="vehiclesId != null and vehiclesId > 0" >
+	    and m.vehiclesId = #{vehiclesId}
+	</if>
+	<if test="brand != null and brand != ''" >
+	    and m.brand = #{brand}
+	</if>
+	<if test="distributionAddress != null and distributionAddress != ''" >
+	    and m.distributionAddress = #{distributionAddress}
+	</if>
+	<if test="plateNum != null and plateNum != ''" >
+	    and m.plateNum = #{plateNum}
+	</if>
+	<if test="signTime != null and signTime != ''" >
+	    and m.signTime = #{signTime}
+	</if>
+	<if test="signPerson != null and signPerson != ''" >
+	    and m.signPerson = #{signPerson}
+	</if>
+	<if test="startReleaseTime != null and startReleaseTime != ''" >
+	    and m.releaseTime &gt;= #{startReleaseTime}
+	</if>
+	<if test="endReleaseTime != null and endReleaseTime != ''" >
+	    and m.releaseTime &lt;= #{endReleaseTime}
+	</if>
+	<if test="sysid != null and sysid != ''" >
+	    and m.sysid = #{sysid}
+	</if>
+</trim>
+</sql>
+
+<!-- 插入记录 -->
+<insert id="add" parameterType="Object" >
+insert into sys_sign(distributionNo,releaseTime,distributionPId,receivingUnit,distributionStatus,vehiclesId,brand,
+distributionAddress,plateNum,signTime,signPerson,sysid)
+values(#{distributionNo},#{releaseTime},#{distributionPId},#{receivingUnit},#{distributionStatus},#{vehiclesId},#{brand},
+#{distributionAddress},#{plateNum},#{signTime},#{signPerson},#{sysid})
+</insert>
+
+<!-- 修改记录，只修改只不为空的字段 -->
+<update id="updateBySelective" parameterType="Object" >
+	update sys_sign set 
+	<trim suffixOverrides="," >
+	<if test="distributionNo != null and distributionNo != ''" >
+	    distributionNo = #{distributionNo},
+	</if>
+	<if test="releaseTime != null and releaseTime != ''" >
+	    releaseTime = #{releaseTime},
+	</if>
+	<if test="distributionPId != null and distributionPId > 0" >
+	    distributionPId = #{distributionPId},
+	</if>
+	<if test="receivingUnit != null and receivingUnit != ''" >
+	    receivingUnit = #{receivingUnit},
+	</if>
+	<if test="distributionStatus != null and distributionStatus != ''" >
+	    distributionStatus = #{distributionStatus},
+	</if>
+	<if test="vehiclesId != null and vehiclesId > 0" >
+	    vehiclesId = #{vehiclesId},
+	</if>
+	<if test="brand != null and brand != ''" >
+	    brand = #{brand},
+	</if>
+	<if test="distributionAddress != null and distributionAddress != ''" >
+	    distributionAddress = #{distributionAddress},
+	</if>
+	<if test="plateNum != null and plateNum != ''" >
+	    plateNum = #{plateNum},
+	</if>
+	<if test="signTime != null and signTime != ''" >
+	    signTime = #{signTime},
+	</if>
+	<if test="signPerson != null and signPerson != ''" >
+	    signPerson = #{signPerson}
+	</if>
+	</trim> where id=#{id}
+</update>
+
+<!-- 删除记录 -->
+<delete id="delete" parameterType="Object">
+	delete from sys_sign where id = #{id}
+</delete>
+
+<select id="queryById" resultMap="BaseResultMap" parameterType="Object">
+select <include refid="Base_Column_List" /> from sys_sign m  where id = #{id}
+</select>
+
+<select id="queryByList" resultMap="BaseResultMap" parameterType="Object">
+select <include refid="Base_Column_List"/>,ve.vehiclesNo,d.name as distributionPerson from sys_sign m 
+left join sys_vehicles ve on ve.id = m.vehiclesId
+left join sys_driver d on d.id = m.distributionPId
+<include refid="Example_Where_Clause"/> 
+<if test="pager.orderCondition != null and pager.orderCondition != ''" >
+${pager.orderCondition}
+</if>
+</select>
+</mapper>

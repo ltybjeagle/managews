@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.finemanagement.dao.basic.SysWarehouseDao" > 
+<resultMap id="BaseResultMap" type="com.finemanagement.entity.basic.SysWarehouse" >
+	<result column="id" property="id"/>
+	<result column="whName" property="whName"/>
+	<result column="responsible" property="responsible"/>
+	<result column="whArea" property="whArea"/>
+	<result column="whAddress" property="whAddress"/>
+	<result column="phoneNo" property="phoneNo"/>
+	<result column="createTime" property="createTime"/>
+	<result column="remark" property="remark"/>
+	<result column="coordinate" property="coordinate"/>
+	<result column="sysid" property="sysid"/>
+</resultMap>
+
+<sql id="Base_Column_List" >
+	m.id,m.whName,m.responsible,m.whArea,m.whAddress,m.phoneNo,m.createTime,m.coordinate,m.sysid,m.remark
+</sql>
+
+<sql id="Example_Where_Clause">
+	where 1=1
+	<trim suffixOverrides="," >
+		<if test="id != null and id > 0" >
+			and m.id = #{id}
+		</if>
+		<if test="whName != null and whName != ''" >
+		    and m.whName like '%'+#{whName}+'%'
+		</if>
+		<if test="responsible != null and responsible != ''" >
+		    and m.responsible = #{responsible}
+		</if>
+		<if test="whArea != null and whArea != ''" >
+		    and m.whArea = #{whArea}
+		</if>
+		<if test="whAddress != null and whAddress != ''" >
+		    and m.whAddress = #{whAddress}
+		</if>
+		<if test="phoneNo != null and phoneNo != ''" >
+		    and m.phoneNo = #{phoneNo}
+		</if>
+		<if test="createTime != null and createTime != ''" >
+		    and m.createTime = #{createTime}
+		</if>
+		<if test="remark != null and remark != ''" >
+		    and m.remark = #{remark}
+		</if>
+		<if test="sysid != null and sysid != ''" >
+		    and m.sysid = #{sysid}
+		</if>
+	</trim>
+</sql>
+
+<insert id="add" parameterType="Object" >
+	insert into sys_warehouse(whName,responsible,whArea,whAddress,phoneNo,createTime,coordinate,sysid,remark)
+	values(#{whName},#{responsible},#{whArea},#{whAddress},#{phoneNo},#{createTime},#{coordinate},#{sysid},#{remark})
+</insert>
+
+<update id="updateBySelective" parameterType="Object" >
+	update sys_warehouse set 
+	<trim suffixOverrides="," >
+		<if test="whName != null and whName != '' ">
+			whName=#{whName},
+		</if>
+		<if test="responsible != null  and responsible != '' ">
+			responsible=#{responsible},
+		</if>
+		<if test="whArea != null  and whArea != ''">
+			whArea=#{whArea},
+		</if>
+		<if test="whAddress != null and whAddress != ''  ">
+			whAddress=#{whAddress},
+		</if>
+		<if test="phoneNo != null and phoneNo != '' ">
+			phoneNo=#{phoneNo},
+		</if>
+		<if test="createTime != null and createTime != '' ">
+			createTime=#{createTime},
+		</if>
+		<if test="coordinate != null and coordinate != ''">
+			coordinate=#{coordinate},
+		</if>
+		<if test="remark != null  and remark != '' ">
+			remark=#{remark},
+		</if>
+	</trim> where id=#{id}
+</update>
+
+<delete id="delete" parameterType="Object">
+	delete from sys_warehouse where id = #{id}
+</delete>
+
+<select id="queryById" resultMap="BaseResultMap" parameterType="Object">
+	select <include refid="Base_Column_List" /> from sys_warehouse m  where m.id = #{id}
+</select>
+
+<select id="queryByList" resultMap="BaseResultMap" parameterType="Object">
+	select <include refid="Base_Column_List"/> from sys_warehouse m 
+	<include refid="Example_Where_Clause"/> 
+</select>
+
+<select id="queryDataByList" resultMap="BaseResultMap" parameterType="Object">
+	select <include refid="Base_Column_List"/> from sys_warehouse m 
+	<include refid="Example_Where_Clause"/> 
+</select>
+</mapper>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-module
+  type="WEB"
+  name="fineManagement_breed"
+  id="myeclipse.1458204257814"
+  context-root="/fineManagement_breed"
+  j2ee-spec="5.0"
+  archive="fineManagement_breed.war">
+  <attributes>
+    <attribute name="webrootdir" value="WebRoot" />
+  </attributes>
+</project-module>
+

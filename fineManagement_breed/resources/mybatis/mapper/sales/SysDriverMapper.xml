@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.finemanagement.dao.sales.SysDriverDao" > 
+<resultMap id="BaseResultMap" type="com.finemanagement.entity.sales.SysDriver" >
+	<result column="id" property="id"/>
+	<result column="name" property="name"/>
+	<result column="sex" property="sex"/>
+	<result column="age" property="age"/>
+	<result column="carAge" property="carAge"/>
+	<result column="phoneNo" property="phoneNo"/>
+	<result column="remark" property="remark"/>
+	<result column="sysid" property="sysid"/>
+</resultMap>
+
+<sql id="Base_Column_List" >
+	m.id,m.name,m.sex,m.age,m.carAge,m.phoneNo,m.remark,m.sysid
+</sql>
+
+<sql id="Example_Where_Clause">
+	where 1=1
+	<trim suffixOverrides="," >
+		<if test="id != null" >
+			and m.id = #{id}
+		</if>
+		<if test="name != null and name != ''" >
+		    and m.name = #{name}
+		</if>
+		<if test="sex != null and sex != ''" >
+		    and m.sex = #{sex}
+		</if>
+		<if test="age != null and age != ''" >
+		    and m.age = #{age}
+		</if>
+		<if test="carAge != null and carAge != ''" >
+		    and m.carAge = #{carAge}
+		</if>
+		<if test="phoneNo != null and phoneNo != ''" >
+		    and m.phoneNo = #{phoneNo}
+		</if>
+		<if test="remark != null and remark != ''" >
+		    and m.remark = #{remark}
+		</if>
+		<if test="sysid != null and sysid != ''" >
+		    and m.sysid = #{sysid}
+		</if>
+		<if test="driverStatus != null and driverStatus != '' and driverStatus != '0'" >
+		    and exists (select 1 from sys_sign s where s.distributionPId = m.id and s.distributionStatus = #{driverStatus})
+		</if>
+	</trim>
+</sql>
+
+<insert id="add" parameterType="Object" >
+	insert into sys_driver(name,sex,age,carAge,phoneNo,remark,sysid)
+	values(#{name},#{sex},#{age},#{carAge},#{phoneNo},#{remark},#{sysid})
+</insert>
+
+<update id="updateBySelective" parameterType="Object" >
+	update sys_driver set 
+	<trim suffixOverrides="," >
+		<if test="name != null and name != ''" >
+		    name = #{name},
+		</if>
+		<if test="sex != null and sex != ''" >
+		    sex = #{sex},
+		</if>
+		<if test="age != null and age != ''" >
+		    age = #{age},
+		</if>
+		<if test="carAge != null and carAge != ''" >
+		    carAge = #{carAge},
+		</if>
+		<if test="phoneNo != null and phoneNo != ''" >
+		    phoneNo = #{phoneNo},
+		</if>
+		<if test="remark != null and remark != ''" >
+		    remark = #{remark}
+		</if>
+	</trim> where id=#{id}
+</update>
+
+<delete id="delete" parameterType="Object">
+	delete from sys_driver where id = #{id}
+</delete>
+
+<select id="queryById" resultMap="BaseResultMap" parameterType="Object">
+select <include refid="Base_Column_List" /> from sys_driver m  where id = #{id}
+</select>
+
+<select id="queryByList" resultMap="BaseResultMap" parameterType="Object">
+	select <include refid="Base_Column_List"/> from sys_driver m 
+	<include refid="Example_Where_Clause"/> 
+</select>
+</mapper>

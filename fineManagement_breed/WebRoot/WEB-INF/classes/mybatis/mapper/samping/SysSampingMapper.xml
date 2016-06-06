@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.finemanagement.dao.samping.SysSampingDao" > 
+<resultMap id="BaseResultMap" type="com.finemanagement.entity.samping.SysSampingEntity" >
+	<result column="id" property="id"/>
+	<result column="sampleno" property="sampleno"/>
+	<result column="sampname" property="sampname"/>
+	<result column="samplingcount" property="samplingcount"/>
+	<result column="samplingpeople" property="samplingpeople"/>
+	<result column="baseid" property="baseid"/>
+	<result column="greenhouseid" property="greenhouseid"/>
+	<result column="samplingtime" property="samplingtime"/>
+	<result column="remark" property="remark"/>
+	<result column="sysid" property="sysid"/>
+	<result column="baseName" property="baseName"/>
+	<result column="greenhousename" property="greenhousename"/>
+	<result column="createTime" property="createTime"/>
+	<result column="variety" property="variety"/>
+	<result column="ID" property="ID"/>
+	<result column="RelationNO" property="RelationNO"/>
+	<result column="Url" property="Url"/>
+	<result column="TableName" property="TableName"/>
+	<result column="CreateTime" property="CreateTime"/>
+</resultMap>
+
+<sql id="Base_Column_List" >
+	m.id,m.sampleno,m.sampname,m.samplingcount,m.samplingpeople,m.baseid,m.greenhouseid,m.samplingtime,m.createTime,m.remark,
+	m.sysid
+</sql>
+
+<sql id="Example_Where_Clause">
+	where 1=1
+	<trim suffixOverrides="," >
+		<if test="sampleno != null and sampleno !=''">
+			and m.sampleno = #{sampleno}
+		</if>
+		<if test="sampname != null and sampname !=''">
+			and m.sampname = #{sampname}
+		</if>
+		<if test="samplingcount != null and samplingcount !=''">
+			and m.samplingcount = #{samplingcount}
+		</if>
+		<if test="samplingpeople != null and samplingpeople !=''">
+			and m.samplingpeople = #{samplingpeople}
+		</if>
+		<if test="baseid != null and baseid > 0">
+			and m.baseid = #{baseid}
+		</if>
+		<if test="greenhouseid != null and greenhouseid > 0">
+			and m.greenhouseid = #{greenhouseid}
+		</if>
+		<if test="samplingtime != null and samplingtime !=''">
+			and m.samplingtime = #{samplingtime}
+		</if>
+		<if test="createTime != null and createTime !=''">
+			and m.createTime = #{createTime}
+		</if>
+		<if test="remark != null and remark !=''">
+			and m.remark = #{remark}
+		</if>
+		<if test="sysid != null and sysid !=''">
+			and m.sysid = #{sysid}
+		</if>
+		<if test="startSamplingtime != null and startSamplingtime !=''">
+			and m.samplingtime &gt;= #{startSamplingtime}
+		</if>
+		<if test="endSamplingtime != null and endSamplingtime !=''">
+			and m.samplingtime &lt;= #{endSamplingtime}
+		</if>
+	</trim>
+</sql>
+
+<insert id="add" parameterType="Object" >
+	insert into sys_testmanage(sampleno,sampname,samplingcount,samplingpeople,baseid,greenhouseid,samplingtime,createTime,
+	remark,sysid)
+	values(#{sampleno},#{sampname},#{samplingcount},#{samplingpeople},#{baseid},#{greenhouseid},#{samplingtime},#{createTime},
+	#{remark},#{sysid})
+</insert>
+
+<insert id="addFile" parameterType="Object" >
+	insert into Attachment(RelationNO,FileName,Url,TableName,CreateTime)
+	values(#{RelationNO},#{FileName},#{Url},#{TableName},#{CreateTime})
+</insert>
+
+<update id="updateBySelective" parameterType="Object" >
+	update sys_testmanage set 
+	<trim suffixOverrides="," >
+		<if test="baseid != null and baseid > 0 ">
+			baseid=#{baseid},
+		</if>
+		<if test="greenhouseid != null and greenhouseid > 0 ">
+			greenhouseid=#{greenhouseid},
+		</if>
+		<if test="sampleno != null and sampleno != '' ">
+			sampleno=#{sampleno},
+		</if>
+		<if test="sampname != null and sampname != '' ">
+			sampname=#{sampname},
+		</if>
+		<if test="samplingcount != null and samplingcount != '' ">
+			samplingcount=#{samplingcount},
+		</if>
+		<if test="samplingpeople != null and samplingpeople != '' ">
+			samplingpeople=#{samplingpeople},
+		</if>
+		<if test="samplingtime != null and samplingtime != '' ">
+			samplingtime=#{samplingtime},
+		</if>
+		<if test="createTime != null and createTime != '' ">
+			createTime=#{createTime},
+		</if>
+		<if test="remark != null and remark != '' ">
+			remark=#{remark},
+		</if>
+	</trim> where id=#{id}
+</update>
+
+<delete id="delete" parameterType="Object">
+	delete from sys_testmanage where id = #{id}
+</delete>
+
+<delete id="deleteFileByID" parameterType="Object">
+	delete from Attachment where ID = #{id}
+</delete>
+
+<select id="queryById" resultMap="BaseResultMap" parameterType="Object">
+	select <include refid="Base_Column_List"/>,baseName,name as greenhousename,variety from sys_testmanage m 
+	left join sys_base b on b.id = m.baseid
+	left join sys_greenhouse  wa on wa.id = m.greenhouseid
+	left join sys_plant p on p.id = m.sampname
+	where m.id = #{id}
+</select>
+
+<select id="queryFileByNo" resultMap="BaseResultMap" parameterType="Object">
+	select ID,RelationNO,FileName,Url,TableName,CreateTime from Attachment m where RelationNO = #{RelationNO}
+</select>
+
+<update id="update" parameterType="Object" >
+	update sys_testmanage set sampleno=#{sampleno},sampname=#{sampname},samplingcount=#{samplingcount},
+	samplingpeople=#{samplingpeople},baseid=#{baseid},greenhouseid=#{greenhouseid},samplingtime=#{samplingtime},remark=#{remark} 
+	where id=#{id}
+</update>
+
+<select id="queryByList" resultMap="BaseResultMap" parameterType="Object">
+	select <include refid="Base_Column_List"/>,baseName,name as greenhousename,variety from sys_testmanage m 
+	left join sys_base b on b.id = m.baseid
+	left join sys_greenhouse  wa on wa.id = m.greenhouseid
+	left join sys_plant p on p.id = m.sampname
+	<include refid="Example_Where_Clause"/>
+</select>
+
+<select id="queryDataByList" resultMap="BaseResultMap" parameterType="Object">
+	select <include refid="Base_Column_List"/>,baseName,name as greenhousename,variety from sys_testmanage m 
+	left join sys_base b on b.id = m.baseid
+	left join sys_greenhouse  wa on wa.id = m.greenhouseid
+	left join sys_plant p on p.id = m.sampname
+	<include refid="Example_Where_Clause"/> order by id desc
+</select>
+</mapper>

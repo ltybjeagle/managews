@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.finemanagement.dao.production.SysCattleSlaughterDao" > 
+<resultMap id="BaseResultMap" type="com.finemanagement.entity.production.SysCattleSlaughter" >
+	<result column="id" property="id"/>
+	<result column="fowleryid" property="fowleryid"/>
+	<result column="baseid" property="baseid"/>
+	<result column="breedid" property="breedid"/>
+	<result column="count" property="count"/>
+	<result column="cattleLevel" property="cattleLevel"/>
+	<result column="unitPrice" property="unitPrice"/>
+	<result column="charge" property="charge"/>
+	<result column="verification" property="verification"/>
+	<result column="cattleTime" property="cattleTime"/>
+	<result column="remark" property="remark"/>
+	<result column="breedName" property="breedName"/>
+	<result column="uuid" property="uuid"/>
+</resultMap>
+
+<sql id="Base_Column_List" >
+	m.id,m.fowleryid,m.baseid,m.breedid,m.count,m.cattleLevel,m.unitPrice,m.charge,m.verification,m.cattleTime,m.remark,m.uuid
+</sql>
+
+<sql id="Example_Where_Clause">
+	where 1=1
+	<trim suffixOverrides="," >
+		<if test="id != null and id > 0" >
+			and m.id = #{id}
+		</if>
+		<if test="fowleryid != null and fowleryid > 0" >
+		    and m.fowleryid = #{fowleryid}
+		</if>
+		<if test="baseid != null and baseid > 0" >
+		    and m.baseid = #{baseid}
+		</if>
+			<if test="start_date != null and start_date != '' ">
+			and m.cattleTime &gt;= #{start_date}
+		</if>
+		<if test="end_date != null and end_date != '' ">
+			and m.cattleTime &lt;= #{end_date}
+		</if>
+		<if test="breedid != null and breedid > 0" >
+		    and m.breedid = #{breedid}
+		</if>
+		<if test="count != null and count != ''" >
+		    and m.count = #{count}
+		</if>
+		<if test="cattleLevel != null and cattleLevel != ''" >
+		    and m.cattleLevel = #{cattleLevel}
+		</if>
+		<if test="unitPrice != null and unitPrice != ''" >
+		    and m.unitPrice = #{unitPrice}
+		</if>
+		<if test="charge != null and charge != ''" >
+		    and m.charge = #{charge}
+		</if>
+		<if test="verification != null and verification != ''" >
+		    and m.verification = #{verification}
+		</if>
+		<if test="cattleTime != null and cattleTime != ''" >
+		    and m.cattleTime = #{cattleTime}
+		</if>
+		<if test="remark != null and remark != ''" >
+		    and m.remark = #{remark}
+		</if>
+	</trim>
+</sql>
+
+<insert id="add" parameterType="Object" >
+	insert into sys_cattleSlaughter(fowleryid,baseid,breedid,count,cattleLevel,unitPrice,charge,verification,cattleTime,remark,uuid)
+	values(#{fowleryid},#{baseid},#{breedid},#{count},#{cattleLevel},#{unitPrice},#{charge},#{verification},#{cattleTime},#{remark},
+	#{uuid})
+</insert>
+
+<update id="updateBySelective" parameterType="Object" >
+	update sys_cattleSlaughter set 
+	<trim suffixOverrides="," >
+		<if test="breedid != null and breedid > 0 ">
+			breedid=#{breedid},
+		</if>
+		<if test="count != null and count != '' ">
+			count=#{count},
+		</if>
+		<if test="cattleLevel != null and cattleLevel != '' ">
+			cattleLevel=#{cattleLevel},
+		</if>
+		<if test="unitPrice != null and unitPrice != '' ">
+			unitPrice=#{unitPrice},
+		</if>
+		<if test="charge != null and charge != '' ">
+			charge=#{charge},
+		</if>
+		<if test="verification != null and verification != '' ">
+			verification=#{verification},
+		</if>
+		<if test="cattleTime != null and cattleTime != '' ">
+			cattleTime=#{cattleTime},
+		</if>
+		<if test="remark != null and remark != '' ">
+			remark=#{remark},
+		</if>
+	</trim> where id=#{id}
+</update>
+
+<delete id="delete" parameterType="Object">
+	delete from sys_cattleSlaughter where id = #{id}
+</delete>
+
+<select id="queryById" resultMap="BaseResultMap" parameterType="Object">
+	select <include refid="Base_Column_List"/>,b.variety as breedName from sys_cattleSlaughter m 
+	left join sys_breed b on m.breedid = b.id 
+	where m.id = #{id}
+</select>
+
+<select id="queryByList" resultMap="BaseResultMap" parameterType="Object">
+	select <include refid="Base_Column_List"/>,b.variety as breedName from sys_cattleSlaughter m 
+	left join sys_breed b on m.breedid = b.id
+	<include refid="Example_Where_Clause"/> 
+</select>
+
+<select id="queryByStatistics" resultMap="BaseResultMap" parameterType="Object">
+	select * from vw_graph_cattleSlaughter <include refid="Example_Where_Clause"/> 
+</select>
+</mapper>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.finemanagement.dao.inputs.SysBrandDao" > 
+<resultMap id="BaseResultMap" type="com.finemanagement.entity.inputs.SysBrand" >
+	<result column="id" property="id"/>
+	<result column="brandName" property="brandName"/>
+	<result column="remark" property="remark"/>
+	<result column="sysid" property="sysid"/>
+</resultMap>
+
+<sql id="Base_Column_List" >
+	m.id,m.brandName,m.remark,m.sysid
+</sql>
+
+<sql id="Example_Where_Clause">
+	where 1=1
+	<trim suffixOverrides="," >
+		<if test="id != null and id > 0" >
+			and m.id = #{id}
+		</if>
+		<if test="brandName != null and brandName != ''" >
+		    and m.brandName like '%'+#{brandName}+'%'
+		</if>
+		<if test="remark != null and remark != ''" >
+		    and m.remark = #{remark}
+		</if>
+		<if test="sysid != null and sysid != ''" >
+		    and m.sysid = #{sysid}
+		</if>
+	</trim>
+</sql>
+
+<insert id="add" parameterType="Object" >
+	insert into sys_brand(brandName,remark,sysid) values(#{brandName},#{remark},#{sysid})
+</insert>
+
+<update id="updateBySelective" parameterType="Object" >
+	update sys_brand set 
+	<trim suffixOverrides="," >
+		<if test="brandName != null and brandName != '' ">
+			brandName=#{brandName},
+		</if>
+		<if test="remark != null and remark != '' ">
+			remark=#{remark},
+		</if>
+	</trim> where id=#{id}
+</update>
+
+<delete id="delete" parameterType="Object">
+	delete from sys_brand where id = #{id}
+</delete>
+
+<select id="queryById" resultMap="BaseResultMap" parameterType="Object">
+	select <include refid="Base_Column_List" /> from sys_brand m  where m.id = #{id}
+</select>
+
+<select id="queryByList" resultMap="BaseResultMap" parameterType="Object">
+	select <include refid="Base_Column_List"/> from sys_brand m 
+	<include refid="Example_Where_Clause"/> 
+</select>
+
+<select id="queryDataByList" resultMap="BaseResultMap" parameterType="Object">
+	select <include refid="Base_Column_List"/> from sys_brand m 
+	<include refid="Example_Where_Clause"/> 
+</select>
+</mapper>

@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.finemanagement.dao.iot.SysThresholdDao" > 
+<!-- Result Map-->
+<resultMap id="BaseResultMap" type="com.finemanagement.entity.iot.SysThreshold" >
+	<result column="id" property="id"/>
+	<result column="ruleName" property="ruleName"/>
+	<result column="openStatus" property="openStatus"/>
+	<result column="greenhouseid" property="greenhouseid"/>
+	<result column="baseid" property="baseid"/>
+	<result column="baseName" property="baseName"/>
+	<result column="greenhouseName" property="greenhouseName"/>
+	<result column="airTemperatureMin" property="airTemperatureMin"/>
+	<result column="airTemperatureMax" property="airTemperatureMax"/>
+	<result column="airTemperatureMsg" property="airTemperatureMsg"/>
+	<result column="airHumidityMin" property="airHumidityMin"/>
+	<result column="airHumidityMax" property="airHumidityMax"/>
+	<result column="airHumidityMsg" property="airHumidityMsg"/>
+	<result column="soilMoistureMin" property="soilMoistureMin"/>
+	<result column="soilMoistureMax" property="soilMoistureMax"/>
+	<result column="soilMoistureMsg" property="soilMoistureMsg"/>
+	<result column="bladeTemperatureMin" property="bladeTemperatureMin"/>
+	<result column="bladeTemperatureMax" property="bladeTemperatureMax"/>
+	<result column="bladeTemperatureMsg" property="bladeTemperatureMsg"/>
+</resultMap>
+
+<!-- sys_base table all fields -->
+<sql id="Base_Column_List" >
+	m.id,m.ruleName,m.openStatus,m.greenhouseid,m.baseid,m.airTemperatureMin,m.airTemperatureMax,m.airTemperatureMsg,
+	m.airHumidityMin,m.airHumidityMax,m.airHumidityMsg,m.soilMoistureMin,m.soilMoistureMax,m.soilMoistureMsg,
+	m.bladeTemperatureMin,m.bladeTemperatureMax,m.bladeTemperatureMsg
+</sql>
+
+<!-- 查询条件 -->
+<sql id="Example_Where_Clause">
+where 1=1
+<trim suffixOverrides="," >
+	<if test="id != null" >
+		and id = #{id}
+	</if>
+	<if test="ruleName != null and ruleName != ''" >
+	    and ruleName = #{ruleName}
+	</if>
+	<if test="openStatus != null and openStatus != ''" >
+	    and openStatus = #{openStatus}
+	</if>
+	<if test="greenhouseid != null and greenhouseid > 0" >
+	    and greenhouseid = #{greenhouseid}
+	</if>
+	<if test="baseid != null and baseid > 0" >
+	    and baseid = #{baseid}
+	</if>
+	<if test="airTemperatureMin != null and airTemperatureMin != ''" >
+	    and airTemperatureMin = #{airTemperatureMin}
+	</if>
+	<if test="airTemperatureMax != null and airTemperatureMax != ''" >
+	    and airTemperatureMax = #{airTemperatureMax}
+	</if>
+	<if test="airTemperatureMsg != null and airTemperatureMsg != ''" >
+	    and airTemperatureMsg = #{airTemperatureMsg}
+	</if>
+	<if test="airHumidityMin != null and airHumidityMin != ''" >
+	    and airHumidityMin = #{airHumidityMin}
+	</if>
+	<if test="airHumidityMax != null and airHumidityMax != ''" >
+	    and airHumidityMax = #{airHumidityMax}
+	</if>
+	<if test="airHumidityMsg != null and airHumidityMsg != ''" >
+	    and airHumidityMsg = #{airHumidityMsg}
+	</if>
+	<if test="soilMoistureMin != null and soilMoistureMin != ''" >
+	    and soilMoistureMin = #{soilMoistureMin}
+	</if>
+	<if test="soilMoistureMax != null and soilMoistureMax != ''" >
+	    and soilMoistureMax = #{soilMoistureMax}
+	</if>
+	<if test="soilMoistureMsg != null and soilMoistureMsg != ''" >
+	    and soilMoistureMsg = #{soilMoistureMsg}
+	</if>
+	<if test="bladeTemperatureMin != null and bladeTemperatureMin != ''" >
+	    and bladeTemperatureMin = #{bladeTemperatureMin}
+	</if>
+	<if test="bladeTemperatureMax != null and bladeTemperatureMax != ''" >
+	    and bladeTemperatureMax = #{bladeTemperatureMax}
+	</if>
+	<if test="bladeTemperatureMsg != null and bladeTemperatureMsg != ''" >
+	    and bladeTemperatureMsg = #{bladeTemperatureMsg}
+	</if>
+</trim>
+</sql>
+
+<!-- 插入记录 -->
+<insert id="add" parameterType="Object" >
+insert into sys_threshold(ruleName,openStatus,greenhouseid,baseid,airTemperatureMin,airTemperatureMax,airTemperatureMsg,
+airHumidityMin,airHumidityMax,airHumidityMsg,soilMoistureMin,soilMoistureMax,soilMoistureMsg,bladeTemperatureMin,
+bladeTemperatureMax,bladeTemperatureMsg)
+values(#{ruleName},#{openStatus},#{greenhouseid},#{baseid},#{airTemperatureMin},#{airTemperatureMax},#{airTemperatureMsg},
+#{airHumidityMin},#{airHumidityMax},#{airHumidityMsg},#{soilMoistureMin},#{soilMoistureMax},#{soilMoistureMsg},#{bladeTemperatureMin},
+#{bladeTemperatureMax},#{bladeTemperatureMsg})
+</insert>
+
+<!-- 修改记录，只修改只不为空的字段 -->
+<update id="updateBySelective" parameterType="Object" >
+	update sys_threshold set 
+	<trim suffixOverrides="," >
+	<if test="ruleName != null and ruleName != ''" >
+	    ruleName = #{ruleName},
+	</if>
+	<if test="openStatus != null and openStatus != ''" >
+	    openStatus = #{openStatus},
+	</if>
+	<if test="airTemperatureMin != null and airTemperatureMin != ''" >
+	    airTemperatureMin = #{airTemperatureMin},
+	</if>
+	<if test="airTemperatureMax != null and airTemperatureMax != ''" >
+	    airTemperatureMax = #{airTemperatureMax},
+	</if>
+	<if test="airTemperatureMsg != null and airTemperatureMsg != ''" >
+	    airTemperatureMsg = #{airTemperatureMsg},
+	</if>
+	<if test="airHumidityMin != null and airHumidityMin != ''" >
+	    airHumidityMin = #{airHumidityMin},
+	</if>
+	<if test="airHumidityMax != null and airHumidityMax != ''" >
+	    airHumidityMax = #{airHumidityMax},
+	</if>
+	<if test="airHumidityMsg != null and airHumidityMsg != ''" >
+	    airHumidityMsg = #{airHumidityMsg},
+	</if>
+	<if test="soilMoistureMin != null and soilMoistureMin != ''" >
+	    soilMoistureMin = #{soilMoistureMin},
+	</if>
+	<if test="soilMoistureMax != null and soilMoistureMax != ''" >
+	    soilMoistureMax = #{soilMoistureMax},
+	</if>
+	<if test="soilMoistureMsg != null and soilMoistureMsg != ''" >
+	    soilMoistureMsg = #{soilMoistureMsg},
+	</if>
+	<if test="bladeTemperatureMin != null and bladeTemperatureMin != ''" >
+	    bladeTemperatureMin = #{bladeTemperatureMin},
+	</if>
+	<if test="bladeTemperatureMax != null and bladeTemperatureMax != ''" >
+	    bladeTemperatureMax = #{bladeTemperatureMax},
+	</if>
+	<if test="bladeTemperatureMsg != null and bladeTemperatureMsg != ''" >
+	    bladeTemperatureMsg = #{bladeTemperatureMsg},
+	</if>
+	<if test="greenhouseid != null and greenhouseid > 0" >
+	    greenhouseid = #{greenhouseid},
+	</if>
+	<if test="baseid != null and baseid > 0" >
+	    baseid = #{baseid}
+	</if>
+	</trim> where id=#{id}
+</update>
+
+<delete id="delete" parameterType="Object">
+	delete from sys_threshold where id = #{id}
+</delete>
+
+<select id="queryById" resultMap="BaseResultMap" parameterType="Object">
+	select <include refid="Base_Column_List"/>,b.baseName,g.name as greenhouseName from sys_threshold m 
+	left join sys_base b on m.baseid = b.id
+	left join sys_greenhouse g on m.greenhouseid = g.id
+	where m.id = #{id}
+</select>
+
+<select id="queryByList" resultMap="BaseResultMap" parameterType="Object">
+	select <include refid="Base_Column_List"/>,b.baseName,g.name as greenhouseName from sys_threshold m 
+	left join sys_base b on m.baseid = b.id
+	left join sys_greenhouse g on m.greenhouseid = g.id
+	<include refid="Example_Where_Clause"/> 
+</select>
+</mapper>

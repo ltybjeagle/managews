@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.finemanagement.dao.user.SysMenuDao" > 
+<!-- 查询结果-->
+<resultMap id="BaseResultMap" type="com.finemanagement.entity.user.SysMenu" >
+	<result column="id" property="id"/>
+	<result column="name" property="name"/>
+	<result column="url" property="url"/>
+	<result column="parentId" property="parentId"/>
+	<result column="deleted" property="deleted"/>
+	<result column="createTime" property="createTime"/>
+	<result column="updateTime" property="updateTime"/>
+	<result column="rank" property="rank"/>
+	<result column="actions" property="actions"/>
+	<result column="sysid" property="sysid"/>
+	<result column="sysname" property="sysname"/>
+	<result column="levelno" property="levelno"/>
+	<result column="isleaf" property="isleaf"/>
+</resultMap>
+
+<!-- 扩展字段 -->
+<resultMap id="ExtResultMap" extends="BaseResultMap" type="com.finemanagement.entity.user.SysMenu" >
+	<result column="subCount" property="subCount"/>
+</resultMap>
+
+<!-- 菜单表查询字段 -->
+<sql id="Base_Column_List" >
+	m.id,m.name,m.url,m.parentId,m.deleted,m.createTime,m.updateTime,m.rank,m.actions,m.sysid,m.levelno,m.isleaf
+</sql>
+   
+<!-- 查询条件 -->
+<sql id="Example_Where_Clause">
+	where 1=1 and deleted = 0
+	<trim suffixOverrides="," >
+		<if test="id != null" >
+			and m.id = #{id}
+		</if>
+		<if test="name != null and name != ''" >
+		 	and m.name like '%'+#{name}+'%'
+		</if>
+		<if test="url != null and url != ''" >
+		    and m.url = #{url}
+		</if>
+		<if test="parentId != null" >
+		    and m.parentId = #{parentId}
+		</if>
+		<if test="parentId == null" >
+		    and m.parentId is null
+		</if>
+		<if test="createTime != null" >
+		    and m.createTime = #{createTime}
+		</if>
+		<if test="rank != null" >
+		    and m.rank = #{rank}
+		</if>
+		<if test="actions != null and actions != ''" >
+		    and m.actions = #{actions}
+		</if>
+		<if test="sysid != null and sysid != ''" >
+		    and m.sysid = #{sysid}
+		</if>
+	</trim>
+</sql>
+
+<!-- 查询系统菜单列表 -->
+<select id="queryByList" resultMap="ExtResultMap" parameterType="Object">
+	select <include refid="Base_Column_List"/>,n.sysname,(SELECT COUNT(*) FROM sys_menu c WHERE c.parentId = m.id and deleted = 0) 
+	AS subCount from sys_menu m left join sys_identifier n on n.sysid = m.sysid
+	<include refid="Example_Where_Clause"/>
+	and exists (select 1 from sys_identifier iden where iden.sysid = m.sysid )
+</select>
+
+<!-- 获取菜单 -->
+<select id="getRootMenu" resultMap="BaseResultMap" parameterType="Object">
+	select id,name,url,parentId,actions,levelno,isleaf from sys_menu where deleted= 0 and parentId is null 
+	and levelno = 1 and sysid = #{sysid}
+</select>
+
+<!-- 获取子菜单-->
+<select id="getChildMenu" resultMap="BaseResultMap" parameterType="Object">
+	select id,name,url,parentId,actions,levelno,isleaf from sys_menu where deleted= 0 and parentId is not null 
+	and levelno = 2 and sysid = #{sysid}
+</select>
+
+<!-- 获取末级菜单-->
+<select id="getFinalMenu" resultMap="BaseResultMap" parameterType="Object">
+	select id,name,url,parentId,actions,levelno,isleaf from sys_menu where deleted= 0 and parentId is not null 
+	and levelno = 3 and sysid = #{sysid}
+</select>
+
+<!-- 获取菜单 -->
+<select id="getRoleRootMenu" resultMap="BaseResultMap" parameterType="Object">
+	select id,name,url,parentId,actions from sys_menu where deleted= 0 and parentId is null and sysid = #{sysid}
+</select>
+
+<select id="getRoleRootMenuByRel" resultMap="BaseResultMap" parameterType="Object">
+	select id,name,url,parentId,actions from sys_menu m where deleted= 0 and parentId is null and sysid = #{sysid}
+	and exists (select * from sys_role_rel r where r.objId = m.id and relType = 0 and r.roleId = #{roleId})
+</select>
+
+<!-- 获取子菜单-->
+<select id="getRoleChildMenu" resultMap="BaseResultMap" parameterType="Object">
+	select id,name,url,parentId,actions from sys_menu where deleted= 0 and parentId is not null and sysid = #{sysid}
+</select>
+
+<select id="getRoleChildMenuByRel" resultMap="BaseResultMap" parameterType="Object">
+	select id,name,url,parentId,actions from sys_menu m where deleted= 0 and parentId is not null and sysid = #{sysid}
+	and exists (select * from sys_role_rel r where r.objId = m.id and relType = 0 and r.roleId = #{roleId})
+</select>
+
+<!-- 根据角色Id获取菜单（不需要父菜单） -->
+<select id="getMenuByRoleId"  resultMap="BaseResultMap" parameterType="Object">
+	select id,name,url,parentId,actions from sys_menu m where deleted= 0 and parentId is not null and exists (select * from 
+	sys_role_rel r where r.objId = m.id and relType = 0 and r.roleId = #{roleId})
+</select>
+
+<!-- 根据用户id查询父菜单菜单 -->
+<select id="getRootMenuByUser"  resultMap="BaseResultMap" parameterType="Object">
+	select distinct id, name, url, parentId, actions, levelno, isleaf from sys_menu m where deleted= 0 and parentId is null 
+	and levelno = 1 and sysid = #{sysid} and exists (select * from sys_role_rel r where r.objId = m.id and r.relType = 0
+	and exists (select 1 from sys_role_rel u where u.roleId = r.roleId  and u.relType = 1 and u.objId = #{userId}))
+</select>
+
+<!-- 根据用户id查询子菜单菜单 -->
+<select id="getChildMenuByUser"  resultMap="BaseResultMap" parameterType="Object">
+	select distinct id, name, url, parentId, actions, levelno, isleaf from sys_menu m where deleted= 0 and parentId is not null 
+	and levelno = 2 and sysid = #{sysid} and exists (select * from sys_role_rel r where r.objId = m.id and r.relType = 0
+	and exists (select 1 from sys_role_rel u where u.roleId = r.roleId  and u.relType = 1 and u.objId = #{userId}))
+</select>
+
+<select id="getFinalMenuByUser"  resultMap="BaseResultMap" parameterType="Object">
+	select distinct id, name, url, parentId, actions, levelno, isleaf from sys_menu m where deleted= 0 and parentId is not null 
+	and levelno = 3 and sysid = #{sysid} and exists (select * from sys_role_rel r where r.objId = m.id and r.relType = 0
+	and exists (select 1 from sys_role_rel u where u.roleId = r.roleId  and u.relType = 1 and u.objId = #{userId}))
+</select>
+</mapper>   

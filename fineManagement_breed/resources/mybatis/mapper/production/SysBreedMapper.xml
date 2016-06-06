@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.finemanagement.dao.production.SysBreedDao" > 
+<!-- Result Map-->
+<resultMap id="BaseResultMap" type="com.finemanagement.entity.production.SysBreed" >
+	<result column="id" property="id"/>
+	<result column="fowleryid" property="fowleryid"/>
+	<result column="baseid" property="baseid"/>
+	<result column="variety" property="variety"/>
+	<result column="varietyid" property="varietyid"/>
+	<result column="breedArea" property="breedArea"/>
+	<result column="breeder" property="breeder"/>
+	<result column="breedTechnician" property="breedTechnician"/>
+	<result column="wages" property="wages"/>
+	<result column="startTime" property="startTime"/>
+	<result column="endTime" property="endTime"/>
+	<result column="remark" property="remark"/>
+	<result column="breederName" property="breederName"/>
+	<result column="breedTechnicianName" property="breedTechnicianName"/>
+</resultMap>
+
+<sql id="Base_Column_List" >
+	m.id,m.fowleryid,m.baseid,m.varietyid,m.breedArea,m.breeder,m.breedTechnician,m.wages,m.startTime,m.endTime,m.remark
+</sql>
+
+<sql id="Example_Where_Clause">
+	where 1=1
+	<trim suffixOverrides="," >
+		<if test="id != null" >
+			and id = #{id}
+		</if>
+		<if test="fowleryid != null and fowleryid > 0" >
+		    and fowleryid = #{fowleryid}
+		</if>
+		<if test="baseid != null and baseid > 0" >
+		    and baseid = #{baseid}
+		</if>
+		<if test="breedArea != breedArea" >
+		    and breedArea = #{breedArea}
+		</if>
+		<if test="breeder != null and breeder > 0" >
+		    and breeder = #{breeder}
+		</if>
+		<if test="breedTechnician != null and breedTechnician > 0" >
+		    and breedTechnician = #{breedTechnician}
+		</if>
+		<if test="wages != null and wages != ''" >
+		    and wages = #{wages}
+		</if>
+		<if test="startTime != null and startTime != ''" >
+		    and startTime = #{startTime}
+		</if>
+		<if test="startStartTime != null and startStartTime != ''" >
+		    and startTime &gt;= #{startStartTime}
+		</if>
+		<if test="endStartTime != null and endStartTime != ''" >
+		    and startTime &lt;= #{endStartTime}
+		</if>
+		<if test="endTime != null and endTime != ''" >
+		    and endTime = #{endTime}
+		</if>
+		<if test="remark != null and remark != ''" >
+		    and remark = #{remark}
+		</if>
+	</trim>
+</sql>
+
+<insert id="add" parameterType="Object" >
+	insert into sys_breed(fowleryid,baseid,varietyid,breedArea,breeder,breedTechnician,wages,startTime,endTime,remark)
+	values(#{fowleryid},#{baseid},#{varietyid},#{breedArea},#{breeder},#{breedTechnician},#{wages},#{startTime},#{endTime}
+	,#{remark})
+</insert>
+
+<update id="updateBySelective" parameterType="Object" >
+	update sys_breed set 
+	<trim suffixOverrides="," >
+		<if test="fowleryid != null and fowleryid > 0 ">
+			fowleryid=#{fowleryid},
+		</if>
+		<if test="baseid != null and baseid > 0 ">
+			baseid=#{baseid},
+		</if>
+		<if test="varietyid != null and varietyid > 0 ">
+			varietyid=#{varietyid},
+		</if>
+		<if test="breedArea != null  ">
+			breedArea=#{breedArea},
+		</if>
+		<if test="breeder != null and breeder > 0 ">
+			breeder=#{breeder},
+		</if>
+		<if test="breedTechnician != null and breedTechnician > 0 ">
+			breedTechnician=#{breedTechnician},
+		</if>
+		<if test="wages != null and wages != '' ">
+			wages=#{wages},
+		</if>
+		<if test="startTime != null and startTime != '' ">
+			startTime=#{startTime},
+		</if>
+		<if test="endTime != null and endTime != '' ">
+			endTime=#{endTime},
+		</if>
+		<if test="remark != null and remark != '' ">
+			remark=#{remark},
+		</if>
+	</trim> where id=#{id}
+</update>
+
+<delete id="delete" parameterType="Object">
+	delete from sys_breed where id = #{id}
+</delete>
+
+<select id="queryById" resultMap="BaseResultMap" parameterType="Object">
+	select <include refid="Base_Column_List"/>,u1.employeeName as breederName,u2.employeeName as breedTechnicianName 
+	,var.varietyName as variety from sys_breed m 
+	left join sys_employees u1 on u1.id = m.breeder
+	left join sys_employees u2 on u2.id = m.breedTechnician 
+	left join sys_variety var on var.id = m.varietyid
+	where m.id = #{id}
+</select>
+
+<select id="queryByList" resultMap="BaseResultMap" parameterType="Object">
+	select <include refid="Base_Column_List"/>,u1.employeeName as breederName,u2.employeeName as breedTechnicianName 
+	,var.varietyName as variety from sys_breed m 
+	left join sys_employees u1 on u1.id = m.breeder
+	left join sys_employees u2 on u2.id = m.breedTechnician
+	left join sys_variety var on var.id = m.varietyid
+	<include refid="Example_Where_Clause"/> 
+</select>
+
+<select id="queryDataByList" resultMap="BaseResultMap" parameterType="Object">
+	select distinct var.id,var.varietyName as variety from sys_variety var 
+	left join sys_breed m on var.id = m.varietyid
+	<include refid="Example_Where_Clause"/> 
+</select>
+</mapper>

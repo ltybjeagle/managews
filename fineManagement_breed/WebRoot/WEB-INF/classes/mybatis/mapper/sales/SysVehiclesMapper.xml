@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.finemanagement.dao.sales.SysVehiclesDao" > 
+<!-- Result Map-->
+<resultMap id="BaseResultMap" type="com.finemanagement.entity.sales.SysVehicles" >
+	<result column="id" property="id"/>
+	<result column="vehiclesNo" property="vehiclesNo"/>
+	<result column="plateNum" property="plateNum"/>
+	<result column="brand" property="brand"/>
+	<result column="carAge" property="carAge"/>
+	<result column="carType" property="carType"/>
+	<result column="saleDate" property="saleDate"/>
+	<result column="saleSum" property="saleSum"/>
+	<result column="belong" property="belong"/>
+	<result column="remark" property="remark"/>
+	<result column="sysid" property="sysid"/>
+</resultMap>
+
+<!-- sys_base table all fields -->
+<sql id="Base_Column_List" >
+	m.id,m.vehiclesNo,m.plateNum,m.brand,m.carAge,m.carType,m.saleDate,m.saleSum,m.belong,m.remark,m.sysid
+</sql>
+
+<!-- 查询条件 -->
+<sql id="Example_Where_Clause">
+where 1=1
+<trim suffixOverrides="," >
+	<if test="id != null" >
+		and id = #{id}
+	</if>
+	<if test="vehiclesNo != null and vehiclesNo != ''" >
+	    and vehiclesNo = #{vehiclesNo}
+	</if>
+	<if test="plateNum != null and plateNum != ''" >
+	    and plateNum = #{plateNum}
+	</if>
+	<if test="brand != null and brand != ''" >
+	    and brand = #{brand}
+	</if>
+	<if test="carAge != null and carAge != ''" >
+	    and carAge = #{carAge}
+	</if>
+	<if test="carType != null and carType != ''" >
+	    and carType = #{carType}
+	</if>
+	<if test="saleDate != null and saleDate != ''" >
+	    and saleDate = #{saleDate}
+	</if>
+	<if test="saleSum != null and saleSum != ''" >
+	    and saleSum = #{saleSum}
+	</if>
+	<if test="belong != null and belong != ''" >
+	    and belong = #{belong}
+	</if>
+	<if test="remark != null and remark != ''" >
+	    and remark = #{remark}
+	</if>
+	<if test="sysid != null and sysid != ''" >
+	    and sysid = #{sysid}
+	</if>
+</trim>
+</sql>
+
+<!-- 插入记录 -->
+<insert id="add" parameterType="Object" >
+insert into sys_vehicles(vehiclesNo,plateNum,brand,carAge,carType,saleDate,saleSum,belong,remark,sysid)
+values(#{vehiclesNo},#{plateNum},#{brand},#{carAge},#{carType},#{saleDate},#{saleSum},#{belong},#{remark},#{sysid})
+</insert>
+
+<!-- 修改记录，只修改只不为空的字段 -->
+<update id="updateBySelective" parameterType="Object" >
+	update sys_vehicles set 
+	<trim suffixOverrides="," >
+	<if test="vehiclesNo != null and vehiclesNo != ''" >
+	    vehiclesNo = #{vehiclesNo},
+	</if>
+	<if test="plateNum != null and plateNum != ''" >
+	    plateNum = #{plateNum},
+	</if>
+	<if test="brand != null and brand != ''" >
+	    brand = #{brand},
+	</if>
+	<if test="carAge != null and carAge != ''" >
+	    carAge = #{carAge},
+	</if>
+	<if test="carType != null and carType != ''" >
+	    carType = #{carType},
+	</if>
+	<if test="saleDate != null and saleDate != ''" >
+	    saleDate = #{saleDate},
+	</if>
+	<if test="saleSum != null and saleSum != ''" >
+	    saleSum = #{saleSum},
+	</if>
+	<if test="belong != null and belong != ''" >
+	    belong = #{belong},
+	</if>
+	<if test="remark != null and remark != ''" >
+	    remark = #{remark}
+	</if>
+	</trim> where id=#{id}
+</update>
+
+<!-- 删除记录 -->
+<delete id="delete" parameterType="Object">
+	delete from sys_vehicles where id = #{id}
+</delete>
+
+<select id="queryById" resultMap="BaseResultMap" parameterType="Object">
+select <include refid="Base_Column_List" /> from sys_vehicles m  where id = #{id}
+</select>
+
+<select id="queryByList" resultMap="BaseResultMap" parameterType="Object">
+select <include refid="Base_Column_List"/> from sys_vehicles m 
+<include refid="Example_Where_Clause"/> 
+<if test="pager.orderCondition != null and pager.orderCondition != ''" >
+${pager.orderCondition}
+</if>
+</select>
+</mapper>

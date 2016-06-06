@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.finemanagement.dao.basic.SysFowleryDao" > 
+<resultMap id="BaseResultMap" type="com.finemanagement.entity.basic.SysFowlery" >
+	<result column="id" property="id"/>
+	<result column="name" property="name"/>
+	<result column="breedArea" property="breedArea"/>
+	<result column="baseid" property="baseid"/>
+	<result column="ftype" property="ftype"/>
+	<result column="createTime" property="createTime"/>
+	<result column="breeder" property="breeder"/>
+	<result column="remark" property="remark"/>
+	<result column="technician" property="technician"/>
+	<result column="baseName" property="baseName"/>
+	<result column="fowleryName" property="fowleryName"/>
+</resultMap>
+
+<sql id="Base_Column_List" >
+	m.id,m.name,m.breedArea,m.baseid,m.ftype,m.createTime,m.breeder,m.remark,m.technician
+</sql>
+
+<sql id="Example_Where_Clause">
+	where 1=1
+	<trim suffixOverrides="," >
+		<if test="id != null" >
+			and m.id = #{id}
+		</if>
+		<if test="name != null and name != ''" >
+		    and m.name like '%'+#{name}+'%'
+		</if>
+		<if test="breedArea != null" >
+		    and m.breedArea = #{breedArea}
+		</if>
+		<if test="baseid != null and baseid > 0" >
+		    and m.baseid = #{baseid}
+		</if>
+		<if test="ftype != null and ftype > 0" >
+		    and m.ftype = #{ftype}
+		</if>
+		<if test="breeder != null" >
+		    and m.breeder = #{breeder}
+		</if>
+		<if test="createTime != null" >
+		    and m.createTime = #{createTime}
+		</if>
+		<if test="remark != null and remark != ''" >
+		    and m.remark = #{remark}
+		</if>
+		<if test="technician != null and technician != ''" >
+		    and m.technician = #{technician}
+		</if>
+	</trim>
+</sql>
+
+<insert id="add" parameterType="Object" >
+	insert into sys_fowlery(name,breedArea,baseid,ftype,breeder,createTime,remark,technician)
+	values(#{name},#{breedArea},#{baseid},#{ftype},#{breeder},#{createTime},#{remark},#{technician})
+</insert>
+
+<update id="update" parameterType="Object" >
+	update sys_fowlery set name=#{name},breedArea=#{breedArea},baseid=#{baseid},ftype=#{ftype}
+	,breeder=#{breeder},createTime=#{createTime},remark=#{remark},technician=#{technician} where id=#{id}
+</update>
+
+<update id="updateBySelective" parameterType="Object" >
+	update sys_fowlery set 
+	<trim suffixOverrides="," >
+		<if test="name != null and name != '' ">
+			name=#{name},
+		</if>
+		<if test="breedArea != null  ">
+			breedArea=#{breedArea},
+		</if>
+		<if test="baseid != null and baseid > 0">
+			baseid=#{baseid},
+		</if>
+		<if test="ftype != null and ftype > 0 ">
+			ftype=#{ftype},
+		</if>
+		<if test="breeder != null  ">
+			breeder=#{breeder},
+		</if>
+		<if test="createTime != null  ">
+			createTime=#{createTime},
+		</if>
+		<if test="remark != null  and remark != '' ">
+			remark=#{remark},
+		</if>
+		<if test="technician != null  and technician != '' ">
+			technician=#{technician},
+		</if>
+	</trim> where id=#{id}
+</update>
+
+<delete id="delete" parameterType="Object">
+	delete from sys_fowlery where id = #{id}
+</delete>
+
+<select id="queryById" resultMap="BaseResultMap" parameterType="Object">
+	select <include refid="Base_Column_List"/>,baseName,fowleryName from sys_fowlery m 
+	left join sys_base b on m.baseid = b.id 
+	left join sys_fowlery_type type on m.ftype = type.id where m.id = #{id}
+</select>
+
+<select id="queryByList" resultMap="BaseResultMap" parameterType="Object">
+	select <include refid="Base_Column_List"/>,baseName,fowleryName from sys_fowlery m 
+	left join sys_base b on m.baseid = b.id 
+	left join sys_fowlery_type type on m.ftype = type.id
+	<include refid="Example_Where_Clause"/> 
+</select>
+
+<select id="queryDataByList" resultMap="BaseResultMap" parameterType="Object">
+	select <include refid="Base_Column_List"/>,baseName,fowleryName from sys_fowlery m 
+	left join sys_base b on m.baseid = b.id 
+	left join sys_fowlery_type type on m.ftype = type.id
+	<include refid="Example_Where_Clause"/> 
+</select>
+</mapper>

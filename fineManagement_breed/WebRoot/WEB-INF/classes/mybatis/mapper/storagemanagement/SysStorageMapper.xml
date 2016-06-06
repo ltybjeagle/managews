@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.finemanagement.dao.storagemanagement.SysStoremanageDao" > 
+<resultMap id="BaseResultMap" type="com.finemanagement.entity.storagemanagement.sysStoremanageEntity" >
+	<result column="id" property="id"/>
+	<result column="warehouseid" property="warehouseid"/>
+	<result column="principal" property="principal"/>
+	<result column="registertime" property="registertime"/>
+	<result column="description" property="description"/>
+	<result column="remark" property="remark"/>
+	<result column="sysid" property="sysid"/>
+	<result column="whName" property="whName"/>
+	<result column="principalName" property="principalName"/>
+</resultMap>
+
+<sql id="Base_Column_List" >
+	m.id,m.warehouseid,m.principal,m.registertime,m.description,m.remark,m.sysid
+</sql>
+
+<sql id="Example_Where_Clause">
+	where 1=1
+	<trim suffixOverrides="," >
+		<if test="id != null" >
+			and id = #{id}
+		</if>
+		<if test="warehouseid != null and warehouseid != ''" >
+		    and warehouseid = #{warehouseid}
+		</if>	
+	</trim>
+</sql>
+
+<insert id="add" parameterType="Object" >
+	insert into sys_storemanage(warehouseid,principal,registertime,description,remark,sysid)
+	values(#{warehouseid},#{principal},#{registertime},#{description},#{remark},
+	#{sysid})
+</insert>
+
+<delete id="delete" parameterType="Object">
+	delete from sys_storemanage where id = #{id}
+</delete>
+
+<select id="queryById" resultMap="BaseResultMap" parameterType="Object">
+	select <include refid="Base_Column_List" /> ,whName,u1.employeeName as principalName from sys_storemanage m 
+	left join sys_warehouse wa on wa.id = m.warehouseid
+	left join sys_employees u1 on u1.id = m.principal
+	where m.id = #{id}
+</select>
+
+<update id="updateBySelective" parameterType="Object" >
+	update sys_storemanage set 
+	<trim suffixOverrides="," >
+		<if test="warehouseid != null and warehouseid != ''" >
+		    warehouseid = #{warehouseid},
+		</if>
+		<if test="principal != null and principal != ''" >
+		    principal = #{principal},
+		</if>
+		<if test="registertime != null and registertime != ''" >
+		    registertime = #{registertime},
+		</if>
+		<if test="description != null and description != ''" >
+		    description = #{description},
+		</if>
+		<if test="remark != null and remark != ''" >
+		    remark = #{remark},
+		</if>
+	</trim> where id=#{id}
+</update>
+
+<select id="queryByList" resultMap="BaseResultMap" parameterType="Object">
+	select <include refid="Base_Column_List"/>,whName,u1.employeeName as principalName from sys_storemanage m 
+	left join sys_warehouse  wa on wa.id = m.warehouseid
+	left join sys_employees u1 on u1.id = m.principal
+	<include refid="Example_Where_Clause"/> 
+</select>
+</mapper>

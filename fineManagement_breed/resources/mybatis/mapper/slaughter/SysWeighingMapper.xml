@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.finemanagement.dao.slaughter.SysWeighingDao" > 
+<resultMap id="BaseResultMap" type="com.finemanagement.entity.slaughter.SysWeighing" >
+	<result column="id" property="id"/>
+	<result column="slaughterBatchId" property="slaughterBatchId"/>
+	<result column="slaughterType" property="slaughterType"/>
+	<result column="weightNo" property="weightNo"/>
+	<result column="weight" property="weight"/>
+	<result column="weighedTime" property="weighedTime"/>
+	<result column="remark" property="remark"/>
+	<result column="slaughterBatch" property="slaughterBatch"/>
+	<result column="createTime" property="createTime"/>
+</resultMap>
+
+<sql id="Base_Column_List" >
+	m.id,m.slaughterBatchId,m.slaughterType,m.weightNo,m.weight,m.weighedTime,m.createTime,m.remark
+</sql>
+
+<sql id="Example_Where_Clause">
+	where 1=1
+	<trim suffixOverrides="," >
+		<if test="id != null" >
+			and m.id = #{id}
+		</if>
+		<if test="slaughterBatchId != null and slaughterBatchId > 0" >
+		    and m.slaughterBatchId = #{slaughterBatchId}
+		</if>
+		<if test="slaughterType != null and slaughterType != ''" >
+		    and m.slaughterType = #{slaughterType}
+		</if>
+		<if test="weightNo != null and weightNo != ''" >
+		    and m.weightNo like '%'+#{weightNo}+'%'
+		</if>
+		<if test="weight != null and weight != ''" >
+		    and m.weight = #{weight}
+		</if>
+		<if test="weighedTime != null and weighedTime != ''" >
+		    and m.weighedTime = #{weighedTime}
+		</if>
+		<if test="start_date != null and start_date != '' ">
+			and m.weighedTime &gt;= #{start_date}
+		</if>
+		<if test="end_date != null and end_date != '' ">
+			and m.weighedTime &lt;= #{end_date}
+		</if>
+		<if test="createTime != null and createTime != ''" >
+		    and m.createTime = #{createTime}
+		</if>
+		<if test="slaughterBatch != null and slaughterBatch != ''" >
+		    and n.slaughterBatch like '%'+#{slaughterBatch}+'%'
+		</if>
+		<if test="remark != null and remark != ''" >
+		    and m.remark = #{remark}
+		</if>
+	</trim>
+</sql>
+
+<insert id="add" parameterType="Object" >
+	insert into sys_weighing(slaughterBatchId,slaughterType,weightNo,weight,weighedTime,createTime,remark)
+	values(#{slaughterBatchId},#{slaughterType},#{weightNo},#{weight},#{weighedTime},#{createTime},#{remark})
+</insert>
+
+<update id="updateBySelective" parameterType="Object" >
+	update sys_weighing set 
+	<trim suffixOverrides="," >
+		<if test="slaughterBatchId != null and slaughterBatchId > 0" >
+		    slaughterBatchId = #{slaughterBatchId},
+		</if>
+		<if test="slaughterType != null and slaughterType != ''" >
+		    slaughterType = #{slaughterType},
+		</if>
+		<if test="weightNo != null and weightNo != ''" >
+		    weightNo = #{weightNo},
+		</if>
+		<if test="weight != null and weight != ''" >
+		    weight = #{weight},
+		</if>
+		<if test="weighedTime != null and weighedTime != ''" >
+		    weighedTime = #{weighedTime},
+		</if>
+		<if test="remark != null and remark != ''" >
+		    remark = #{remark}
+		</if>
+	</trim> where id=#{id}
+</update>
+
+<delete id="delete" parameterType="Object">
+	delete from sys_weighing where id = #{id}
+</delete>
+
+<select id="queryById" resultMap="BaseResultMap" parameterType="Object">
+	select <include refid="Base_Column_List"/>,n.slaughterBatch from sys_weighing m 
+	left join sys_slaughter n on n.id = m.slaughterBatchId where m.id = #{id}
+</select>
+
+<select id="queryByList" resultMap="BaseResultMap" parameterType="Object">
+	select <include refid="Base_Column_List"/>,n.slaughterBatch from sys_weighing m 
+	left join sys_slaughter n on n.id = m.slaughterBatchId
+	<include refid="Example_Where_Clause"/> 
+</select>
+</mapper>

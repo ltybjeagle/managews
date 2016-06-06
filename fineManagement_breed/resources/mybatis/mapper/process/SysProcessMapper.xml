@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.finemanagement.dao.process.SysProcessDao" > 
+<resultMap id="BaseResultMap" type="com.finemanagement.entity.process.SysProcess" >
+	<result column="id" property="id"/>
+	<result column="slaughterbatch" property="slaughterbatch"/>
+	<result column="numberslaughter" property="numberslaughter"/>
+	<result column="processtime" property="processtime"/>
+	<result column="processname" property="processname"/>
+	<result column="processingstaff" property="processingstaff"/>
+	<result column="is_completed" property="is_completed"/>
+	<result column="createTime" property="createTime"/>
+	<result column="batchprocessing" property="batchprocessing"/>
+	<result column="sbatch" property="sbatch"/>
+	<result column="remark" property="remark"/>
+</resultMap>
+
+<sql id="Base_Column_List" >
+	m.id,m.slaughterbatch,m.numberslaughter,m.processtime,m.processname,m.processingstaff,m.is_completed,m.createTime,
+	m.batchprocessing,m.remark
+</sql>
+
+<sql id="Example_Where_Clause">
+	where 1=1
+	<trim suffixOverrides="," >
+		<if test="slaughterbatch != null and slaughterbatch != ''" >
+		   and m.slaughterbatch = #{slaughterbatch}
+		</if>
+		<if test="numberslaughter != null and numberslaughter != ''" >
+		   and m.numberslaughter = #{numberslaughter}
+		</if>
+		<if test="processtime != null and processtime != ''" >
+		   and m.processtime = #{processtime}
+		</if>
+		<if test="start_date != null and start_date != ''" >
+		    and m.processtime &gt;= #{start_date}
+		</if>
+		<if test="end_date != null and end_date != ''" >
+		    and m.processtime &lt;= #{end_date}
+		</if>
+		<if test="batchprocessing != null and batchprocessing != ''" >
+		    and m.batchprocessing like '%'+#{batchprocessing}+'%'
+		</if>
+		<if test="createTime != null and createTime != ''" >
+		    and m.createTime = #{createTime}
+		</if>
+	</trim>
+</sql>
+
+<insert id="add" parameterType="Object" >
+	insert into sys_process(slaughterbatch,numberslaughter,processname,processtime,processingstaff,is_completed,createTime,
+	batchprocessing,remark)
+	values(#{slaughterbatch},#{numberslaughter},#{processname},#{processtime},#{processingstaff},#{is_completed},#{createTime},
+	#{batchprocessing},#{remark})
+</insert>
+
+<update id="updateBySelective" parameterType="Object" >
+	update sys_process set 
+	<trim suffixOverrides="," >
+		<if test="processname != null and processname != ''" >
+		    processname = #{processname},
+		</if>
+		<if test="processtime != null and processtime != ''" >
+		    processtime = #{processtime},
+		</if>
+		<if test="processingstaff != null and processingstaff != ''" >
+		    processingstaff = #{processingstaff},
+		</if>
+		<if test="is_completed != null and is_completed != ''" >
+		    is_completed = #{is_completed},
+		</if>
+		<if test="remark != null and remark != ''" >
+		    remark = #{remark}
+		</if>
+	</trim> where id=#{id}
+</update>
+
+<delete id="delete" parameterType="Object">
+	delete from sys_process where id = #{id}
+</delete>
+
+<select id="queryById" resultMap="BaseResultMap" parameterType="Object">
+	select <include refid="Base_Column_List"/>,s.slaughterBatch as sbatch from sys_process m 
+	left join sys_slaughter s on m.slaughterbatch = s.id where m.id = #{id}
+</select>
+
+<select id="queryByList" resultMap="BaseResultMap" parameterType="Object">
+	select <include refid="Base_Column_List"/>,s.slaughterBatch as sbatch from sys_process m 
+	left join sys_slaughter s on m.slaughterbatch = s.id
+	<include refid="Example_Where_Clause"/>
+</select>
+</mapper>

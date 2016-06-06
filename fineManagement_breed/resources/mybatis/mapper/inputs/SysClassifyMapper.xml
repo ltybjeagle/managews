@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.finemanagement.dao.inputs.SysClassifyDao" > 
+<resultMap id="BaseResultMap" type="com.finemanagement.entity.inputs.SysClassify" >
+	<result column="id" property="id"/>
+	<result column="classname" property="classname"/>
+	<result column="sort" property="sort"/>
+	<result column="sysid" property="sysid"/>
+</resultMap>
+
+<sql id="Base_Column_List" >
+	m.id,m.classname,m.sort,m.sysid
+</sql>
+
+<sql id="Example_Where_Clause">
+	where 1=1
+	<trim suffixOverrides="," >
+		<if test="id != null and id > 0" >
+			and id = #{id}
+		</if>
+		<if test="classname != null and classname != ''" >
+		    and classname like '%'+#{classname}+'%'
+		</if>
+		<if test="sort != null and sort != ''" >
+		    and sort = #{sort}
+		</if>
+		<if test="sysid != null and sysid != ''" >
+		    and sysid = #{sysid}
+		</if>
+	</trim>
+</sql>
+
+<insert id="add" parameterType="Object" >
+	insert into sys_classify(classname,sort,sysid) values(#{classname},#{sort},#{sysid})
+</insert>
+
+<update id="updateBySelective" parameterType="Object" >
+	update sys_classify set 
+	<trim suffixOverrides="," >
+		<if test="classname != null and classname != '' ">
+			classname=#{classname},
+		</if>
+		<if test="sort != null and sort != '' ">
+			sort=#{sort},
+		</if>
+	</trim> where id=#{id}
+</update>
+
+<delete id="delete" parameterType="Object">
+	delete from sys_classify where id = #{id}
+</delete>
+
+<select id="queryById" resultMap="BaseResultMap" parameterType="Object">
+	select <include refid="Base_Column_List" /> from sys_classify m where m.id = #{id}
+</select>
+
+<select id="queryByList" resultMap="BaseResultMap" parameterType="Object">
+	select <include refid="Base_Column_List"/> from sys_classify m 
+	<include refid="Example_Where_Clause"/> 
+</select>
+
+<select id="queryDataByList" resultMap="BaseResultMap" parameterType="Object">
+	select <include refid="Base_Column_List"/> from sys_classify m 
+	<include refid="Example_Where_Clause"/> 
+</select>
+</mapper>

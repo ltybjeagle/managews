@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.finemanagement.dao.quarantine.QuarantineDao" > 
+<resultMap id="BaseResultMap" type="com.finemanagement.entity.quarantine.SysQuarantine" >
+	<result column="id" property="id"/>
+	<result column="quarantineofficers" property="quarantineofficers"/>
+	<result column="quarantineitems" property="quarantineitems"/>
+	<result column="quarantineResults" property="quarantineResults"/>
+	<result column="quarantinetime" property="quarantinetime"/>
+	<result column="batchprocessing" property="batchprocessing"/>
+	<result column="quarantineBatch" property="quarantineBatch"/>
+	<result column="createTime" property="createTime"/>
+	<result column="pbatch" property="pbatch"/>
+	<result column="remark" property="remark"/>
+	<result column="uuid" property="uuid"/>
+</resultMap>
+
+<sql id="Base_Column_List" >
+	m.id,m.quarantineofficers,m.quarantineitems,m.quarantineResults,m.quarantinetime,m.batchprocessing,
+	m.createTime,m.quarantineBatch,m.remark,m.uuid
+</sql>
+
+<sql id="Example_Where_Clause">
+	where 1=1
+	<trim suffixOverrides="," >
+		<if test="quarantineofficers != null and quarantineofficers != ''" >
+		   and m.quarantineofficers = #{quarantineofficers}
+		</if>
+		<if test="quarantineitems != null and quarantineitems != ''" >
+		   and m.quarantineitems = #{quarantineitems}
+		</if>
+		<if test="quarantineResults != null and quarantineResults != ''" >
+		   and m.quarantineResults = #{quarantineResults}
+		</if>
+		<if test="quarantinetime != null and quarantinetime != ''" >
+		   and m.quarantinetime = #{quarantinetime}
+		</if>
+		<if test="start_date != null and start_date != ''" >
+		    and m.quarantinetime &gt;= #{start_date}
+		</if>
+		<if test="end_date != null and end_date != ''" >
+		    and m.quarantinetime &lt;= #{end_date}
+		</if>
+		<if test="batchprocessing != null and batchprocessing != ''" >
+		   and m.batchprocessing = #{batchprocessing}
+		</if>
+		<if test="createTime != null and createTime != ''" >
+		   and m.createTime = #{createTime}
+		</if>
+		<if test="quarantineBatch != null and quarantineBatch != ''" >
+		   and m.quarantineBatch like '%'+#{quarantineBatch}+'%'
+		</if>
+	</trim>
+</sql>
+
+<insert id="add" parameterType="Object" >
+	insert into sys_quarantine(quarantineofficers,quarantineitems,quarantineResults,quarantinetime,batchprocessing,
+	createTime,quarantineBatch,remark,uuid)
+	values(#{quarantineofficers},#{quarantineitems},#{quarantineResults},#{quarantinetime},#{batchprocessing},
+	#{createTime},#{quarantineBatch},#{remark},#{uuid})
+</insert>
+
+<update id="updateBySelective" parameterType="Object" >
+	update sys_quarantine set 
+	<trim suffixOverrides="," >
+		<if test="quarantineofficers != null and quarantineofficers != ''" >
+		    quarantineofficers = #{quarantineofficers},
+		</if>
+		<if test="quarantineitems != null and quarantineitems != ''" >
+		    quarantineitems = #{quarantineitems},
+		</if>
+		<if test="quarantineResults != null and quarantineResults != ''" >
+		    quarantineResults = #{quarantineResults},
+		</if>
+		<if test="quarantinetime != null and quarantinetime != ''" >
+		    quarantinetime = #{quarantinetime},
+		</if>
+		<if test="batchprocessing != null and batchprocessing != ''" >
+		    batchprocessing = #{batchprocessing},
+		</if>
+		<if test="createTime != null and createTime != ''" >
+		    createTime = #{createTime},
+		</if>
+		<if test="quarantineBatch != null and quarantineBatch != ''" >
+		    quarantineBatch = #{quarantineBatch},
+		</if>
+		<if test="remark != null and remark != ''" >
+		    remark = #{remark}
+		</if>
+	</trim> where id=#{id}
+</update>
+
+<delete id="delete" parameterType="Object">
+	delete from sys_quarantine where id = #{id}
+</delete>
+
+<select id="queryById" resultMap="BaseResultMap" parameterType="Object">
+	select <include refid="Base_Column_List"/>,p.batchprocessing as pbatch from sys_quarantine m 
+	left join sys_process p on p.id = m.batchprocessing 
+	where m.id = #{id}
+</select>
+
+<select id="queryByList" resultMap="BaseResultMap" parameterType="Object">
+	select <include refid="Base_Column_List"/>,p.batchprocessing as pbatch from sys_quarantine m 
+	left join sys_process p on p.id = m.batchprocessing
+	<include refid="Example_Where_Clause"/>
+</select>
+</mapper>

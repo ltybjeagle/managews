@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.finemanagement.dao.common.SysIdentifierDao" > 
+<!-- Result Map-->
+<resultMap id="BaseResultMap" type="com.finemanagement.entity.common.SysIdentifier" >
+	<result column="id" property="id"/>
+	<result column="sysid" property="sysid"/>
+	<result column="sysname" property="sysname"/>
+</resultMap>
+
+<!-- 查询系统角色列表 -->
+<select id="querySysIdentifierList" resultMap="BaseResultMap">
+	select id,sysid,sysname from sys_identifier where 1=1
+</select>
+</mapper>

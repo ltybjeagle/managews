@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.finemanagement.dao.production.SysInputsDao" > 
+<resultMap id="BaseResultMap" type="com.finemanagement.entity.production.SysInputs" >
+	<result column="id" property="id"/>
+	<result column="productid" property="productid"/>
+	<result column="inputName" property="inputName"/>
+	<result column="classname" property="classname"/>
+	<result column="unit" property="unit"/>
+	<result column="specifications" property="specifications"/>
+	<result column="brandName" property="brandName"/>
+	<result column="mfName" property="mfName"/>
+	<result column="remark" property="remark"/>
+	<result column="purchaseCount" property="purchaseCount"/>
+	<result column="unitPrice" property="unitPrice"/>
+	<result column="productNo" property="productNo"/>
+	<result column="greenhouseid" property="greenhouseid"/>
+	<result column="baseid" property="baseid"/>
+	<result column="startTime" property="startTime"/>
+	<result column="plantationMember" property="plantationMember"/>
+	<result column="technician" property="technician"/>
+	<result column="plantationMemberName" property="plantationMemberName"/>
+	<result column="technicianName" property="technicianName"/>
+	<result column="isoutstore" property="isoutstore"/>
+</resultMap>
+
+<sql id="Base_Column_List" >
+	m.id,m.productid,m.inputName,m.classname,m.unit,m.specifications,m.brandName,m.mfName,m.remark,m.purchaseCount,
+	m.unitPrice,m.greenhouseid,m.baseid,m.startTime,m.plantationMember,m.technician,m.isoutstore
+</sql>
+
+<sql id="Example_Where_Clause">
+	where 1=1
+	<trim suffixOverrides="," >
+		<if test="id != null and id > 0" >
+			and m.id = #{id}
+		</if>
+		<if test="greenhouseid != null and greenhouseid > 0" >
+		    and m.greenhouseid = #{greenhouseid}
+		</if>
+		<if test="baseid != null and baseid > 0" >
+		    and m.baseid = #{baseid}
+		</if>
+		<if test="start_date != null and start_date != '' ">
+			and m.startTime &gt;= #{start_date}
+		</if>
+		<if test="end_date != null and end_date != '' ">
+			and m.startTime &lt;= #{end_date}
+		</if>
+		<if test="productid != null and productid != ''" >
+		    and m.productid = #{productid}
+		</if>
+		<if test="inputName != null and inputName != ''" >
+		    and m.inputName like '%'+#{inputName}+'%'
+		</if>
+		<if test="classname != null and classname != ''" >
+		    and m.classname = #{classname}
+		</if>
+		<if test="unit != null and unit != ''" >
+		    and m.unit = #{unit}
+		</if>
+		<if test="specifications != null and specifications != ''" >
+		    and m.specifications = #{specifications}
+		</if>
+		<if test="brandName != null and brandName != ''" >
+		    and m.brandName = #{brandName}
+		</if>
+		<if test="mfName != null and mfName != ''" >
+		    and m.mfName = #{mfName}
+		</if>
+		<if test="remark != null and remark != ''" >
+		    and m.remark = #{remark}
+		</if>
+		<if test="purchaseCount != null and purchaseCount != ''" >
+		    and m.purchaseCount = #{purchaseCount}
+		</if>
+		<if test="unitPrice != null and unitPrice != ''" >
+		    and m.unitPrice = #{unitPrice}
+		</if>
+		<if test="startTime != null and startTime != ''" >
+		    and m.startTime = #{startTime}
+		</if>
+		<if test="startStartTime != null and startStartTime != ''" >
+		    and m.startTime &gt;= #{startStartTime}
+		</if>
+		<if test="endStartTime != null and endStartTime != ''" >
+		    and m.startTime &lt;= #{endStartTime}
+		</if>
+		<if test="plantationMember != null and plantationMember > 0" >
+		    and m.plantationMember = #{plantationMember}
+		</if>
+		<if test="technician != null and technician > 0" >
+		    and m.technician = #{technician}
+		</if>
+		<if test="isoutstore != null and isoutstore != ''" >
+		    and m.isoutstore = #{isoutstore}
+		</if>
+		<if test="productNo != null and productNo != ''" >
+		    and pro.productNo like '%'+#{productNo}+'%'
+		</if>
+	</trim>
+</sql>
+
+<insert id="add" parameterType="Object" >
+	insert into sys_inputs(productid,inputName,classname,unit,specifications,brandName,mfName,remark,purchaseCount,unitPrice
+	,greenhouseid,baseid,startTime,plantationMember,technician,isoutstore,plantationMemberName,technicianName)
+	values(#{productid},#{inputName},#{classname},#{unit},#{specifications},#{brandName},#{mfName},#{remark},#{purchaseCount}
+	,#{unitPrice},#{greenhouseid},#{baseid},#{startTime},#{plantationMember},#{technician},'0',#{plantationMemberName}
+	,#{technicianName})
+</insert>
+
+<update id="updateBySelective" parameterType="Object" >
+	update sys_inputs set 
+	<trim suffixOverrides="," >
+		<if test="productid != null and productid != '' ">
+			productid=#{productid},
+		</if>	
+		<if test="inputName != null  and inputName != ''">
+			inputName=#{inputName},
+		</if>
+		<if test="classname != null and classname != '' ">
+			classname=#{classname},
+		</if>
+		<if test="unit != null  and unit != ''">
+			unit=#{unit},
+		</if>
+		<if test="specifications != null  and specifications != ''">
+			specifications=#{specifications},
+		</if>
+		<if test="brandName != null and brandName != '' ">
+			brandName=#{brandName},
+		</if>
+		<if test="mfName != null and mfName != '' ">
+			mfName=#{mfName},
+		</if>
+		<if test="remark != null and remark != '' ">
+			remark=#{remark},
+		</if>
+		<if test="purchaseCount != null and purchaseCount != '' ">
+			purchaseCount=#{purchaseCount},
+		</if>
+		<if test="unitPrice != null and unitPrice != '' ">
+			unitPrice=#{unitPrice},
+		</if>
+		<if test="startTime != null and startTime != '' ">
+			startTime=#{startTime},
+		</if>
+		<if test="plantationMemberName != null and plantationMemberName != '' ">
+			plantationMemberName=#{plantationMemberName},
+		</if>
+		<if test="technicianName != null and technicianName != '' ">
+			technicianName=#{technicianName},
+		</if>
+	</trim> where id=#{id}
+</update>
+
+<delete id="delete" parameterType="Object">
+	delete from sys_inputs where id = #{id}
+</delete>
+
+<select id="queryById" resultMap="BaseResultMap" parameterType="Object">
+	select <include refid="Base_Column_List" />,u1.employeeName as plantationMemberName,u2.employeeName as technicianName
+	,pro.productNo from sys_inputs m 
+	left join sys_product pro on pro.id = m.productid
+	left join sys_employees u1 on u1.id = m.plantationMember
+	left join sys_employees u2 on u2.id = m.technician
+	where m.id = #{id}
+</select>
+
+<select id="queryByList" resultMap="BaseResultMap" parameterType="Object">
+	select <include refid="Base_Column_List"/>,u1.employeeName as plantationMemberName,u2.employeeName as technicianName
+	,pro.productNo from sys_inputs m 
+	left join sys_product pro on pro.id = m.productid
+	left join sys_employees u1 on u1.id = m.plantationMember
+	left join sys_employees u2 on u2.id = m.technician
+	<include refid="Example_Where_Clause"/> 
+</select>
+
+<select id="queryByStatistics" resultMap="BaseResultMap" parameterType="Object">
+	select * from vw_graph_inputs m <include refid="Example_Where_Clause"/> 
+</select>
+
+
+<select id="queryByYearList" resultMap="BaseResultMap" parameterType="Object">
+select * from vw_graph_inputs_year m  
+<include refid="Example_Where_Clause"/> 
+<if test="pager.orderCondition != null and pager.orderCondition != ''" >
+${pager.orderCondition}
+</if>
+</select>
+
+<select id="queryByMonthList" resultMap="BaseResultMap" parameterType="Object">
+select * from vw_graph_inputs_month m  
+<include refid="Example_Where_Clause"/> 
+<if test="pager.orderCondition != null and pager.orderCondition != ''" >
+${pager.orderCondition}
+</if>
+</select>
+
+<select id="queryByDateList" resultMap="BaseResultMap" parameterType="Object">
+select * from vw_graph_inputs_date m  
+<include refid="Example_Where_Clause"/> 
+<if test="pager.orderCondition != null and pager.orderCondition != ''" >
+${pager.orderCondition}
+</if>
+</select>
+
+</mapper>

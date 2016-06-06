@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.finemanagement.dao.basic.SysEmployeesDao" > 
+<resultMap id="BaseResultMap" type="com.finemanagement.entity.basic.SysEmployees" >
+	<result column="id" property="id"/>
+	<result column="employeeCode" property="employeeCode"/>
+	<result column="employeeName" property="employeeName"/>
+	<result column="phone" property="phone"/>
+	<result column="department" property="department"/>
+	<result column="remark" property="remark"/>
+	<result column="sysid" property="sysid"/>
+</resultMap>
+
+<sql id="Base_Column_List" >
+	m.id,m.employeeCode,m.employeeName,m.phone,m.department,m.remark,m.sysid
+</sql>
+
+<sql id="Example_Where_Clause">
+	where 1=1
+	<trim suffixOverrides="," >
+		<if test="id != null and id > 0" >
+			and m.id = #{id}
+		</if>
+		<if test="employeeCode != null and employeeCode != ''" >
+		    and m.employeeCode like '%'+#{employeeCode}+'%'
+		</if>
+		<if test="employeeName != null and employeeName != ''" >
+		    and m.employeeName like '%'+#{employeeName}+'%'
+		</if>
+		<if test="phone != null and phone != ''" >
+		    and m.phone = #{phone}
+		</if>
+		<if test="department != null and department != ''" >
+		    and m.department like '%'+#{department}+'%'
+		</if>
+		<if test="remark != null and remark != ''" >
+		    and m.remark = #{remark}
+		</if>
+		<if test="sysid != null and sysid != ''" >
+		    and m.sysid = #{sysid}
+		</if>
+	</trim>
+</sql>
+
+<insert id="add" parameterType="Object" >
+	insert into sys_employees(employeeCode,employeeName,phone,department,remark,sysid)
+	values(#{employeeCode},#{employeeName},#{phone},#{department},#{remark},#{sysid})
+</insert>
+
+<update id="updateBySelective" parameterType="Object" >
+	update sys_employees set 
+	<trim suffixOverrides="," >
+	<if test="employeeCode != null and employeeCode != '' ">
+		employeeCode=#{employeeCode},
+	</if>
+	<if test="employeeName != null and employeeName != ''">
+		employeeName=#{employeeName},
+	</if>
+	<if test="phone != null and phone != ''">
+		phone=#{phone},
+	</if>
+	<if test="department != null and department != ''">
+		department=#{department},
+	</if>
+	<if test="remark != null and remark != ''">
+		remark=#{remark},
+	</if>
+	</trim> where id=#{id}
+</update>
+
+<delete id="delete" parameterType="Object">
+	delete from sys_employees where id = #{id}
+</delete>
+
+<select id="queryById" resultMap="BaseResultMap" parameterType="Object">
+	select <include refid="Base_Column_List" /> from sys_employees m  where m.id = #{id}
+</select>
+
+<select id="queryByList" resultMap="BaseResultMap" parameterType="Object">
+	select <include refid="Base_Column_List"/> from sys_employees m <include refid="Example_Where_Clause"/>
+</select>
+
+<select id="queryDataByList" resultMap="BaseResultMap" parameterType="Object">
+	select <include refid="Base_Column_List"/> from sys_employees m <include refid="Example_Where_Clause"/>
+</select>
+</mapper>
