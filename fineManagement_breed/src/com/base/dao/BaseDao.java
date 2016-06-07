@@ -30,6 +30,8 @@ public interface BaseDao<T> {
 
 	public List<T> queryByList(String str, BasePage page);
 	
+	public List<T> sumqueryByList(String str, BasePage page);
+	
 	public List<T> queryDataByList(String str, BasePage page);
 	
 	public T queryById(String str, Object id);

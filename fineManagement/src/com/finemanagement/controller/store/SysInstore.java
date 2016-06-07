@@ -116,8 +116,7 @@ public class SysInstore extends BaseAction {
 		bean.setBrandName(sysPurchase.getBrandName());
 		bean.setMfName(sysPurchase.getMfName());
 		BigDecimal unitprice = new BigDecimal(sysPurchase.getUnitPrice() + "");
-		BigDecimal purchaseCount = new BigDecimal(sysPurchase.getPurchaseCount() + "");
-		bean.setPurchaseCount(sysPurchase.getPurchaseCount());
+		BigDecimal purchaseCount = new BigDecimal(bean.getPurchaseCount() + "");
 		bean.setUnitPrice(sysPurchase.getUnitPrice());
 		bean.setTotalprice(unitprice.multiply(purchaseCount).toString());
 		bean.setWarehouseid(Integer.parseInt(warehouseid[0]));

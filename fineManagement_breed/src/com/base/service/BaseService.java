@@ -67,6 +67,10 @@ public abstract class BaseService<T> {
 		return getDao().queryByList(getMapperObj() + ".queryByList", page);
 	}
 	
+	public List<T> sumqueryByList(BasePage page) throws Exception {
+		return getDao().sumqueryByList(getMapperObj() + ".sumqueryByList", page);
+	}
+	
 	public List<T> queryDataByList(BasePage page) throws Exception {
 		return getDao().queryDataByList(getMapperObj() + ".queryDataByList", page);
 	}

@@ -42,6 +42,10 @@
            		</select>
        		</div>
        		<div class="fitem">  
+           		<label>入库数量:</label>  
+           		<input class="easyui-validatebox" name="purchaseCount" data-options="required:true,width:282"/>
+       		</div>
+       		<div class="fitem">  
            		<label>入库负责人:</label>  
            		<input class="easyui-validatebox" name="principal" data-options="width:282"/>
        		</div>

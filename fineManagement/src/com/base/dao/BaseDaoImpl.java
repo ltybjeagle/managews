@@ -59,6 +59,11 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
 	}
 	
 	@Override
+	public List<T> sumqueryByList(String str, BasePage page) {
+		return sqlSessionTemplate.selectList(str, page);
+	}
+	
+	@Override
 	public List<T> queryDataByList(String str, BasePage page) {
 		return sqlSessionTemplate.selectList(str, page);
 	}

@@ -45,7 +45,7 @@ public class SysStoreManager extends BaseAction {
 		super.indiModel(model);
 		model.setSort("warehouseid");
 		Map<String, Object> context = getRootMap();
-		List<SysStore> dataList = sysStoreService.queryByList(model);
+		List<SysStore> dataList = sysStoreService.sumqueryByList(model);
 		// 设置页面数据
 		context.put("dataList", dataList);
 		return forword("store/sysStoremanager", context); 
@@ -61,7 +61,7 @@ public class SysStoreManager extends BaseAction {
 	public void dataList(SysStoreModel model, HttpServletResponse response) throws Exception {
 		super.indiModel(model);
 		model.setSort("warehouseid");
-		List<SysStore> dataList = sysStoreService.queryByList(model);
+		List<SysStore> dataList = sysStoreService.sumqueryByList(model);
 		// 设置页面数据
 		Map<String, Object> jsonMap = new HashMap<String, Object>();
 		jsonMap.put("total", model.getPager().getRowCount());
