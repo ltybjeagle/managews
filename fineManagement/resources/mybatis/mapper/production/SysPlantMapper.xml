@@ -28,40 +28,43 @@
 	where 1=1
 	<trim suffixOverrides="," >
 		<if test="id != null and id > 0" >
-			and id = #{id}
+			and m.id = #{id}
 		</if>
 		<if test="greenhouseid != null and greenhouseid > 0" >
-		    and greenhouseid = #{greenhouseid}
+		    and m.greenhouseid = #{greenhouseid}
 		</if>
 		<if test="baseid != null and baseid > 0" >
-		    and baseid = #{baseid}
+		    and m.baseid = #{baseid}
 		</if>
 		<if test="plantArea != null and plantArea != ''" >
-		    and plantArea = #{plantArea}
+		    and m.plantArea = #{plantArea}
 		</if>
 		<if test="plantationMember != null and plantationMember > 0" >
-		    and plantationMember = #{plantationMember}
+		    and m.plantationMember = #{plantationMember}
 		</if>
 		<if test="technician != null and technician > 0" >
-		    and technician = #{technician}
+		    and m.technician = #{technician}
 		</if>
 		<if test="wages != null and wages != ''" >
-		    and wages = #{wages}
+		    and m.wages = #{wages}
 		</if>
 		<if test="startTime != null and startTime != ''" >
-		    and startTime = #{startTime}
+		    and m.startTime = #{startTime}
 		</if>
 		<if test="startStartTime != null and startStartTime != ''" >
-		    and startTime &gt;= #{startStartTime}
+		    and m.startTime &gt;= #{startStartTime}
 		</if>
 		<if test="endStartTime != null and endStartTime != ''" >
-		    and startTime &lt;= #{endStartTime}
+		    and m.startTime &lt;= #{endStartTime}
 		</if>
 		<if test="endTime != null and endTime != ''" >
-		    and endTime = #{endTime}
+		    and m.endTime = #{endTime}
 		</if>
 		<if test="remark != null and remark != ''" >
-		    and remark = #{remark}
+		    and m.remark = #{remark}
+		</if>
+		<if test="sysid != null and sysid != ''" >
+		    and var.sysid = #{sysid}
 		</if>
 	</trim>
 </sql>

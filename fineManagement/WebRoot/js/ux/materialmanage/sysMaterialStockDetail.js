@@ -20,9 +20,6 @@ finems.sysMaterialStockDetail = function() {
 					           {field: 'profitloss', title: '盈亏', width: 220, sortable: true},
 					           {field: 'mfName', title: '厂家', width: 220, sortable: true},
 					           ]]
-					           
-								          
-					
 				}
 			},
 			init: function () {

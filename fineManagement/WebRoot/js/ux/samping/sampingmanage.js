@@ -6,6 +6,7 @@ finems.sampingmanage = function() {
 			config: {
 				event: {
 					add: function() {
+						$("#edit-win").dialog({title: "添加"});
 						$("#baseid").combobox({
 							url: '../sysBase/loadbaseList.do',
 							valueField: 'id',

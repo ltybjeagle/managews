@@ -108,6 +108,7 @@ public class SysPlantAction extends BaseAction {
 	
 	@RequestMapping("/loadPlantList") 
 	public void loadPlantList(SysPlantModel model, HttpServletResponse response) throws Exception {
+		super.indiModel(model);
 		List<SysPlant> dataList = sysPlantService.queryDataByList(model);
 		HtmlUtil.writerJson(response, dataList);
 	}

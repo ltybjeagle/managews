@@ -21,11 +21,12 @@
 	<result column="Url" property="Url"/>
 	<result column="TableName" property="TableName"/>
 	<result column="CreateTime" property="CreateTime"/>
+	<result column="uuid" property="uuid"/>
 </resultMap>
 
 <sql id="Base_Column_List" >
 	m.id,m.sampleno,m.sampname,m.samplingcount,m.samplingpeople,m.baseid,m.greenhouseid,m.samplingtime,m.createTime,m.remark,
-	m.sysid
+	m.sysid,m.uuid
 </sql>
 
 <sql id="Example_Where_Clause">
@@ -72,9 +73,9 @@
 
 <insert id="add" parameterType="Object" >
 	insert into sys_testmanage(sampleno,sampname,samplingcount,samplingpeople,baseid,greenhouseid,samplingtime,createTime,
-	remark,sysid)
+	remark,sysid,uuid)
 	values(#{sampleno},#{sampname},#{samplingcount},#{samplingpeople},#{baseid},#{greenhouseid},#{samplingtime},#{createTime},
-	#{remark},#{sysid})
+	#{remark},#{sysid},#{uuid})
 </insert>
 
 <insert id="addFile" parameterType="Object" >
@@ -124,10 +125,10 @@
 </delete>
 
 <select id="queryById" resultMap="BaseResultMap" parameterType="Object">
-	select <include refid="Base_Column_List"/>,baseName,name as greenhousename,variety from sys_testmanage m 
+	select <include refid="Base_Column_List"/>,baseName,name as greenhousename,p.varietyName as variety from sys_testmanage m 
 	left join sys_base b on b.id = m.baseid
 	left join sys_greenhouse  wa on wa.id = m.greenhouseid
-	left join sys_plant p on p.id = m.sampname
+	left join sys_variety p on p.id = m.sampname
 	where m.id = #{id}
 </select>
 
@@ -142,18 +143,18 @@
 </update>
 
 <select id="queryByList" resultMap="BaseResultMap" parameterType="Object">
-	select <include refid="Base_Column_List"/>,baseName,name as greenhousename,variety from sys_testmanage m 
+	select <include refid="Base_Column_List"/>,baseName,name as greenhousename,p.varietyName as variety from sys_testmanage m 
 	left join sys_base b on b.id = m.baseid
 	left join sys_greenhouse  wa on wa.id = m.greenhouseid
-	left join sys_plant p on p.id = m.sampname
+	left join sys_variety p on p.id = m.sampname
 	<include refid="Example_Where_Clause"/>
 </select>
 
 <select id="queryDataByList" resultMap="BaseResultMap" parameterType="Object">
-	select <include refid="Base_Column_List"/>,baseName,name as greenhousename,variety from sys_testmanage m 
+	select <include refid="Base_Column_List"/>,baseName,name as greenhousename,p.varietyName as variety from sys_testmanage m 
 	left join sys_base b on b.id = m.baseid
 	left join sys_greenhouse  wa on wa.id = m.greenhouseid
-	left join sys_plant p on p.id = m.sampname
+	left join sys_variety p on p.id = m.sampname
 	<include refid="Example_Where_Clause"/> order by id desc
 </select>
 </mapper>

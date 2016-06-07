@@ -40,7 +40,7 @@ public class SysSampingService<T> extends BaseService<T> {
 		if (entity.getFile() != null && entity.getFile().getBytes().length > 0) {
 			String fileName = entity.getFile().getOriginalFilename();
 			FileUtils.copyInputStreamToFile(entity.getFile().getInputStream(), new File(entity.getFilePath(), fileName));
-			entity.setRelationNO(entity.getUuid());
+			entity.setRelationID(entity.getUuid());
 			entity.setFileName(fileName);
 			entity.setUrl("/uploadfile/" + fileName);
 			entity.setTableName("sys_testmanage");

@@ -19,11 +19,12 @@
 	<result column="remark" property="remark"/>
 	<result column="greenhousename" property="greenhousename"/>
 	<result column="baseName" property="baseName"/>
+	<result column="uuid" property="uuid"/>
 </resultMap>
 
 <sql id="Base_Column_List" >
 	m.id,m.plantid,m.baseid,m.greehouseid,m.requiredquantity,m.grade,m.completetime,m.releasetime,m.harvesttime,
-	m.numberharvest,m.unitprice,m.amt,m.harveststaff,m.inspectionstaff,m.remark
+	m.numberharvest,m.unitprice,m.amt,m.harveststaff,m.inspectionstaff,m.remark,m.uuid
 </sql>
 
 <sql id="Example_Where_Clause">
@@ -58,9 +59,9 @@
 
 <insert id="add" parameterType="Object" >
 	insert into sys_picking(plantid,baseid,greehouseid,requiredquantity,grade,completetime,releasetime,harvesttime,
-	numberharvest,unitprice,amt,harveststaff,inspectionstaff,remark,syssign,sysid)
+	numberharvest,unitprice,amt,harveststaff,inspectionstaff,remark,syssign,sysid,uuid)
 	values(#{plantid},#{baseid},#{greehouseid},#{requiredquantity},#{grade},#{completetime},#{releasetime},#{harvesttime},
-	#{numberharvest},#{unitprice},#{amt},#{harveststaff},#{inspectionstaff},#{remark},#{syssign},#{sysid})
+	#{numberharvest},#{unitprice},#{amt},#{harveststaff},#{inspectionstaff},#{remark},#{syssign},#{sysid},#{uuid})
 </insert>
 
 <update id="updateBySelective" parameterType="Object" >
@@ -113,16 +114,16 @@
 </delete>
 
 <select id="queryById" resultMap="BaseResultMap" parameterType="Object">
-	select <include refid="Base_Column_List"/>,variety,b.baseName,g.name as greenhousename from sys_picking m 
-	left join sys_plant pl on pl.id = m.plantid
+	select <include refid="Base_Column_List"/>,p.varietyName as variety,b.baseName,g.name as greenhousename from sys_picking m 
+	left join sys_variety p on p.id = m.plantid
 	left join sys_base b on m.baseid = b.id
 	left join sys_greenhouse g on m.greehouseid = g.id
 	where m.id = #{id}
 </select>
 
 <select id="queryByList" resultMap="BaseResultMap" parameterType="Object">
-	select <include refid="Base_Column_List"/>,variety,b.baseName,g.name as greenhousename from sys_picking m 
-	left join sys_plant pl on pl.id = m.plantid
+	select <include refid="Base_Column_List"/>,p.varietyName as variety,b.baseName,g.name as greenhousename from sys_picking m 
+	left join sys_variety p on p.id = m.plantid
 	left join sys_base b on m.baseid = b.id
 	left join sys_greenhouse g on m.greehouseid = g.id
 	<include refid="Example_Where_Clause"/>
