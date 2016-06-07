@@ -161,13 +161,11 @@
 </select>
 
 <select id="queryByList" resultMap="BaseResultMap" parameterType="Object">
-	select m.productNo,m.inputName,m.classifyId,m.unit,m.specifications,m.unitPrice,m.brandId,
-	m.mfid,m.warehouseid,m.sysid,whName,m.classname,m.brandName,m.mfName,
-	sum(convert(int,m.purchaseCount)*convert(int,m.syssign)) as purchaseCount, 
-	sum(convert(int,m.totalprice)*convert(int,m.syssign)) as totalprice from sys_store m left 
-	join sys_warehouse wa on wa.id = m.warehouseid  
+	select m.productNo,m.inputName,m.classifyId,m.unit,m.specifications,m.brandId,m.mfid,m.warehouseid,m.sysid,whName,
+	m.classname,m.brandName,m.mfName,sum(convert(int,m.purchaseCount)*convert(int,m.syssign)) as purchaseCount 
+	from sys_store m left join sys_warehouse wa on wa.id = m.warehouseid  
 	<include refid="Example_Where_Clause"/> 
 	group by m.productNo,m.inputName,m.classifyId,m.unit,m.specifications,m.brandId,m.mfid,m.warehouseid,m.sysid,
-	whName,m.classname,m.brandName,m.mfName,m.unitPrice
+	whName,m.classname,m.brandName,m.mfName
 </select>
 </mapper>

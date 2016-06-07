@@ -43,6 +43,7 @@ public class SysStoreManager extends BaseAction {
 	@RequestMapping("/list")
 	public ModelAndView list(SysStoreModel model, HttpServletRequest request)throws Exception{
 		super.indiModel(model);
+		model.setSort("warehouseid");
 		Map<String, Object> context = getRootMap();
 		List<SysStore> dataList = sysStoreService.queryByList(model);
 		// 设置页面数据
@@ -59,6 +60,7 @@ public class SysStoreManager extends BaseAction {
 	@RequestMapping("/dataList") 
 	public void dataList(SysStoreModel model, HttpServletResponse response) throws Exception {
 		super.indiModel(model);
+		model.setSort("warehouseid");
 		List<SysStore> dataList = sysStoreService.queryByList(model);
 		// 设置页面数据
 		Map<String, Object> jsonMap = new HashMap<String, Object>();
