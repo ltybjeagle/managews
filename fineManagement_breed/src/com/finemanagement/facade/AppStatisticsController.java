@@ -37,11 +37,11 @@ import com.finemanagement.service.slaughter.SysSlaughterService;
  * @author liutianyang
  */
 @Controller
-@RequestMapping(value="/appStatistics")
+@RequestMapping(value = "/appStatistics")
 public class AppStatisticsController extends BaseAction {
-	
+
 	private final static Logger log = Logger.getLogger(AppStatisticsController.class);
-	
+
 	@Autowired(required = false)
 	private SysInputsService<SysInputs> sysInputsService; // 投入品
 
@@ -50,7 +50,7 @@ public class AppStatisticsController extends BaseAction {
 
 	@Autowired(required = false)
 	private SysSlaughterService<SysSlaughter> sysSlaughterService; // 出栏
-	
+
 	@Autowired(required = false)
 	private SysPlantService<SysPlant> sysPlantService; // 采收
 
@@ -76,7 +76,7 @@ public class AppStatisticsController extends BaseAction {
 			sendAppFailure(rep, "查询投入品使用统计异常!");
 		}
 	}
-	
+
 	/**
 	 * json 采摘列表页面
 	 * 
@@ -99,7 +99,7 @@ public class AppStatisticsController extends BaseAction {
 			sendAppFailure(rep, "查询采摘统计异常!");
 		}
 	}
-	
+
 	/**
 	 * json 采收列表页面
 	 * 
@@ -122,7 +122,7 @@ public class AppStatisticsController extends BaseAction {
 			sendAppFailure(rep, "查询采收统计异常!");
 		}
 	}
-	
+
 	/**
 	 * json 投入产出列表页面
 	 * 
@@ -145,7 +145,7 @@ public class AppStatisticsController extends BaseAction {
 			sendAppFailure(rep, "查询投入产出统计异常!");
 		}
 	}
-	
+
 	/**
 	 * json 出栏列表页面
 	 * 
@@ -165,7 +165,9 @@ public class AppStatisticsController extends BaseAction {
 			log.debug("APP查询出栏统计成功!");
 			sendAppSuccess(rep, dataList);
 		} catch (Exception e) {
+			log.error(e.getMessage());
 			sendAppFailure(rep, "查询出栏统计异常!");
+			e.printStackTrace();
 		}
 	}
 
