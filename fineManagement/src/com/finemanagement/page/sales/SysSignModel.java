@@ -6,13 +6,13 @@
  */
 package com.finemanagement.page.sales;
 
-import com.base.page.BasePage;
+import com.base.page.AttachmentModel;
 
 /**
  * 
  * @author liutianyang
  */
-public class SysSignModel extends BasePage {
+public class SysSignModel extends AttachmentModel {
 
 	private Integer id; // id主键
 	private String distributionNo; // 配送编号

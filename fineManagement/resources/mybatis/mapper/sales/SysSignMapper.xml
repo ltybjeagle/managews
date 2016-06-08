@@ -20,12 +20,13 @@
 	<result column="signTime" property="signTime"/>
 	<result column="signPerson" property="signPerson"/>
 	<result column="sysid" property="sysid"/>
+	<result column="uuid" property="uuid"/>
 </resultMap>
 
 <!-- sys_base table all fields -->
 <sql id="Base_Column_List" >
 	m.id,m.distributionNo,m.releaseTime,m.distributionPId,m.receivingUnit,m.distributionStatus,m.vehiclesId,m.brand,
-	m.distributionAddress,m.plateNum,m.signTime,m.signPerson
+	m.distributionAddress,m.plateNum,m.signTime,m.signPerson,m.uuid
 </sql>
 
 <!-- 查询条件 -->
@@ -83,9 +84,9 @@ where 1=1
 <!-- 插入记录 -->
 <insert id="add" parameterType="Object" >
 insert into sys_sign(distributionNo,releaseTime,distributionPId,receivingUnit,distributionStatus,vehiclesId,brand,
-distributionAddress,plateNum,signTime,signPerson,sysid)
+distributionAddress,plateNum,signTime,signPerson,sysid,uuid)
 values(#{distributionNo},#{releaseTime},#{distributionPId},#{receivingUnit},#{distributionStatus},#{vehiclesId},#{brand},
-#{distributionAddress},#{plateNum},#{signTime},#{signPerson},#{sysid})
+#{distributionAddress},#{plateNum},#{signTime},#{signPerson},#{sysid},#{uuid})
 </insert>
 
 <!-- 修改记录，只修改只不为空的字段 -->

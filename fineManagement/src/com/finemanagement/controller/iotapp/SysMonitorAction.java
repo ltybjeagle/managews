@@ -26,10 +26,8 @@ import com.base.util.HtmlUtil;
 import com.base.web.BaseAction;
 import com.finemanagement.entity.iotapp.SysMonitor;
 import com.finemanagement.entity.iotapp.SysMonitorInfo;
-import com.finemanagement.entity.production.SysPlant;
 import com.finemanagement.page.iotapp.SysIotappModel;
 import com.finemanagement.service.iotapp.SysMonitorService;
-import com.finemanagement.service.production.SysPlantService;
 
 import net.sf.json.JSONArray;
 

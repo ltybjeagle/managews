@@ -1,4 +1,5 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"  %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,27 +19,23 @@ function toBack() {
 </head>
 <body class="easyui-layout">
 <!-- Search panel start -->
-<div class="ui-search-panel" region="north" style="height: 255px;" title="配送信息">  
+<div class="ui-search-panel" region="north" style="height: 280px;" title="配送信息">  
 	<form id="editForm_add" class="ui-form" method="post">
 		<input class="hidden" type="text" name="distributionNo" id="distributionNo" value="${data.distributionNo}">
 		<div class="ui-edit">
-       		<div class="fitem">  
-           		<label>配送单号:</label><span>${data.distributionNo}</span>
-       		</div>
-       		<div class="fitem">  
-           		<label>配送人:</label><span>${data.distributionPerson}</span>
-       		</div>
-       		<div class="fitem">  
-           		<label>车辆编号:</label><span>${data.vehiclesNo}</span>
-       		</div>
-       		<div class="fitem">  
-           		<label>品牌:</label><span>${data.brand}</span>
-       		</div>
-       		<div class="fitem">  
-            	<label>车牌号:</label><span>${data.plateNum}</span>  
-            </div>
-       		<div class="fitem">  
-           		<label>收货单位:</label><span>${data.receivingUnit}</span>  
+			<table id="query_table_win">
+  	   			<tr><td><label>配送单号:</label></td><td><span>${data.distributionNo}</span></td></tr>
+  	   			<tr><td><label>配送人:</label></td><td><span>${data.distributionPerson}</span></td></tr>
+  	   			<tr><td><label>车辆编号:</label></td><td><span>${data.vehiclesNo}</span></td></tr>
+  	   			<tr><td><label>品牌:</label></td><td><span>${data.brand}</span></td></tr>
+  	   			<tr><td><label>车牌号:</label></td><td><span>${data.plateNum}</span></td></tr>
+  	   			<tr><td><label>收货单位:</label></td><td><span>${data.receivingUnit}</span></td></tr>
+  	   		</table>
+       		<div class="ftitle">配送图片:</div>
+       		<div class="fitem">
+       			<c:forEach var="item" items="${data.list}">
+	       			<a href='<%=basePath%>${item.url}' download>${item.fileName}</a>
+	       		</c:forEach>
        		</div>
 		</div>
 	</form>

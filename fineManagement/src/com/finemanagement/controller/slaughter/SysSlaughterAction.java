@@ -108,8 +108,6 @@ public class SysSlaughterAction extends BaseAction {
 	public void save(SysSlaughter bean, String[] quarantineBatchIds, HttpServletResponse response,
 			HttpServletRequest request) throws Exception {
 		bean.setQuarantineBatchId(quarantineBatchIds[0]);
-		String realPath = request.getSession().getServletContext().getRealPath("/uploadfile");
-		//bean.setFilePath(realPath);
 		if (bean.getId() == null) {
 			bean.setCreateTime(DateUtil.getNowShortDate());
 			sysSlaughterService.add(bean);

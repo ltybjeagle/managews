@@ -14,16 +14,7 @@ function save() {
 		var rows = $('#data-list').datagrid('getRows');
 		if (rows.length > 0) {
 			finems.progress();
-			var data = {};
-			data['distributionNo'] = ($("#distributionNo").val());
-			data['distributionPId'] = ($("#distributionPId").val());
-			data['vehiclesId'] = ($("#vehiclesId").val());
-			data['brand'] = ($("#brand").val());
-			data['plateNum'] = ($("#plateNum").val());
-			data['receivingUnit'] = ($("#receivingUnit").val());
-			finems.ajaxJson('saveSign.do', data, function() {
-	    		window.location.href = urls['msPath'] + urls['msUrl'] + '/sysSign/list.shtml';
-			});
+			$('#editForm_add').submit();
 		} else {
 			finems.alert('警告', '未添加配送清单，不能保存', 'warning');
 		}
@@ -53,8 +44,8 @@ function toBack() {
 </head>
 <body class="easyui-layout">
 <!-- Search panel start -->
-<div class="ui-search-panel" region="north" style="height: 255px;" title="配送信息">  
-	<form id="editForm_add" class="ui-form" method="post"> 
+<div class="ui-search-panel" region="north" style="height: 270px;" title="配送信息">  
+	<form id="editForm_add" class="ui-form" action="<%=basePath%>/sysSign/saveSign.do" method="post" enctype="multipart/form-data"> 
 		<input class="hidden" type="text" name="distributionPId" id="distributionPId">
 		<input class="hidden" type="text" name="vehiclesId" id="vehiclesId">
 		<div class="ui-edit">
@@ -65,14 +56,14 @@ function toBack() {
        		</div>
        		<div class="fitem">  
            		<label>配送人:</label>
-           		<select class="easyui-combobox" id="distributionPIds" name="distributionPIds" required="true" 
-           			validType="comboxRequired" data-options="width:141">
+           		<select class="easyui-combobox" id="distributionPIds" name="distributionPIds" data-options="required:true,editable:false,panelHeight:'auto'"
+             		style="padding:2px;width:141px;">
            		</select>
        		</div>
        		<div class="fitem">  
            		<label>车辆编号:</label>  
-           		<select class="easyui-combobox" id="vehiclesIds" name="vehiclesIds" required="true" 
-           			validType="comboxRequired" data-options="width:141">
+           		<select class="easyui-combobox" id="vehiclesIds" name="vehiclesIds" data-options="required:true,editable:false,panelHeight:'auto'"
+             		style="padding:2px;width:141px;">
            		</select>
        		</div>
        		<div class="fitem">  
@@ -89,18 +80,22 @@ function toBack() {
            		<label>收货单位:</label>  
            		<input class="easyui-validatebox" type="text" id="receivingUnit" name="receivingUnit" data-options="required:true"/>
        		</div>
+       		<div id="filecontrol" class="fitem">  
+            	<label>上传报告:</label>  
+             	<input class="easyui-filebox" name="file" data-options="prompt:'Choose a file...'" style="width:175px">
+         	</div>
 		</div>
+		<div id="editPwdbtn" class="sign-button">  
+	        <a href="javascript:save();" class="easyui-linkbutton" id="btn-pwd-submit">保存</a>  
+	        <a href="javascript:toBack();" class="easyui-linkbutton" id="btn-pwd-close">返回</a>  
+	    </div>
 	</form>
-	<div id="editPwdbtn" class="sign-button">  
-        <a href="javascript:save();" class="easyui-linkbutton" id="btn-pwd-submit">保存</a>  
-        <a href="javascript:toBack();" class="easyui-linkbutton" id="btn-pwd-close">返回</a>  
-    </div>
 </div>
 <div region="center" border="false" >
 	<table id="data-list"></table>
 </div>
 <!-- Edit Form -->
-<div id="edit-win" class="easyui-dialog" title="Edit" data-options="closed:true,iconCls:'icon-save',modal:true" 
+<div id="edit-win" class="easyui-dialog" data-options="closed:true,iconCls:'icon-save',modal:true" 
 	style="width:560px;height:460px;">
 	<form id="editForm" class="ui-form" method="post"> 
 		<input class="hidden" type="text" name="id">
