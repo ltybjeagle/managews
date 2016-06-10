@@ -59,7 +59,7 @@
   	   			<tr><td><label>单价:</label></td><td><span id="unitPrice"></span></td>
   	   			<td><label>仓库:</label></td><td><span id="whName"></span></td></tr>
   	   			<tr><td><label>所属基地:</label></td><td><span id="baseName"></span></td>
-  	   			<td><label>所属大棚:</label></td><td><span id="greenhouseName"></span></td></tr>
+  	   			<td><label>所属禽舍:</label></td><td><span id="greenhouseName"></span></td></tr>
   	   			<tr><td><label>技术人:</label></td><td><span id="technicalstaff"></span></td>
   	   			<td><label>使用人:</label></td><td><span id="outuser"></span></td></tr>
   	   			<tr><td><label>负责人:</label></td><td><span id="principal"></span></td><tr>

@@ -105,6 +105,7 @@ public class SysBreedAction extends BaseAction {
 	
 	@RequestMapping("/loadBreedList") 
 	public void loadBreedList(SysBreedModel model, HttpServletResponse response) throws Exception {
+		super.indiModel(model);
 		List<SysBreed> dataList = sysBreedService.queryDataByList(model);
 		HtmlUtil.writerJson(response, dataList);
 	}

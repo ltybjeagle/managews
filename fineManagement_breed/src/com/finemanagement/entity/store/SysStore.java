@@ -38,6 +38,7 @@ public class SysStore extends BaseEntity {
     private String outuser;//使用人
     private int baseid;//基地
     private int greenhouseid;//大棚
+    private int fowleryid; // 禽舍
     private String outpurchaseCount;//出库数量
     private String syssign;//
     private String baseName;
@@ -48,7 +49,39 @@ public class SysStore extends BaseEntity {
 	private String whName;
 	private String outremark ;//出库说明
 	private String processInstanceId; // 零时使用
-	
+	private String fowleryName; // 禽舍名称
+	/**
+	 * @return the fowleryName
+	 */
+	public String getFowleryName() {
+		return fowleryName;
+	}
+
+
+	/**
+	 * @param fowleryName the fowleryName to set
+	 */
+	public void setFowleryName(String fowleryName) {
+		this.fowleryName = fowleryName;
+	}
+
+
+	/**
+	 * @return the fowleryid
+	 */
+	public int getFowleryid() {
+		return fowleryid;
+	}
+
+
+	/**
+	 * @param fowleryid the fowleryid to set
+	 */
+	public void setFowleryid(int fowleryid) {
+		this.fowleryid = fowleryid;
+	}
+
+
 	public Integer getId() {
 		return id;
 	}

@@ -21,57 +21,58 @@
 	<result column="breedTechnician" property="breedTechnician"/>
 	<result column="breederName" property="breederName"/>
 	<result column="breedTechnicianName" property="breedTechnicianName"/>
+	<result column="isoutstore" property="isoutstore"/>
 </resultMap>
 
 <sql id="Base_Column_List" >
 	m.id,m.productid,m.inputName,m.classname,m.unit,m.specifications,m.brandName,m.mfName,m.remark,m.purchaseCount,
-	m.unitPrice,m.fowleryid,m.baseid,m.startTime,m.breeder,m.breedTechnician
+	m.unitPrice,m.fowleryid,m.baseid,m.startTime,m.breeder,m.breedTechnician,m.isoutstore
 </sql>
 
 <sql id="Example_Where_Clause">
 	where 1=1
 	<trim suffixOverrides="," >
 		<if test="id != null" >
-			and id = #{id}
+			and m.id = #{id}
 		</if>
 		<if test="fowleryid != null and fowleryid > 0" >
-		    and fowleryid = #{fowleryid}
+		    and m.fowleryid = #{fowleryid}
 		</if>
 		<if test="baseid != null and baseid > 0" >
-		    and baseid = #{baseid}
+		    and m.baseid = #{baseid}
 		</if>
 		<if test="productid != null and productid != ''" >
-		    and productid = #{productid}
+		    and m.productid = #{productid}
 		</if>
 		<if test="inputName != null" >
-		    and inputName = #{inputName}
+		    and m.inputName = #{inputName}
 		</if>
 		<if test="classname != null and classname != ''" >
-		    and classname = #{classname}
+		    and m.classname = #{classname}
 		</if>
 		<if test="unit != null" >
-		    and unit = #{unit}
+		    and m.unit = #{unit}
 		</if>
 		<if test="specifications != null" >
-		    and specifications = #{specifications}
+		    and m.specifications = #{specifications}
 		</if>
 		<if test="brandName != null and brandName != ''" >
-		    and brandName = #{brandName}
+		    and m.brandName = #{brandName}
 		</if>
 		<if test="mfName != null and mfName != ''" >
-		    and mfName = #{mfName}
+		    and m.mfName = #{mfName}
 		</if>
 		<if test="remark != null and remark != ''" >
-		    and remark = #{remark}
+		    and m.remark = #{remark}
 		</if>
 		<if test="purchaseCount != null and purchaseCount != ''" >
-		    and purchaseCount = #{purchaseCount}
+		    and m.purchaseCount = #{purchaseCount}
 		</if>
 		<if test="unitPrice != null and unitPrice != ''" >
-		    and unitPrice = #{unitPrice}
+		    and m.unitPrice = #{unitPrice}
 		</if>
 		<if test="startTime != null and startTime != ''" >
-		    and startTime = #{startTime}
+		    and m.startTime = #{startTime}
 		</if>
 		<if test="startStartTime != null and startStartTime != ''" >
 		    and m.startTime &gt;= #{startStartTime}
@@ -85,14 +86,17 @@
 		<if test="breedTechnician != null and breedTechnician > 0" >
 		    and m.breedTechnician = #{breedTechnician}
 		</if>
+		<if test="isoutstore != null and isoutstore != ''" >
+		    and m.isoutstore = #{isoutstore}
+		</if>
 	</trim>
 </sql>
 
 <insert id="add" parameterType="Object" >
 	insert into sys_inputs_breed(productid,inputName,classname,unit,specifications,brandName,mfName,remark,purchaseCount,unitPrice
-	,fowleryid,baseid,startTime,breeder,breedTechnician)
+	,fowleryid,baseid,startTime,breeder,breedTechnician,isoutstore)
 	values(#{productid},#{inputName},#{classname},#{unit},#{specifications},#{brandName},#{mfName},#{remark},#{purchaseCount}
-	,#{unitPrice},#{fowleryid},#{baseid},#{startTime},#{breeder},#{breedTechnician})
+	,#{unitPrice},#{fowleryid},#{baseid},#{startTime},#{breeder},#{breedTechnician},'0')
 </insert>
 
 <update id="updateBySelective" parameterType="Object" >

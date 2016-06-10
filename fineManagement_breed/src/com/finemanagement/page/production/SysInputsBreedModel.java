@@ -35,6 +35,19 @@ public class SysInputsBreedModel extends BasePage {
 	private String startTime; // 开始时间
 	private String startStartTime; // 开始使用时间
 	private String endStartTime; // 结束开始时间
+	private String isoutstore;
+	/**
+	 * @return the isoutstore
+	 */
+	public String getIsoutstore() {
+		return isoutstore;
+	}
+	/**
+	 * @param isoutstore the isoutstore to set
+	 */
+	public void setIsoutstore(String isoutstore) {
+		this.isoutstore = isoutstore;
+	}
 	/**
 	 * @return the startStartTime
 	 */

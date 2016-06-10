@@ -43,6 +43,7 @@ public class SysVehiclesAction extends BaseAction {
 	 */
 	@RequestMapping("/list") 
 	public ModelAndView list(SysVehiclesModel model, HttpServletRequest request) throws Exception {
+		super.indiModel(model);
 		Map<String, Object> context = getRootMap();
 		List<SysVehicles> dataList = sysVehiclesService.queryByList(model);
 		// 设置页面数据
@@ -58,6 +59,7 @@ public class SysVehiclesAction extends BaseAction {
 	 */
 	@RequestMapping("/dataList") 
 	public void dataList(SysVehiclesModel model, HttpServletResponse response) throws Exception {
+		super.indiModel(model);
 		List<SysVehicles> dataList = sysVehiclesService.queryByList(model);
 		// 设置页面数据
 		Map<String, Object> jsonMap = new HashMap<String, Object>();
@@ -68,6 +70,7 @@ public class SysVehiclesAction extends BaseAction {
 	
 	@RequestMapping("/loadVehiclesList") 
 	public void loadVehiclesList(SysVehiclesModel model, HttpServletResponse response) throws Exception {
+		super.indiModel(model);
 		List<SysVehicles> dataList = sysVehiclesService.queryByList(model);
 		HtmlUtil.writerJson(response, dataList);
 	}
@@ -80,6 +83,7 @@ public class SysVehiclesAction extends BaseAction {
 	 */
 	@RequestMapping("/save")
 	public void save(SysVehicles bean, HttpServletResponse response) throws Exception {
+		super.saveBean(bean);
 		if (bean.getId() == null) {
 			sysVehiclesService.add(bean);
 		} else {

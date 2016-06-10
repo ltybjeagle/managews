@@ -122,7 +122,6 @@ public class SysInstore extends BaseAction {
 		bean.setWarehouseid(Integer.parseInt(warehouseid[0]));
 		bean.setInstoretime(DateUtil.getNowFormateDate());
 		bean.setSyssign("1");
-		bean.setSysid("plantsys");
 		bean.setProcessInstanceId(purchaseid);
 		sysStoreService.add(bean);
 		// 更新采购计划表

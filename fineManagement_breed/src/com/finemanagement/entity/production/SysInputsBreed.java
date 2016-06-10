@@ -37,6 +37,19 @@ public class SysInputsBreed extends BaseEntity {
 	private String breedTechnicianName;
 	private String productNo;
 	private String startTime; // 开始时间
+	private String isoutstore;
+	/**
+	 * @return the isoutstore
+	 */
+	public String getIsoutstore() {
+		return isoutstore;
+	}
+	/**
+	 * @param isoutstore the isoutstore to set
+	 */
+	public void setIsoutstore(String isoutstore) {
+		this.isoutstore = isoutstore;
+	}
 	/**
 	 * @return the id
 	 */

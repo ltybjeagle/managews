@@ -22,11 +22,11 @@ import org.springframework.web.servlet.ModelAndView;
 import com.base.util.DateUtil;
 import com.base.util.HtmlUtil;
 import com.base.web.BaseAction;
-import com.finemanagement.entity.production.SysInputs;
+import com.finemanagement.entity.production.SysInputsBreed;
 import com.finemanagement.entity.store.SysStore;
-import com.finemanagement.page.production.SysInputsModel;
+import com.finemanagement.page.production.SysInputsBreedModel;
 import com.finemanagement.page.store.SysStoreModel;
-import com.finemanagement.service.production.SysInputsService;
+import com.finemanagement.service.production.SysInputsBreedService;
 import com.finemanagement.service.store.SysStoreService;
 
 /**
@@ -40,7 +40,7 @@ public class SysOutstore extends BaseAction {
 	SysStoreService<SysStore> sysStoreService;
 	
 	@Autowired(required = false)
-	private SysInputsService<SysInputs> sysInputsService;
+	private SysInputsBreedService<SysInputsBreed> sysInputsBreedService;
 	
 	/**
 	 * ilook 首页
@@ -49,10 +49,10 @@ public class SysOutstore extends BaseAction {
 	 * @return
 	 */
 	@RequestMapping("/list")
-	public ModelAndView list(SysInputsModel model, HttpServletRequest request)throws Exception{
+	public ModelAndView list(SysInputsBreedModel model, HttpServletRequest request)throws Exception{
 		model.setIsoutstore("0");
 		Map<String, Object> context = getRootMap();
-		List<SysInputs> dataList = sysInputsService.queryByList(model);
+		List<SysInputsBreed> dataList = sysInputsBreedService.queryByList(model);
 		// 设置页面数据
 		context.put("dataList", dataList);
 		return forword("store/sysOutstore", context); 
@@ -65,12 +65,12 @@ public class SysOutstore extends BaseAction {
 	 * @throws Exception
 	 */
 	@RequestMapping("/dataList") 
-	public void dataList(SysInputsModel model, String[] classnames, HttpServletResponse response) throws Exception {
+	public void dataList(SysInputsBreedModel model, String[] classnames, HttpServletResponse response) throws Exception {
 		if (classnames != null && classnames.length > 0) {
 			model.setClassname(classnames[0]);
 		}
 		model.setIsoutstore("0");
-		List<SysInputs> dataList = sysInputsService.queryByList(model);
+		List<SysInputsBreed> dataList = sysInputsBreedService.queryByList(model);
 		// 设置页面数据
 		Map<String, Object> jsonMap = new HashMap<String, Object>();
 		jsonMap.put("total", model.getPager().getRowCount());
@@ -105,7 +105,7 @@ public class SysOutstore extends BaseAction {
 	@RequestMapping("/getId")
 	public void getId(Integer id, HttpServletResponse response) throws Exception {
 		Map<String, Object> context = getRootMap();
-		SysInputs bean = sysInputsService.queryById(id);
+		SysInputsBreed bean = sysInputsBreedService.queryById(id);
 		if (bean == null) {
 			sendFailureMessage(response, "没有找到对应的记录!");
 			return;
@@ -124,14 +124,14 @@ public class SysOutstore extends BaseAction {
 	@RequestMapping("/save")
 	public void save(SysStore bean, Integer inputid, String[] warehouseid, HttpServletResponse response) throws Exception {
 		super.saveBean(bean);
-		SysInputs sysInputs = sysInputsService.queryById(inputid);
+		SysInputsBreed sysInputs = sysInputsBreedService.queryById(inputid);
 		bean.setProductNo(sysInputs.getProductNo());
 		bean.setInputName(sysInputs.getInputName());
 		bean.setBrandName(sysInputs.getBrandName());
 		bean.setClassname(sysInputs.getClassname());
 		bean.setMfName(sysInputs.getMfName());
 		bean.setBaseid(sysInputs.getBaseid());
-		bean.setGreenhouseid(sysInputs.getGreenhouseid());
+		bean.setFowleryid(sysInputs.getFowleryid());
 		bean.setSpecifications(sysInputs.getSpecifications());
 		bean.setUnit(sysInputs.getUnit());
 		bean.setUnitPrice(sysInputs.getUnitPrice());
@@ -142,7 +142,6 @@ public class SysOutstore extends BaseAction {
 		bean.setWarehouseid(Integer.parseInt(warehouseid[0]));
 		bean.setOutstoretime(DateUtil.getNowFormateDate());
 		bean.setSyssign("-1");
-		bean.setSysid("plantsys");
 		bean.setProcessInstanceId(inputid + "");
 		sysStoreService.add(bean);
 		// 更新投入品表

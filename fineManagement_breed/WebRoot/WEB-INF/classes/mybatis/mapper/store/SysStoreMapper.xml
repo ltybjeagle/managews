@@ -24,6 +24,8 @@
 	<result column="classname" property="classname"/>
 	<result column="brandName" property="brandName"/>
 	<result column="mfName" property="mfName"/>
+	<result column="fowleryid" property="fowleryid"/>
+	<result column="fowleryName" property="fowleryName"/>
 </resultMap>
 
 <sql id="Base_Column_List" >
@@ -82,10 +84,10 @@
 <insert id="add" parameterType="Object" >
 	insert into sys_store(productNo,inputName,classifyId,unit,specifications,brandId,mfid,purchaseCount,unitPrice,totalprice,
 	warehouseid,technicalstaff,principal,remark,instoretime,syssign,sysid,processInstanceId,classname,brandName,mfName,outstoretime,
-	baseid,greenhouseid,outuser)
+	baseid,greenhouseid,outuser,fowleryid)
 	values(#{productNo},#{inputName},#{classifyId},#{unit},#{specifications},#{brandId},#{mfid},#{purchaseCount},
 	#{unitPrice},#{totalprice},#{warehouseid},#{technicalstaff},#{principal},#{remark},#{instoretime},#{syssign},#{sysid},
-	#{processInstanceId},#{classname},#{brandName},#{mfName},#{outstoretime},#{baseid},#{greenhouseid},#{outuser})
+	#{processInstanceId},#{classname},#{brandName},#{mfName},#{outstoretime},#{baseid},#{greenhouseid},#{outuser},#{fowleryid})
 </insert>
 
 <select id="queryById" resultMap="BaseResultMap" parameterType="Object">
@@ -93,7 +95,7 @@
 	from sys_store m 
 	left join sys_warehouse wa on wa.id = m.warehouseid 
 	left join sys_base b on m.baseid = b.id
-	left join sys_greenhouse g on m.greenhouseid = g.id
+	left join sys_fowlery g on m.fowleryid = g.id
 	where m.id = #{id}
 </select>
 
@@ -147,7 +149,7 @@
 </update>
  
 <update id="updateinput" parameterType="Object" >
-	update sys_inputs set isoutstore='1' where id=#{processInstanceId}
+	update sys_inputs_breed set isoutstore='1' where id=#{processInstanceId}
 </update>
 
 <select id="queryByIninventoryList" resultMap="BaseResultMap" parameterType="Object">
