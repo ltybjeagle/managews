@@ -25,6 +25,12 @@
 		</if>
 		<if test="warehouseid != null and warehouseid != ''" >
 		    and warehouseid = #{warehouseid}
+		</if>
+		<if test="startregistertime != null and startregistertime !=''" >
+		    and m.registertime &gt;= #{startregistertime}
+		</if>
+		<if test="endregistertime != null and endregistertime !=''" >
+		    and m.registertime &lt;= #{endregistertime}
 		</if>	
 	</trim>
 </sql>

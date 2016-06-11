@@ -49,6 +49,12 @@ finems.sysStoremanage = function() {
 				}
 			},
 			init: function () {
+				$("#warehouseid").combobox({
+					url: '../sysWarehouse/loadWarehouseList.do',
+					valueField: 'id',
+					textField: 'whName',
+					multiple: false
+				});
 				_box = new YDataGrid(_this.config);
 				_box.init();
 				$('#btn-query-close').click(function() {

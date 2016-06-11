@@ -15,6 +15,71 @@ public class SysStorageModel extends BasePage {
     private String syssign;//
     private String sysid ;//系统
     private String outstoretime;
+    private String batchprocessNo;
+    private String startinstoretime;
+    private String endinstoretime;
+    private String startoutstoretime;
+    private String endoutstoretime;
+	/**
+	 * @return the startoutstoretime
+	 */
+	public String getStartoutstoretime() {
+		return startoutstoretime;
+	}
+	/**
+	 * @param startoutstoretime the startoutstoretime to set
+	 */
+	public void setStartoutstoretime(String startoutstoretime) {
+		this.startoutstoretime = startoutstoretime;
+	}
+	/**
+	 * @return the endoutstoretime
+	 */
+	public String getEndoutstoretime() {
+		return endoutstoretime;
+	}
+	/**
+	 * @param endoutstoretime the endoutstoretime to set
+	 */
+	public void setEndoutstoretime(String endoutstoretime) {
+		this.endoutstoretime = endoutstoretime;
+	}
+	/**
+	 * @return the startinstoretime
+	 */
+	public String getStartinstoretime() {
+		return startinstoretime;
+	}
+	/**
+	 * @param startinstoretime the startinstoretime to set
+	 */
+	public void setStartinstoretime(String startinstoretime) {
+		this.startinstoretime = startinstoretime;
+	}
+	/**
+	 * @return the endinstoretime
+	 */
+	public String getEndinstoretime() {
+		return endinstoretime;
+	}
+	/**
+	 * @param endinstoretime the endinstoretime to set
+	 */
+	public void setEndinstoretime(String endinstoretime) {
+		this.endinstoretime = endinstoretime;
+	}
+	/**
+	 * @return the batchprocessNo
+	 */
+	public String getBatchprocessNo() {
+		return batchprocessNo;
+	}
+	/**
+	 * @param batchprocessNo the batchprocessNo to set
+	 */
+	public void setBatchprocessNo(String batchprocessNo) {
+		this.batchprocessNo = batchprocessNo;
+	}
 	public Integer getId() {
 		return id;
 	}

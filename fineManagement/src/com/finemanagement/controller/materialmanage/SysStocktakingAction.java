@@ -65,9 +65,9 @@ public class SysStocktakingAction extends BaseAction {
 	 */
 	@RequestMapping("/save")
 	public void save(sysStocktakingEntity bean, 
-			HttpServletResponse response) throws Exception {  
+			HttpServletResponse response) throws Exception { 
+		super.saveBean(bean);
 		if(bean.getId()==null){
-			bean.setSysid("plantsys");
 			SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
 			bean.setStocktime(df.format(new Date())+"");
 			sysStocktakingService.add(bean);

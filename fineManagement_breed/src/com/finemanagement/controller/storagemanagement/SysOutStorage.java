@@ -1,7 +1,5 @@
 package com.finemanagement.controller.storagemanagement;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -68,12 +66,10 @@ public class SysOutStorage extends BaseAction {
 	 */
 	@RequestMapping("/save")
 	public void save(SysStoragemanagement bean, String[] warehouseid, HttpServletResponse response) throws Exception {  
+		super.saveBean(bean);
 		bean.setWarehouseid(Integer.parseInt(warehouseid[0]));
 		if(bean.getId()==null){
-			SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
-			bean.setOutstoretime(df.format(new Date())+"");
 			bean.setSyssign("-1");
-			bean.setSysid("plantsys");
 			sysStorageService.add(bean);
 			sendSuccessMessage(response, "出库成功~");
 		}else{

@@ -5,22 +5,24 @@
 <%@ include file="/view/resource.jsp" %>
 </head>
 <body class="easyui-layout">
-<!-- Search panel start -->
 <div class="ui-search-panel" region="north" style="height: 80px;" title="过滤条件" 
 	data-options="striped: true,collapsible:false,iconCls:'icon-search',border:false" >  
 	<form id="searchForm">
 		<p class="ui-fields">
-			<label class="ui-label">仓库:</label><input name="warehouseid" class="easyui-box ui-text" style="width:100px;">
+			<label class="ui-label">仓库:</label>
+			<select class="easyui-combobox" id="warehouseid" name="warehouseid" style="width:100px;"></select>
+	   	</p>
+	   	<p class="ui-fields">
+			<label class="ui-label">登记时间:</label>
+			<input class="easyui-datebox" type="text" name="startregistertime"/> 至 
+			<input class="easyui-datebox" type="text" name="endregistertime"/>
 	   	</p>
 	   	<a href="#" id="btn-search" class="easyui-linkbutton" iconCls="icon-search">查询</a>
 	</form>  
 </div> 
-<!-- Search panel end -->
-<!-- DataList  -->
 <div region="center" border="false" >
 	<table id="data-list"></table>
 </div>
-<!-- Edit Form -->
 <div id="edit-win" class="easyui-dialog" data-options="closed:true,iconCls:'icon-save',modal:true" 
 	style="width:560px;height:460px;">
 	<form id="editForm" class="ui-form" method="post"> 

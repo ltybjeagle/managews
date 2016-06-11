@@ -56,7 +56,7 @@ finems.SysStocktaking = function() {
 function showReturnDetail(storeId) {
 	var data = {};
 	data['id'] = (storeId);
-	finems.getById('../SysStocktakingAction/list.shtml', data, function(result) {
+	finems.getById('../sysMaterialStockDetail/list.shtml', data, function(result) {
 		$("#stocktalingno").text(result.data.stocktalingno);
 		$("#whName").text(result.data.whName);
 		$("#principal").text(result.data.principal);

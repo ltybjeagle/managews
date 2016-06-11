@@ -133,16 +133,18 @@ public class SysSignAction extends BaseAction {
 	 * @throws Exception
 	 */
 	@RequestMapping("/saveSign")
-	public void save(SysSign bean, HttpServletResponse response) throws Exception {
+	public String save(SysSign bean, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		super.saveBean(bean);
+		String realPath = request.getSession().getServletContext().getRealPath("/uploadfile");  
+		bean.setFilePath(realPath);
 		if (bean.getId() == null) {
 			bean.setDistributionStatus(2);
 			bean.setReleaseTime(DateUtil.getNowPlusTime());
-			sysSignService.add(bean);
+			sysSignService.addSign(bean);
 		} else {
 			sysSignService.updateBySelective(bean);
 		}
-		sendSuccessMessage(response, "保存成功~");
+		return "redirect:/sysSign/list.shtml";
 	}
 	
 	/**
@@ -182,12 +184,13 @@ public class SysSignAction extends BaseAction {
 	}
 	
 	@RequestMapping("/deleteSign")
-	public void deleteSign(Integer[] id, HttpServletResponse response) throws Exception {
+	public void deleteSign(Integer[] id, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String realPath = request.getSession().getServletContext().getRealPath("/uploadfile"); 
 		for (Integer id_ : id) {
 			SysSign bean = sysSignService.queryById(id_);
 			sysDistributionService.deleteDistributionList(bean.getDistributionNo());
 		}
-		sysSignService.delete(id);
+		sysSignService.deleteSign(realPath, id);
 		sendSuccessMessage(response, "删除成功");
 	}
 	
@@ -216,6 +219,7 @@ public class SysSignAction extends BaseAction {
 		model.setId(id);
 		List<SysSign> dataList = sysSignService.queryByList(model);
 		SysSign bean = dataList.get(0);
+		bean = sysSignService.querSign(bean);
 		context.put("data", bean);
 		return forword("sales/showDetails", context); 
 	}

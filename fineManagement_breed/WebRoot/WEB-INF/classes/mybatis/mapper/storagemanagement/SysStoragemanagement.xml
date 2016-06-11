@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper
-  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.finemanagement.dao.storagemanagement.SysStorageDao" > 
-<!-- Result Map-->
 <resultMap id="BaseResultMap" type="com.finemanagement.entity.storagemanagement.SysStoragemanagement" >
 	<result column="id" property="id"/>
 	<result column="batchprocessing" property="batchprocessing"/>
@@ -21,69 +18,72 @@
 	<result column="batchprocessNo" property="batchprocessNo"/>
 </resultMap>
 
-<!-- sys_base table all fields -->
 <sql id="Base_Column_List" >
 	m.id,m.batchprocessing,m.productname,m.processingtime,m.processingstaff,m.instoretime,m.outstoretime,m.principal,
 	m.warehouseid,m.sysid,m.remark
 </sql>
 
-<!-- 查询条件 -->
 <sql id="Example_Where_Clause">
-where 1=1
-<trim suffixOverrides="," >
-	<if test="id != null" >
-		and id = #{id}
-	</if>
-	<if test="batchprocessing != null and batchprocessing != ''" >
-	    and batchprocessing = #{batchprocessing}
-	</if>
-	<if test="instoretime != null and instoretime !=''" >
-	    and instoretime = #{instoretime}
-	</if>
-	<if test="outstoretime != null and outstoretime !=''" >
-	    and outstoretime = #{outstoretime}
-	</if>
-	<if test="syssign != null and syssign !=''" >
-	    and syssign = #{syssign}
-	</if>
-</trim>
+	where 1=1
+	<trim suffixOverrides="," >
+		<if test="id != null" >
+			and m.id = #{id}
+		</if>
+		<if test="batchprocessing != null and batchprocessing != ''" >
+		    and p.batchprocessing like '%'+#{batchprocessing}+'%'
+		</if>
+		<if test="instoretime != null and instoretime !=''" >
+		    and m.instoretime = #{instoretime}
+		</if>
+		<if test="outstoretime != null and outstoretime !=''" >
+		    and m.outstoretime = #{outstoretime}
+		</if>
+		<if test="syssign != null and syssign !=''" >
+		    and m.syssign = #{syssign}
+		</if>
+		<if test="startinstoretime != null and startinstoretime !=''" >
+		    and m.instoretime &gt;= #{startinstoretime}
+		</if>
+		<if test="endinstoretime != null and endinstoretime !=''" >
+		    and m.instoretime &lt;= #{endinstoretime}
+		</if>
+		<if test="startoutstoretime != null and startoutstoretime !=''" >
+		    and m.outstoretime &gt;= #{startoutstoretime}
+		</if>
+		<if test="endoutstoretime != null and endoutstoretime !=''" >
+		    and m.outstoretime &lt;= #{endoutstoretime}
+		</if>	
+	</trim>
 </sql>
 
-<!-- 入库记录 -->
 <insert id="add" parameterType="Object" >
-insert into sys_productstore(batchprocessing,productname,processingtime,processingstaff,instoretime,outstoretime,principal,warehouseid,remark,
-syssign,sysid)
-values(#{batchprocessing},#{productname},#{processingtime},#{processingstaff},#{instoretime},#{outstoretime},#{principal},#{warehouseid},#{remark},
-#{syssign},#{sysid})
+	insert into sys_productstore(batchprocessing,productname,processingtime,processingstaff,instoretime,outstoretime,principal,
+	warehouseid,remark, syssign,sysid)
+	values(#{batchprocessing},#{productname},#{processingtime},#{processingstaff},#{instoretime},#{outstoretime},#{principal},
+	#{warehouseid},#{remark},#{syssign},#{sysid})
 </insert>
 
-<!-- 删除记录 -->
 <delete id="delete" parameterType="Object">
 	delete from sys_productstore where id = #{id}
 </delete>
 
-<!-- 根据id，修改记录 -->  
 <update id="updateBySelective" parameterType="Object" >
-update sys_productstore set batchprocessing=#{batchprocessing},productname=#{productname},processingtime=#{processingtime},
-processingstaff=#{processingstaff},instoretime=#{instoretime},outstoretime=#{outstoretime},principal=#{principal},
-warehouseid=#{warehouseid},remark=#{remark} where id=#{id}
+	update sys_productstore set batchprocessing=#{batchprocessing},productname=#{productname},processingtime=#{processingtime},
+	processingstaff=#{processingstaff},instoretime=#{instoretime},outstoretime=#{outstoretime},principal=#{principal},
+	warehouseid=#{warehouseid},remark=#{remark} where id=#{id}
 </update>
 
-<!-- 根据id查询 系统角色 -->
 <select id="queryById" resultMap="BaseResultMap" parameterType="Object">
-select <include refid="Base_Column_List" /> ,whName from sys_productstore m 
-left join sys_warehouse wa on wa.id = m.warehouseid
-where m.id = #{id}
+	select <include refid="Base_Column_List"/>,wa.whName,p.batchprocessing as batchprocessNo from sys_productstore m 
+	left join sys_warehouse wa on wa.id = m.warehouseid
+	left join sys_process p on p.id = m.batchprocessing
+	where m.id = #{id}
 </select>
 
-<!-- 查询库存列表 -->
 <select id="queryByList" resultMap="BaseResultMap" parameterType="Object">
-select <include refid="Base_Column_List"/>,wa.whName,p.batchprocessing as batchprocessNo from sys_productstore m 
-left join sys_warehouse wa on wa.id = m.warehouseid
-left join sys_process p on p.id = m.batchprocessing
-<include refid="Example_Where_Clause"/> 
-<if test="pager.orderCondition != null and pager.orderCondition != ''" >
-${pager.orderCondition}
-</if>
+	select <include refid="Base_Column_List"/>,wa.whName,p.batchprocessing as batchprocessNo from sys_productstore m 
+	left join sys_warehouse wa on wa.id = m.warehouseid
+	left join sys_process p on p.id = m.batchprocessing
+	<include refid="Example_Where_Clause"/> 
 </select>
 </mapper>

@@ -6,9 +6,14 @@ finems.toAdd = function() {
 				btnUrl: urls['msPath'] + '/sysSign/list.shtml',
 				event: {
 					add: function() {
+						$("#edit-win").dialog({title: "添加"});
 						_box.handler.add(function() {
 							$("#distributionNos").val($("#distributionNo").val());
 						});
+					},
+					edit: function() {
+						$("#edit-win").dialog({title: "修改"});
+						_box.handler.edit(function() {});
 					}
 				},
 				dataGrid: {

@@ -6,19 +6,24 @@
  */
 package com.finemanagement.entity.sales;
 
-import com.base.entity.BaseEntity;
+import java.util.List;
+
+import org.springframework.web.multipart.MultipartFile;
+
+import com.base.entity.Attachment;
 
 /**
  * 
  * @author liutianyang
  */
-public class SysSign extends BaseEntity {
+public class SysSign extends Attachment {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -4113137873784090684L;
 	private Integer id; // id主键
+	private String uuid;
 	private String distributionNo; // 配送编号
 	private String releaseTime; // 发布时间
 	private Integer distributionPId; // 配送人ID
@@ -32,6 +37,57 @@ public class SysSign extends BaseEntity {
 	private String signPerson; // 签收人
 	private String vehiclesNo; // 汽车编号
 	private String distributionPerson; // 配送人
+	private MultipartFile file;
+    private String filePath;
+    List<SysSign> list;
+	/**
+	 * @return the uuid
+	 */
+	public String getUuid() {
+		return uuid;
+	}
+	/**
+	 * @param uuid the uuid to set
+	 */
+	public void setUuid(String uuid) {
+		this.uuid = uuid;
+	}
+	/**
+	 * @return the file
+	 */
+	public MultipartFile getFile() {
+		return file;
+	}
+	/**
+	 * @param file the file to set
+	 */
+	public void setFile(MultipartFile file) {
+		this.file = file;
+	}
+	/**
+	 * @return the filePath
+	 */
+	public String getFilePath() {
+		return filePath;
+	}
+	/**
+	 * @param filePath the filePath to set
+	 */
+	public void setFilePath(String filePath) {
+		this.filePath = filePath;
+	}
+	/**
+	 * @return the list
+	 */
+	public List<SysSign> getList() {
+		return list;
+	}
+	/**
+	 * @param list the list to set
+	 */
+	public void setList(List<SysSign> list) {
+		this.list = list;
+	}
 	/**
 	 * @return the distributionPId
 	 */

@@ -12,6 +12,32 @@ public class sysStoremanageModel extends BasePage {
 	private String remark; // 
 	private String sysid; // 系统标志
 	private String syssign;
+	private String startregistertime;
+	private String endregistertime;
+	/**
+	 * @return the startregistertime
+	 */
+	public String getStartregistertime() {
+		return startregistertime;
+	}
+	/**
+	 * @param startregistertime the startregistertime to set
+	 */
+	public void setStartregistertime(String startregistertime) {
+		this.startregistertime = startregistertime;
+	}
+	/**
+	 * @return the endregistertime
+	 */
+	public String getEndregistertime() {
+		return endregistertime;
+	}
+	/**
+	 * @param endregistertime the endregistertime to set
+	 */
+	public void setEndregistertime(String endregistertime) {
+		this.endregistertime = endregistertime;
+	}
 	/**
 	 * @return the syssign
 	 */

@@ -75,13 +75,13 @@ public class SysInStorage extends BaseAction {
 	@RequestMapping("/save")
 	public void save(SysStoragemanagement bean, String[] batchprocessing, String[] warehouseid, 
 			HttpServletResponse response) throws Exception { 
+		super.saveBean(bean);
 		bean.setBatchprocessing(batchprocessing[0]);
 		bean.setWarehouseid(Integer.parseInt(warehouseid[0]));
 		if(bean.getId()==null){
 			SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
 			bean.setInstoretime(df.format(new Date())+"");
 			bean.setSyssign("1");
-			bean.setSysid("plantsys");
 			sysStorageService.add(bean);
 			sendSuccessMessage(response, "入库成功~");
 		}else{
