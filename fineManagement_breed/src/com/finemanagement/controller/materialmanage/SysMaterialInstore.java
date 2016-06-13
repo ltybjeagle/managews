@@ -78,8 +78,7 @@ public class SysMaterialInstore extends BaseAction {
 	 * @throws Exception
 	 */
 	@RequestMapping("/save")
-	public void save(sysMaterialmanage bean, 
-			HttpServletResponse response) throws Exception {  
+	public void save(sysMaterialmanage bean, HttpServletResponse response) throws Exception {  
 		sysMaterialmanage sysMaterialmanage = sysMaterialService.queryById(bean.getSyssign());
 		bean.setMaterialname(sysMaterialmanage.getMaterialname());
 		bean.setMaterialno(sysMaterialmanage.getMaterialno());
@@ -94,7 +93,7 @@ public class SysMaterialInstore extends BaseAction {
 		SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
 		bean.setInstoretime(df.format(new Date())+"");
 		bean.setSyssign("1");//物资入库
-		bean.setSysid("plantsys");
+		bean.setSysid(super.getSysid());
 		sysMaterialService.add(bean);
 		sendSuccessMessage(response, "入库成功~");
 	}

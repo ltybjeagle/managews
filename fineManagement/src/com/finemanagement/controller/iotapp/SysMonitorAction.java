@@ -27,6 +27,7 @@ import com.base.web.BaseAction;
 import com.finemanagement.entity.iotapp.SysMonitor;
 import com.finemanagement.entity.iotapp.SysMonitorInfo;
 import com.finemanagement.page.iotapp.SysIotappModel;
+import com.finemanagement.service.facade.SysFacadeService;
 import com.finemanagement.service.iotapp.SysMonitorService;
 
 import net.sf.json.JSONArray;
@@ -42,6 +43,9 @@ public class SysMonitorAction<T> extends BaseAction {
 
 	@Autowired(required = false)
 	private SysMonitorService<SysMonitor> sysMonitorService;
+
+	@Autowired(required = false)
+	private SysFacadeService<?> sysFacadeService;
 
 	/**
 	 * ilook 首页
@@ -75,9 +79,9 @@ public class SysMonitorAction<T> extends BaseAction {
 			return;
 		if ("year".equals(state)) {
 			dataList = sysMonitorService.queryByYearList(page);
-		} else if("month".equals(state)) {
+		} else if ("month".equals(state)) {
 			dataList = sysMonitorService.queryByMonthList(page);
-		} else if("date".equals(state)) {
+		} else if ("date".equals(state)) {
 			dataList = sysMonitorService.queryByDateList(page);
 		}
 		context.put("total", dataList.size());
@@ -152,5 +156,15 @@ public class SysMonitorAction<T> extends BaseAction {
 		context.put("y", list);
 		HtmlUtil.writerJson(response, JSONArray.fromObject(context).toString());
 
+	}
+
+	@RequestMapping("/queryVideoList")
+	public void queryVideoList(HttpServletRequest request, String baseid, String greehouseids,
+			HttpServletResponse response) {
+		Map<String, Object> obj = new HashMap<String, Object>();
+		obj.put("baseid", baseid);
+		obj.put("greenhouseid", greehouseids);
+		List dataList = sysFacadeService.queryVideoList(obj);
+		HtmlUtil.writerJson(response, dataList);
 	}
 }

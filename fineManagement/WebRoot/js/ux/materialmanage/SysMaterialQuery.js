@@ -10,7 +10,6 @@ finems.sysMaterialQuery = function() {
 					           {field: 'id', checkbox: true},
 					           {field: 'materialno', title: '物资编号', width: 100, sortable: true},
 					           {field: 'materialname', title: '物资名称', width: 100, sortable: true},
-					           {field: 'type', title: '类型列', width: 80, sortable: true},
 					           {field: 'specifications', title: '规格', width: 100, sortable: true},
 					           {field: 'unit', title: '单位', width: 80, sortable: true},
 					           {field: 'brandName', title: '品牌', width: 200, sortable: true},

@@ -104,9 +104,15 @@ public class SysInstore extends BaseAction {
 	 * @throws Exception
 	 */
 	@RequestMapping("/save")
-	public void save(SysStore bean, String purchaseid, String[] warehouseid, HttpServletResponse response
-			) throws Exception {  
+	public void save(SysStore bean, String purchaseid, String[] warehouseid, String[] principals, String[] technicalstaffs, 
+			HttpServletResponse response) throws Exception {  
 		super.saveBean(bean);
+		if (principals != null && principals.length > 0) {
+			bean.setPrincipal(principals[0]);
+		}
+		if (technicalstaffs != null && technicalstaffs.length > 0) {
+			bean.setTechnicalstaff(technicalstaffs[0]);
+		}
 		SysPurchase sysPurchase = sysPurchaseService.queryById(purchaseid);
 		bean.setProductNo(sysPurchase.getProductNo());
 		bean.setInputName(sysPurchase.getInputName());
@@ -122,6 +128,7 @@ public class SysInstore extends BaseAction {
 		bean.setWarehouseid(Integer.parseInt(warehouseid[0]));
 		bean.setInstoretime(DateUtil.getNowFormateDate());
 		bean.setSyssign("1");
+		bean.setSysid(super.getSysid());
 		bean.setProcessInstanceId(purchaseid);
 		sysStoreService.add(bean);
 		// 更新采购计划表

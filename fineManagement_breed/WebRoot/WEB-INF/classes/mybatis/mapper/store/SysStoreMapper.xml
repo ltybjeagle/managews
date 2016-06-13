@@ -18,14 +18,16 @@
 	<result column="syssign" property="syssign"/>
 	<result column="baseid" property="baseid"/>
 	<result column="greenhouseid" property="greenhouseid"/>
+	<result column="fowleryid" property="fowleryid"/>
 	<result column="baseName" property="baseName"/>
 	<result column="greenhouseName" property="greenhouseName"/>
 	<result column="whName" property="whName"/>
 	<result column="classname" property="classname"/>
 	<result column="brandName" property="brandName"/>
 	<result column="mfName" property="mfName"/>
-	<result column="fowleryid" property="fowleryid"/>
-	<result column="fowleryName" property="fowleryName"/>
+	<result column="principalName" property="principalName"/>
+	<result column="technicalstaffName" property="technicalstaffName"/>
+	<result column="outuserName" property="outuserName"/>
 </resultMap>
 
 <sql id="Base_Column_List" >
@@ -37,31 +39,31 @@
 	where 1=1
 	<trim suffixOverrides="," >
 		<if test="id != null and id > 0" >
-			and id = #{id}
+			and m.id = #{id}
 		</if>
 		<if test="productNo != null and productNo != ''" >
-		    and productNo like '%'+#{productNo}+'%'
+		    and m.productNo like '%'+#{productNo}+'%'
 		</if>
 		<if test="inputName != null and inputName != ''" >
-		    and inputName like '%'+#{inputName}+'%'
+		    and m.inputName like '%'+#{inputName}+'%'
 		</if>
 		<if test="classname != null and classname != ''" >
-		    and classname = #{classname}
+		    and m.classname = #{classname}
 		</if>
 		<if test="unit != null and unit != ''" >
-		    and unit = #{unit}
+		    and m.unit = #{unit}
 		</if>
 		<if test="specifications != null and specifications != ''" >
-		    and specifications = #{specifications}
+		    and m.specifications = #{specifications}
 		</if>
 		<if test="brandId != null and brandId > 0" >
-		    and brandId = #{brandId}
+		    and m.brandId = #{brandId}
 		</if>
 		<if test="mfid != null and mfid > 0" >
-		    and mfid = #{mfid}
+		    and m.mfid = #{mfid}
 		</if>
 		<if test="syssign != null and syssign != ''" >
-		    and syssign = #{syssign}
+		    and m.syssign = #{syssign}
 		</if>
 		<if test="startInstoretime != null and startInstoretime != ''" >
 		    and m.instoretime &gt;= #{startInstoretime}
@@ -92,7 +94,10 @@
 
 <select id="queryById" resultMap="BaseResultMap" parameterType="Object">
 	select <include refid="Base_Column_List"/>,whName,m.classname,m.brandName,m.mfName,b.baseName,g.name as greenhouseName 
-	from sys_store m 
+	,em.employeeName as principalName,em1.employeeName as outuserName,em2.employeeName as technicalstaffName from sys_store m 
+	left join sys_employees em on em.id = m.principal
+	left join sys_employees em1 on em1.id = m.outuser
+	left join sys_employees em2 on em2.id = m.technicalstaff
 	left join sys_warehouse wa on wa.id = m.warehouseid 
 	left join sys_base b on m.baseid = b.id
 	left join sys_fowlery g on m.fowleryid = g.id
@@ -154,17 +159,29 @@
 
 <select id="queryByIninventoryList" resultMap="BaseResultMap" parameterType="Object">
 	select <include refid="Base_Column_List"/>,whName,m.classname,m.brandName,m.mfName,m.principal,m.instoretime,
-	m.processInstanceId from sys_store m left join sys_warehouse wa on wa.id = m.warehouseid where m.syssign='1'
+	m.processInstanceId,em.employeeName as principalName from sys_store m left join sys_warehouse wa on wa.id = m.warehouseid 
+	left join sys_employees em on em.id = m.principal
+	where m.syssign='1'
 </select>
 
 <select id="queryByOutinventoryList" resultMap="BaseResultMap" parameterType="Object">
 	select <include refid="Base_Column_List"/>,whName,m.classname,m.brandName,m.mfName,m.outpurchaseCount,m.outuser,
-	m.outuser,m.processInstanceId from sys_store m left join sys_warehouse  wa on wa.id = m.warehouseid where m.syssign='-1'
+	m.outuser,m.processInstanceId,em.employeeName as principalName,em1.employeeName as outuserName,
+	em2.employeeName as technicalstaffName from sys_store m 
+	left join sys_warehouse wa on wa.id = m.warehouseid 
+	left join sys_employees em on em.id = m.principal
+	left join sys_employees em1 on em1.id = m.outuser
+	left join sys_employees em2 on em2.id = m.technicalstaff
+	where m.syssign='-1'
 </select>
 
 <select id="queryByList" resultMap="BaseResultMap" parameterType="Object">
-	select <include refid="Base_Column_List"/>,whName,m.classname,m.brandName,m.mfName from sys_store m 
-	left join sys_warehouse wa on wa.id = m.warehouseid  
+	select <include refid="Base_Column_List"/>,whName,m.classname,m.brandName,m.mfName,em.employeeName as principalName 
+	,em1.employeeName as outuserName,em2.employeeName as technicalstaffName
+	from sys_store m left join sys_warehouse wa on wa.id = m.warehouseid  
+	left join sys_employees em on em.id = m.principal
+	left join sys_employees em1 on em1.id = m.outuser
+	left join sys_employees em2 on em2.id = m.technicalstaff
 	<include refid="Example_Where_Clause"/>
 </select>
 

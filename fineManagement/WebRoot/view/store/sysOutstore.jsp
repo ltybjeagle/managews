@@ -42,16 +42,26 @@
            		</select>
        		</div>
        		<div class="fitem">  
+           		<label>出库数量:</label>  
+           		<input class="easyui-validatebox" name="purchaseCount" data-options="required:true,width:282"/>
+       		</div>
+       		<div class="fitem">  
            		<label>出库负责人:</label>  
-           		<input class="easyui-validatebox" name="principal"/>
+           		<select class="easyui-combobox" id="principals" name="principals" data-options="required:true,editable:false,panelHeight:'auto'" 
+           			style="padding:2px;width:141px;">
+           		</select> 
        		</div>
 			<div class="fitem">  
            		<label>技术人员:</label>  
-           		<input class="easyui-validatebox" name="technicalstaff"/>
+           		<select class="easyui-combobox" id="technicalstaffs" name="technicalstaffs" data-options="required:true,editable:false,panelHeight:'auto'" 
+           			style="padding:2px;width:141px;">
+           		</select> 
        		</div>
        		<div class="fitem">  
            		<label>使用人:</label>  
-           		<input class="easyui-validatebox" name="outuser"/>
+           		<select class="easyui-combobox" id="outusers" name="outusers" data-options="required:true,editable:false,panelHeight:'auto'" 
+           			style="padding:2px;width:141px;">
+           		</select> 
        		</div>   
        		<div class="fitem">  
             	<label>备注:</label>  

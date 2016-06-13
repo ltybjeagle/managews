@@ -12,8 +12,15 @@
 <div class="ui-search-panel" region="north" style="height: 100px;" title="过滤条件" 
 	data-options="striped: true,collapsible:false,iconCls:'icon-search',border:false" >  
 	<form id="searchForm">
-		<p class="ui-fields">
-			<select class="easyui-combobox" name="state" id="state"  onchange="gradeChange()" style="width:100px;">
+	<div>
+		<label class="ui-label">商品编号:</label><input name="brandName" class="easyui-box ui-text" style="width:100px;">
+			<label class="ui-label">投入品名称:</label><input id="brandName1" name="brandName1" class="easyui-combobox" style="width:100px;">
+			<label class="ui-label">使用基地:</label><input id="brandName2" name="brandName2" class="easyui-combobox" style="width:100px;">
+			<label class="ui-label">使用大棚:</label><input id="brandName3" name="brandName3" class="easyui-combobox" style="width:100px;">
+			<a href="#" id="btn-search" class="easyui-linkbutton" iconCls="icon-search">统计</a>
+	</div>
+	<div>
+	<select class="easyui-combobox" name="state" id="state"  onchange="gradeChange()" style="width:100px;">
 		<option value="year">年份</option>
 		<option value="month">月份</option>
 		<option value="date">天</option>
@@ -22,12 +29,7 @@
 				<input id="sd"  class="Wdate" name="start_date"  type="text"/>
 			<label class="ui-label">结束时间：</label>
 			    <input id="ed"  class="Wdate" name="end_date"  type="text" />	
-			<label class="ui-label">商品编号:</label><input name="brandName" class="easyui-box ui-text" style="width:100px;">
-			<label class="ui-label">投入品名称:</label><input name="brandName1" class="easyui-combobox" style="width:100px;">
-			<label class="ui-label">使用基地:</label><input name="brandName2" class="easyui-combobox" style="width:100px;">
-			<label class="ui-label">使用禽舍:</label><input name="brandName3" class="easyui-combobox" style="width:100px;">
-	   	</p>
-	   	<a href="#" id="btn-search" class="easyui-linkbutton" iconCls="icon-search">统计</a>
+	</div>
 	</form>  
 </div> 
 <div  region="center" border="false" style="overflow:auto">

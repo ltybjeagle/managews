@@ -66,7 +66,7 @@ public class SysOutstore extends BaseAction {
 	 */
 	@RequestMapping("/dataList") 
 	public void dataList(SysInputsBreedModel model, String[] classnames, HttpServletResponse response) throws Exception {
-		if (classnames != null && classnames.length > 0) {
+		if (classnames != null && classnames.length > 0 && !"".equals(classnames[0])) {
 			model.setClassname(classnames[0]);
 		}
 		model.setIsoutstore("0");
@@ -122,8 +122,18 @@ public class SysOutstore extends BaseAction {
 	 * @throws Exception
 	 */
 	@RequestMapping("/save")
-	public void save(SysStore bean, Integer inputid, String[] warehouseid, HttpServletResponse response) throws Exception {
+	public void save(SysStore bean, Integer inputid, String[] warehouseid, String[] principals, String[] technicalstaffs, 
+			String[] outusers, HttpServletResponse response) throws Exception {
 		super.saveBean(bean);
+		if (principals != null && principals.length > 0) {
+			bean.setPrincipal(principals[0]);
+		}
+		if (technicalstaffs != null && technicalstaffs.length > 0) {
+			bean.setTechnicalstaff(technicalstaffs[0]);
+		}
+		if (outusers != null && outusers.length > 0) {
+			bean.setOutuser(outusers[0]);
+		}
 		SysInputsBreed sysInputs = sysInputsBreedService.queryById(inputid);
 		bean.setProductNo(sysInputs.getProductNo());
 		bean.setInputName(sysInputs.getInputName());
@@ -135,13 +145,13 @@ public class SysOutstore extends BaseAction {
 		bean.setSpecifications(sysInputs.getSpecifications());
 		bean.setUnit(sysInputs.getUnit());
 		bean.setUnitPrice(sysInputs.getUnitPrice());
-		bean.setPurchaseCount(sysInputs.getPurchaseCount());
 		BigDecimal unitprice = new BigDecimal(sysInputs.getUnitPrice() + "");
-		BigDecimal purchaseCount = new BigDecimal(sysInputs.getPurchaseCount() + "");
+		BigDecimal purchaseCount = new BigDecimal(bean.getPurchaseCount() + "");
 		bean.setTotalprice(unitprice.multiply(purchaseCount).toString());
 		bean.setWarehouseid(Integer.parseInt(warehouseid[0]));
 		bean.setOutstoretime(DateUtil.getNowFormateDate());
 		bean.setSyssign("-1");
+		bean.setSysid(super.getSysid());
 		bean.setProcessInstanceId(inputid + "");
 		sysStoreService.add(bean);
 		// 更新投入品表

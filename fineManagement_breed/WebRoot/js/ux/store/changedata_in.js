@@ -13,7 +13,7 @@ function showIninventory(storeId) {
 		$("#instoretime").text(result.data.instoretime);
 		$("#unitPrice").text(result.data.unitPrice);
 		$("#whName").text(result.data.whName);
-		$("#principal").text(result.data.principal);
+		$("#principalName").text(result.data.principalName);
 		$("#remark").text(result.data.remark);
 		$("#edit-pwd-win").dialog('open');
 	});
@@ -36,9 +36,9 @@ function showOutinventory(storeId) {
 		$("#whName").text(result.data.whName);
 		$("#baseName").text(result.data.baseName);
 		$("#greenhouseName").text(result.data.greenhouseName);
-		$("#technicalstaff").text(result.data.technicalstaff);
-		$("#outuser").text(result.data.outuser);
-		$("#principal").text(result.data.principal);
+		$("#technicalstaffName").text(result.data.technicalstaffName);
+		$("#outuserName").text(result.data.outuserName);
+		$("#principalName").text(result.data.principalName);
 		$("#remark").text(result.data.remark);
 		$("#edit-pwd-win").dialog('open');
 	});

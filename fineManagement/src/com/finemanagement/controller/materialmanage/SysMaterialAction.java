@@ -12,9 +12,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.finemanagement.page.common.SysNumberRulesModel;
 import com.finemanagement.page.materialmanage.sysMaterialmanageModel;
 
+import com.finemanagement.service.common.SysNumberRulesService;
 import com.finemanagement.service.materialmanage.sysMaterialService;
+import com.finemanagement.entity.common.SysNumberRules;
 import com.finemanagement.entity.materialmanage.sysMaterialmanage;
 
 import com.base.util.HtmlUtil;
@@ -27,6 +30,9 @@ public class SysMaterialAction extends BaseAction {
 	
 	@Autowired(required = false)
 	private sysMaterialService<sysMaterialmanage> sysMaterialService;
+	
+	@Autowired(required = false)
+	private SysNumberRulesService<SysNumberRules> sysNumberRulesService;
 	
 	/**
 	 * ilook 首页
@@ -70,12 +76,11 @@ public class SysMaterialAction extends BaseAction {
 	 * @throws Exception
 	 */
 	@RequestMapping("/save")
-	public void save(sysMaterialmanage bean, 
-			HttpServletResponse response) throws Exception {  
+	public void save(sysMaterialmanage bean, HttpServletResponse response) throws Exception {  
 		bean.setMfid(bean.getMfid());
 		bean.setBrandId(bean.getBrandId());
 		if(bean.getId()==null){
-			bean.setSysid("plantsys");
+			bean.setSysid(super.getSysid());
 			bean.setSyssign("0");
 			sysMaterialService.add(bean);
 			sendSuccessMessage(response, "添加成功~");
@@ -105,18 +110,28 @@ public class SysMaterialAction extends BaseAction {
 	}
 	
 	@RequestMapping("/getmaterialno")
-	public void getMaterialno(sysMaterialmanageModel model, HttpServletResponse response)throws Exception {
-		Map<String, Object> context = getRootMap();
-		model.setSyssign("0");//物资
-		model.setSysid(super.getSysid());
-		List<sysMaterialmanage> dataList = sysMaterialService.queryDataByList(model);
+	public void getMaterialno(HttpServletResponse response)throws Exception {
+		String iden = "wzbh";
+		SysNumberRulesModel model = new SysNumberRulesModel();
+		super.indiModel(model);
+		model.setRuleIden(iden);
+		List<SysNumberRules> dataList = sysNumberRulesService.queryDataByList(model);
 		int mno = 1;
 		if (dataList != null && dataList.size() > 0) {
-			sysMaterialmanage sys = dataList.get(0);
-			mno = sys.getId();
+			SysNumberRules sysNumberRules = dataList.get(0);
+			mno = sysNumberRules.getRuleNum();
 			mno++;
+			sysNumberRules.setRuleNum(mno);
+			sysNumberRulesService.updateBySelective(sysNumberRules);
+		} else {
+			SysNumberRules sysNumberRules = new SysNumberRules();
+			super.saveBean(sysNumberRules);
+			sysNumberRules.setRuleIden(iden);
+			sysNumberRules.setRuleNum(mno);
+			sysNumberRulesService.add(sysNumberRules);
 		}
-		String materialno = "wzbh"+StringUtil.fillZero(mno + "", 6);
+		Map<String, Object> context = getRootMap();
+		String materialno = iden + StringUtil.fillZero(mno + "", 6);
 		sysMaterialmanage bean = new sysMaterialmanage();
 		bean.setMaterialno(materialno);
 		context.put(SUCCESS, true);

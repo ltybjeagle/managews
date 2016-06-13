@@ -1,6 +1,5 @@
 package com.finemanagement.controller.samping;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,9 +16,12 @@ import com.base.util.DateUtil;
 import com.base.util.HtmlUtil;
 import com.base.util.StringUtil;
 import com.base.web.BaseAction;
+import com.finemanagement.entity.common.SysNumberRules;
 import com.finemanagement.entity.samping.SysSampingEntity;
 
+import com.finemanagement.page.common.SysNumberRulesModel;
 import com.finemanagement.page.samping.SysSampingModel;
+import com.finemanagement.service.common.SysNumberRulesService;
 import com.finemanagement.service.samping.SysSampingService;
 
 @Controller
@@ -28,6 +30,9 @@ public class SysSampingAction extends BaseAction {
 	
 	@Autowired(required = false)
 	private SysSampingService<SysSampingEntity> sysSampingService;
+	
+	@Autowired(required = false)
+	private SysNumberRulesService<SysNumberRules> sysNumberRulesService;
 	
 	/**
 	 * ilook 首页
@@ -52,7 +57,7 @@ public class SysSampingAction extends BaseAction {
 	 * @throws Exception
 	 */
 	@RequestMapping("/dataList") 
-	public void dataList(SysSampingModel model, String[] plantids, String[] baseids, String[] greehouseids, 
+	public void dataList(SysSampingModel model, String[] plantids, String[] baseids, String[] fowleryids, 
 			HttpServletResponse response) throws Exception {
 		super.indiModel(model);
 		if (plantids != null && plantids.length > 0) {
@@ -61,8 +66,8 @@ public class SysSampingAction extends BaseAction {
 		if (baseids != null && baseids.length > 0) {
 			model.setBaseid(Integer.parseInt(baseids[0]));
 		}
-		if (greehouseids != null && greehouseids.length > 0) {
-			model.setGreenhouseid(Integer.parseInt(greehouseids[0]));
+		if (fowleryids != null && fowleryids.length > 0) {
+			model.setFowleryid(Integer.parseInt(fowleryids[0]));
 		}
 		List<SysSampingEntity> dataList = sysSampingService.queryByList(model);
 		// 设置页面数据
@@ -74,14 +79,28 @@ public class SysSampingAction extends BaseAction {
 	
 	@RequestMapping("/getSerializId")
 	public void getSerializId(HttpServletResponse response) throws Exception {
-		SysSampingModel model = new SysSampingModel();
+		String iden = "ypbh";
+		SysNumberRulesModel model = new SysNumberRulesModel();
 		super.indiModel(model);
-		model.setCreateTime(DateUtil.getNowFormateDate());
-		List<SysSampingEntity> dataList = sysSampingService.queryDataByList(model);
+		model.setRuleIden(iden);
+		List<SysNumberRules> dataList = sysNumberRulesService.queryDataByList(model);
+		int mno = 1;
+		if (dataList != null && dataList.size() > 0) {
+			SysNumberRules sysNumberRules = dataList.get(0);
+			mno = sysNumberRules.getRuleNum();
+			mno++;
+			sysNumberRules.setRuleNum(mno);
+			sysNumberRulesService.updateBySelective(sysNumberRules);
+		} else {
+			SysNumberRules sysNumberRules = new SysNumberRules();
+			super.saveBean(sysNumberRules);
+			sysNumberRules.setRuleIden(iden);
+			sysNumberRules.setRuleNum(mno);
+			sysNumberRulesService.add(sysNumberRules);
+		}
 		Map<String, Object> context = getRootMap();
 		SysSampingEntity bean = new SysSampingEntity();
-		String sampleno = "ypbh" + DateUtil.getNowShortDate() + StringUtil.fillZero((dataList.size() 
-				+ 1) + "", 3);
+		String sampleno = iden + DateUtil.getNowShortDate() + StringUtil.fillZero(mno + "", 6);
 		bean.setSampleno(sampleno);
 		context.put(SUCCESS, true);
 		context.put("data", bean);
@@ -102,7 +121,7 @@ public class SysSampingAction extends BaseAction {
 		bean.setFilePath(realPath);
 		bean.setSampname(sampname[0]);
 		bean.setBaseid(Integer.parseInt(bean.getBaseName()));
-		bean.setGreenhouseid(Integer.parseInt(bean.getGreenhousename()));
+		bean.setFowleryid(Integer.parseInt(bean.getGreenhousename()));
 		if (bean.getId() == null) {
 			bean.setCreateTime(DateUtil.getNowFormateDate());
 			sysSampingService.addSamping(bean);
@@ -115,7 +134,7 @@ public class SysSampingAction extends BaseAction {
 	@RequestMapping("/getId")
 	public void getId(Integer id, HttpServletResponse response) throws Exception {
 		Map<String, Object> context = getRootMap();
-		SysSampingEntity bean = sysSampingService.queryById(id);
+		SysSampingEntity bean = sysSampingService.querSamping(id);
 		if (bean  == null) {
 			sendFailureMessage(response, "没有找到对应的记录!");
 			return;
@@ -128,18 +147,7 @@ public class SysSampingAction extends BaseAction {
 	@RequestMapping("/delete")
 	public void delete(Integer[] id, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String realPath = request.getSession().getServletContext().getRealPath("/uploadfile");  
-		for (Integer sid : id) {
-			SysSampingEntity bean = sysSampingService.queryById(sid);
-			List<SysSampingEntity> list = sysSampingService.queryFileByNo(bean.getSampleno());
-			for (SysSampingEntity file : list) {
-				File samFile = new File(realPath + "/" + file.getFileName());
-				if (samFile.isFile() && samFile.exists()) {
-					samFile.delete();
-				}
-				//sysSampingService.deleteFileByID(file.getID());
-			}
-		}
-		sysSampingService.delete(id);
+		sysSampingService.deleteSamping(realPath, id);
 		sendSuccessMessage(response, "删除成功");
 	}
 }

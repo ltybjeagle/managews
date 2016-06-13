@@ -26,7 +26,6 @@ public class SysStoreModel extends BasePage {
     private String unitPrice;//单价
     private String totalprice;//总价
     private int warehouseid ;//库房
-    private String sysid ;//系统id
     private String technicalstaff ;//技术人员
     private String principal ;//负责人
     private String remark ;//说明
@@ -175,12 +174,6 @@ public class SysStoreModel extends BasePage {
 	}
 	public void setWarehouseid(int warehouseid) {
 		this.warehouseid = warehouseid;
-	}
-	public String getSysid() {
-		return sysid;
-	}
-	public void setSysid(String sysid) {
-		this.sysid = sysid;
 	}
 	public String getTechnicalstaff() {
 		return technicalstaff;

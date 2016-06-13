@@ -54,15 +54,7 @@ finems.SysStocktaking = function() {
 	return _this;
 }();
 function showReturnDetail(storeId) {
-	var data = {};
-	data['id'] = (storeId);
-	finems.getById('../sysMaterialStockDetail/list.shtml', data, function(result) {
-		$("#stocktalingno").text(result.data.stocktalingno);
-		$("#whName").text(result.data.whName);
-		$("#principal").text(result.data.principal);
-		$("#remark").text(result.data.remark);
-		
-	});
+	window.location.href = '../sysMaterialStockDetail/list.shtml?id=' + storeId;
 }
 $(function(){
 	finems.SysStocktaking.init();

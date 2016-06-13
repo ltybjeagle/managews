@@ -18,17 +18,14 @@ import com.base.web.BaseAction;
 import com.finemanagement.entity.inputs.SysProduct;
 import com.finemanagement.entity.pick.SysPick;
 import com.finemanagement.entity.production.SysInputs;
-import com.finemanagement.entity.slaughter.SysSlaughter;
 import com.finemanagement.page.inputs.SysProductModel;
 import com.finemanagement.page.pick.SysPickModel;
 import com.finemanagement.page.production.SysInputsModel;
 import com.finemanagement.page.production.SysPlantModel;
-import com.finemanagement.page.slaughter.SysSlaughterModel;
 import com.finemanagement.service.inputs.SysProductService;
 import com.finemanagement.service.pick.SysPickService;
 import com.finemanagement.service.production.SysInputsService;
 import com.finemanagement.service.production.SysPlantService;
-import com.finemanagement.service.slaughter.SysSlaughterService;
 
 @Controller
 @RequestMapping("/statisticsInputs")
@@ -42,9 +39,6 @@ public class StatisticsInputsAction<T> extends BaseAction {
 
 	@Autowired(required = false)
 	private SysPickService<SysPick> sysPickService; // 采摘
-
-	@Autowired(required = false)
-	private SysSlaughterService<SysSlaughter> sysSlaughterService; // 出栏
 
 	@Autowired(required = false)
 	private SysPlantService<T> sysPlantService; // 采收
@@ -237,75 +231,4 @@ public class StatisticsInputsAction<T> extends BaseAction {
 		HtmlUtil.writerJson(response, jsonMap);
 	}
 
-	/**
-	 * json 出栏列表页面
-	 * 
-	 * @param model
-	 * @param response
-	 * @throws Exception
-	 */
-	@RequestMapping("/slaughtertable")
-	public void slaughterDataList(SysSlaughterModel model, String state, String start_date, String end_date,
-			HttpServletResponse response) throws Exception {
-		Map<String, Object> map = BeanUtil.transBean2Map(model);
-		map.put("start_date", start_date);
-		map.put("end_date", end_date);
-
-		List<SysSlaughter> dataList = null;
-		if (state == null)
-			return;
-		if ("year".equals(state)) {
-			dataList = sysSlaughterService.queryByYearList(model);
-		} else if ("month".equals(state)) {
-			dataList = sysSlaughterService.queryByMonthList(model);
-		} else if ("date".equals(state)) {
-			dataList = sysSlaughterService.queryByDateList(model);
-		}
-		// 设置页面数据
-		Map<String, Object> jsonMap = new HashMap<String, Object>();
-		jsonMap.put("total", model.getPager().getRowCount());
-		jsonMap.put("rows", dataList);
-		HtmlUtil.writerJson(response, jsonMap);
-	}
-
-	/**
-	 * json 统计页面
-	 * 
-	 * @param model
-	 * @param response
-	 * @throws Exception
-	 */
-	// @RequestMapping("/inputsgraph")
-	// public void graphdataList(SysInputsModel model, String start_date, String
-	// end_date, HttpServletResponse response)
-	// throws Exception {
-	//
-	// Map<String, Object> map = BeanUtil.transBean2Map(model);
-	// map.put("start_date", start_date);
-	// map.put("end_date", end_date);
-	// List<SysInputs> dataList = sysInputsService.queryByStatistics(map);
-	// // 设置页面数据
-	// Map<String, Object> jsonMap = new HashMap<String, Object>();
-	// List<Object> jsonArray = new ArrayList<Object>();
-	// Map<String, Object> unitMap = new HashMap<String, Object>();
-	// Map<String, Object> yearMap = new HashMap<String, Object>();
-	// jsonMap.put("name", "数量"); // 对应series.name
-	// unitMap.put("name", "价格");
-	// JSONArray list = new JSONArray();
-	// JSONArray yearlist = new JSONArray();
-	// JSONArray uintlist = new JSONArray();
-	// for (SysInputs sin : dataList) {
-	// list.put(Integer.parseInt(sin.getPurchaseCount()));
-	// uintlist.put(Integer.parseInt(sin.getUnitPrice()));
-	// yearlist.put(sin.getStartTime());// 对应Y轴显示
-	// }
-	// jsonMap.put("list", list);
-	// unitMap.put("list", uintlist);
-	// yearMap.put("year", yearlist);
-	// jsonArray.add(jsonMap);
-	// jsonArray.add(unitMap);
-	// jsonArray.add(yearMap);
-	//
-	// HtmlUtil.writerJson(response, jsonArray);
-	// }
 }

@@ -1,5 +1,4 @@
 $package('finems.sysMaterialStocktaking');
-
 finems.sysMaterialStocktaking = function() {
 	var _box = null;
 	var materialno = null;
@@ -9,7 +8,6 @@ finems.sysMaterialStocktaking = function() {
 				event: {
 					edit: function() {
 						_box.handler.edit(function(result) {
-							
 						});
 					}
 				},
@@ -39,11 +37,29 @@ finems.sysMaterialStocktaking = function() {
 								        	  disabled: false,
 								        	  iconCls: 'icon-add',
 								        	  handler: function() {
-								        		  var Win = { edit: $("#add-win")};
-					                     			var Form = {
-					                     					edit: $("#editForm")};
-					                     			Win.edit.dialog('open');
-					                     			Form.edit.resetForm();
+								        		  var Win = { edit: $("#add-win") };
+					                     		  var Form = { edit: $("#editForm") };
+					                     		 $("#materialno").combobox({
+					             					url: '../sysMaterialStocktaking/loadmaterialnoList.do',
+					             					valueField: 'materialno',
+					             					textField: 'materialno',
+					             					multiple: false,
+					             					onSelect: function(record){
+					             						if (record.materialno == '') {
+					             							$("#materialname").val("");
+					             							$("#storecount").val("");
+					             							materialno = null;
+					             							datalist = null;
+					             						} else {
+					             							$("#materialname").val(record.materialname);
+					             							materialno = record.materialno;
+					             							$("#storecount").val(record.storecount);
+					             							datalist = record;
+					             						}
+					             					}
+					             				});
+					                     		  Win.edit.dialog('open');
+					                     		  Form.edit.resetForm();
 								        	  }
 								          },
 								          {id: 'btnsave',
@@ -51,24 +67,22 @@ finems.sysMaterialStocktaking = function() {
 								        	  disabled: false,
 								        	  iconCls: 'icon-save',
 								        	  handler: function() {
-								        		  debugger;
 								        		  var rows = $('#data-list').datagrid('getRows');
 								        		  if (rows.length > 0) {
 								        				finems.progress();
 								        				var data = {};
 								        				data['stocktalingno'] = ($("#stocktalingno").val());
-								        				data['warehouseid'] = ($("#warehouseid").val());
+								        				data['warehouseid'] = ($('#warehouseid').combobox('getValue'));
 								        				data['principal'] = ($("#principal").val());
 								        				data['remark'] = ($("#remark").val());
-								        				
 								        				finems.ajaxJson('../SysStocktakingAction/save.do?', data, function(resp) {
 								        					if(resp.success){
 								        						for(var i =0; i < rows.length;i++){
 								        							rows[i]["stocktalingno"]=($("#stocktalingno").val());
 								        							finems.ajaxJson('../sysMaterialStocktaking/save.do?', rows[i], function(resp) {
 								        								if(resp.success){
-								        									alert("保存成功!");
-								        									window.location.href = '../sysMaterialStocktaking/list.shtml';
+								        									finems.alert('警告', '保存成功!', 'warning');
+								        									window.location.href = '../SysStocktakingAction/list.shtml';
 								        								}
 								        							});
 								        						}
@@ -100,12 +114,9 @@ finems.sysMaterialStocktaking = function() {
 					});
 				});
 				$("#editaddbtn").find("#btn-pwd-add").click(function() {
-					debugger;
-//					var data = {"materialno":materialno}; 
-//		      		finems.ajaxJson('../sysMaterialStocktaking/getmaterial.do', data, function(resp){
 					    var firm = $("#firm")[0].value;
 					    if(firm==""){
-					    	alert("请录入实盘数！");
+					    	finems.alert('警告', '请录入实盘数！', 'warning');
 					    	return;
 					    }
 						var data = datalist;
@@ -125,30 +136,10 @@ finems.sysMaterialStocktaking = function() {
 		      					mfName:data.mfName
 		      				}
 		      			});
-		      			  //重画列表
+		      			$("#add-win").dialog('close');
 		      		 });
-//				});
 			},
 			init: function () {
-				$("#materialno").combobox({
-					url: '../sysMaterialStocktaking/loadmaterialnoList.do',
-					valueField: 'id',
-					textField: 'materialno',
-					multiple: false,
-					onSelect: function(record){
-						if (record.id == 0) {
-							$("#materialname").val("");
-							$("#storecount").val("");
-							materialno = null;
-							datalist = null;
-						} else {
-							$("#materialname").val(record.materialname);
-							materialno = record.materialno;
-							$("#storecount").val(record.storecount);
-							datalist = record;
-						}
-					}
-				});
 				$("#warehouseid").combobox({
 					url: '../sysMaterialStocktaking/loadwarehouseidList.do',
 					valueField: 'id',

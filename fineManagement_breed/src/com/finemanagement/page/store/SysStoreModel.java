@@ -36,6 +36,7 @@ public class SysStoreModel extends BasePage {
     private String outuser;//使用人
     private int baseid;//基地
     private int greenhouseid;//大棚
+    private int fowleryid;
     private String outpurchaseCount;//出库数量
     private String syssign;//
     private String processInstanceId;//操作类型
@@ -45,6 +46,18 @@ public class SysStoreModel extends BasePage {
     private String startOutstoretime; // 开始出库时间
     private String endOutstoretime; // 结束出库时间
     /**
+	 * @return the fowleryid
+	 */
+	public int getFowleryid() {
+		return fowleryid;
+	}
+	/**
+	 * @param fowleryid the fowleryid to set
+	 */
+	public void setFowleryid(int fowleryid) {
+		this.fowleryid = fowleryid;
+	}
+	/**
 	 * @return the startOutstoretime
 	 */
 	public String getStartOutstoretime() {

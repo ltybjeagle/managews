@@ -11,7 +11,7 @@
     overflow: hidden;
 }
 
-#video, #details, #bottom {
+#RealTimePlayOcx, #details, #bottom {
 	float: left;
 }
 
@@ -32,15 +32,23 @@ span {
 <div id="monitor" region="center" border="false" >
 	<input class="hidden" type="text" name="videoId" id="videoId">
 	<input class="hidden" type="text" name="videoChannelNumber" id="videoChannelNumber">
-	<div class="ui-edit">
+	<div class="ui-edit" style='position:relative; z-index:999; top:0;'>
 		<div class="ftitle">视频</div>
-		<div class="fitem">  
-       		<select class="easyui-combobox" id="videoIds" name="videoIds" data-options="width:141">
+		<div class="fitem" >  
+       		<select class="easyui-combobox" id="videoIds" name="videoIds"  data-options="width:141">
        		</select>
-       		<a href="javascript:selectVideo();" class="easyui-linkbutton" id="btn-pwd-close">打开</a>
+       		<a href="#" class="easyui-linkbutton" id="btn-search">打开</a>
    		</div>
 	</div>
-	<video id="video" width="677" height="352" poster="../images/u40.png"></video>
+	
+	<object classid="clsid:D5E14042-7BF6-4E24-8B01-2F453E8154D7"
+							id="RealTimePlayOcx" width="600px" height="350px"
+							name="RealTimePlayOcx">
+							<param name="theme" value="blue" >
+							 <param name="PreviewBottomToolBar" value=1>    
+							 <param name="PreviewRecordBnt" value=0>
+                              <param name="showType" value="1">
+						</object>
 	<div id="details">
 		<div class="ui-edit" style="width: 400px">
 			<div class="ftitle">种植信息</div>

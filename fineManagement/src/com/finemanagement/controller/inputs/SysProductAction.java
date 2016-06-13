@@ -22,8 +22,11 @@ import org.springframework.web.servlet.ModelAndView;
 import com.base.util.HtmlUtil;
 import com.base.util.StringUtil;
 import com.base.web.BaseAction;
+import com.finemanagement.entity.common.SysNumberRules;
 import com.finemanagement.entity.inputs.SysProduct;
+import com.finemanagement.page.common.SysNumberRulesModel;
 import com.finemanagement.page.inputs.SysProductModel;
+import com.finemanagement.service.common.SysNumberRulesService;
 import com.finemanagement.service.inputs.SysProductService;
 
 /**
@@ -36,6 +39,9 @@ public class SysProductAction extends BaseAction {
 
 	@Autowired(required = false)
 	private SysProductService<SysProduct> sysProductService;
+	
+	@Autowired(required = false)
+	private SysNumberRulesService<SysNumberRules> sysNumberRulesService;
 	
 	/**
 	 * ilook 首页
@@ -88,18 +94,28 @@ public class SysProductAction extends BaseAction {
 	
 	@RequestMapping("/getSerializId")
 	public void getSerializId(HttpServletResponse response) throws Exception {
-		SysProductModel model = new SysProductModel();
+		String iden = "trp";
+		SysNumberRulesModel model = new SysNumberRulesModel();
 		super.indiModel(model);
-		List<SysProduct> dataList = sysProductService.queryDataByList(model);
+		model.setRuleIden(iden);
+		List<SysNumberRules> dataList = sysNumberRulesService.queryDataByList(model);
 		int mno = 1;
 		if (dataList != null && dataList.size() > 0) {
-			SysProduct sysProduct = dataList.get(0);
-			mno = sysProduct.getId();
+			SysNumberRules sysNumberRules = dataList.get(0);
+			mno = sysNumberRules.getRuleNum();
 			mno++;
+			sysNumberRules.setRuleNum(mno);
+			sysNumberRulesService.updateBySelective(sysNumberRules);
+		} else {
+			SysNumberRules sysNumberRules = new SysNumberRules();
+			super.saveBean(sysNumberRules);
+			sysNumberRules.setRuleIden(iden);
+			sysNumberRules.setRuleNum(mno);
+			sysNumberRulesService.add(sysNumberRules);
 		}
 		Map<String, Object> context = getRootMap();
 		SysProduct bean = new SysProduct();
-		String productNo = "trp" + StringUtil.fillZero(mno + "", 6);
+		String productNo = iden + StringUtil.fillZero(mno + "", 6);
 		bean.setProductNo(productNo);
 		context.put(SUCCESS, true);
 		context.put("data", bean);

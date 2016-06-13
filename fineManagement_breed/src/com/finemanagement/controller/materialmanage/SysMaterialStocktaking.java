@@ -1,9 +1,7 @@
 package com.finemanagement.controller.materialmanage;
 
 import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -87,9 +85,9 @@ public class SysMaterialStocktaking extends BaseAction {
 		model.setSysid(super.getSysid());
 		List<sysMaterialmanage> dataList = sysMaterialService.queryByUniteList(model);
 		// 设置页面数据
-		Map instoreMap = new HashMap();
-		Map consumMap = new HashMap();
-		Map returnMap = new HashMap();
+		Map<String, Object> instoreMap = new HashMap<String, Object>();
+		Map<String, Object> consumMap = new HashMap<String, Object>();
+		Map<String, Object> returnMap = new HashMap<String, Object>();
 		for(int i =0; i < dataList.size();i++){
 			sysMaterialmanage sys = dataList.get(i);
 			if(sys.getSyssign().equals("1")){//统计入库数据
@@ -117,7 +115,7 @@ public class SysMaterialStocktaking extends BaseAction {
 				}
 			}
 		}
-		for(Iterator it = instoreMap.keySet().iterator();it.hasNext();){
+		for(Iterator<String> it = instoreMap.keySet().iterator();it.hasNext();){
 			String no = (String) it.next();
 			BigDecimal ins = new BigDecimal(instoreMap.get(no)+"");
 			if(returnMap.get(no)!=null){
@@ -158,8 +156,7 @@ public class SysMaterialStocktaking extends BaseAction {
 	 * @throws Exception
 	 */
 	@RequestMapping("/save")
-	public void save(sysMaterialmanage bean, 
-			HttpServletResponse response) throws Exception {
+	public void save(sysMaterialmanage bean, HttpServletResponse response) throws Exception {
 		BigDecimal storecount = new BigDecimal(bean.getStorecount());
 		BigDecimal firm = new BigDecimal(bean.getFirm());
 		bean.setDifferences(firm.subtract(storecount)+"");
@@ -173,13 +170,7 @@ public class SysMaterialStocktaking extends BaseAction {
 			bean.setProfitloss("盘亏");
 		}
 		bean.setSyssign("4");//物资盘库
-		bean.setSysid("plantsys");
-//		sysMaterialmanageModel model = new sysMaterialmanageModel();
-//		model.setSyssign("4");
-//		model.setMaterialno(bean.getMaterialno());
-//		model.setSysid(super.getSysid());
-//		List<sysMaterialmanage> dataList = sysMaterialService.queryByList(model);
-//		if()
+		bean.setSysid(super.getSysid());
 		sysMaterialService.add(bean);
 		sendSuccessMessage(response, "盘库成功~");
 	}
@@ -213,88 +204,10 @@ public class SysMaterialStocktaking extends BaseAction {
 	}
 	
 	@RequestMapping("/loadmaterialnoList") 
-	public void loadmaterialnoList(sysMaterialmanageModel model, 
-			HttpServletResponse response)throws Exception{
+	public void loadmaterialnoList(sysMaterialmanageModel model, HttpServletResponse response)throws Exception{
 		model.setSysid(super.getSysid());
+		model.setSort("materialno");
 		List<sysMaterialmanage> dataList = sysMaterialService.queryByUniteList(model);
-		// 设置页面数据
-		Map instoreMap = new HashMap();
-		Map consumMap = new HashMap();
-		Map returnMap = new HashMap();
-		Map map = new HashMap();
-		for(int i =0; i < dataList.size();i++){
-			sysMaterialmanage sys = dataList.get(i);
-			if(sys.getSyssign().equals("0")){//统计物资目录
-				map.put(sys.getMaterialno()+"", "0");	
-			}
-			if(sys.getSyssign().equals("1")){//统计入库数据
-				if(instoreMap.containsKey(sys.getMaterialno()+"")){
-					BigDecimal incount = new BigDecimal(instoreMap.get(sys.getMaterialno()+"")+"");
-					instoreMap.put(sys.getMaterialno()+"", incount.add(new BigDecimal(sys.getStorecount()))+"");
-				}else{
-					instoreMap.put(sys.getMaterialno()+"", sys.getStorecount()+"");
-				}
-			}
-			if(sys.getSyssign().equals("2")){//统计领用数据
-				if(consumMap.containsKey(sys.getMaterialno()+"")){
-					BigDecimal consumcount = new BigDecimal(consumMap.get(sys.getMaterialno()+"")+"");
-					consumMap.put(sys.getMaterialno()+"", consumcount.add(new BigDecimal(sys.getConsumcount()))+"");
-				}else{
-					consumMap.put(sys.getMaterialno()+"", sys.getConsumcount()+"");
-				}
-			}
-			if(sys.getSyssign().equals("3")){//统计归还数据
-				if(returnMap.containsKey(sys.getMaterialno()+"")){
-					BigDecimal returncount = new BigDecimal(returnMap.get(sys.getMaterialno()+"")+"");
-					returnMap.put(sys.getMaterialno()+"", returncount.add(new BigDecimal(sys.getReturncount()))+"");
-				}else{
-					returnMap.put(sys.getMaterialno()+"", sys.getReturncount()+"");
-				}
-			}
-		}
-		for(Iterator it = instoreMap.keySet().iterator();it.hasNext();){
-			String no = (String) it.next();
-			BigDecimal ins = new BigDecimal(instoreMap.get(no)+"");
-			if(returnMap.get(no)!=null){
-				ins = ins.add(new BigDecimal(returnMap.get(no)+""));
-			}
-			if(consumMap.get(no)!=null){
-				ins =ins.subtract(new BigDecimal(consumMap.get(no)+""));
-			}
-			instoreMap.put(no, ins+"");
-		}
-		
-		for(Iterator it = map.keySet().iterator();it.hasNext();){
-			String no = (String) it.next();
-			if(instoreMap.containsKey(no)||consumMap.containsKey(no)||returnMap.containsKey(no)){
-			}else{
-				instoreMap.put(no, "0");
-			}
-		}
-		//重新组装列表数据
-		List<sysMaterialmanage> data = new ArrayList<sysMaterialmanage>();
-		for(int i =0; i < dataList.size();i++){
-			sysMaterialmanage sys = dataList.get(i);
-			if(instoreMap.containsKey(sys.getMaterialno()+"")){
-				sys.setStorecount(instoreMap.get(sys.getMaterialno()+"")+"");
-				data.add(sys);
-				instoreMap.remove(sys.getMaterialno()+"");
-			}
-		}
-		if(data.size()==0){
-			for(int i =0; i < dataList.size();i++){
-				sysMaterialmanage sys = dataList.get(i);
-				sys.setStorecount("0");
-				data.add(sys);
-			}
-		}
-		
-		List<sysMaterialmanage> newList = new ArrayList<sysMaterialmanage>();
-		sysMaterialmanage sys = new sysMaterialmanage();
-		sys.setId(0);
-		sys.setMaterialno("--请选择--");
-		newList.add(sys);
-		newList.addAll(data);
-		HtmlUtil.writerJson(response, newList);
+		HtmlUtil.writerJson(response, dataList);
 	}
 }

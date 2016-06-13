@@ -24,7 +24,7 @@
 	<table id="data-list"></table>
 </div>
 <!-- Edit Form -->
-<div id="edit-win" class="easyui-dialog" title="Edit" data-options="closed:true,iconCls:'icon-save',modal:true" 
+<div id="edit-win" class="easyui-dialog" title="添加" data-options="closed:true,iconCls:'icon-save',modal:true" 
 	style="width:560px;height:460px;">
 	<form id="editForm" class="ui-form" method="post"> 
 		<input class="hidden" type="text" name="id">

@@ -8,12 +8,14 @@
 	<result column="samplingcount" property="samplingcount"/>
 	<result column="samplingpeople" property="samplingpeople"/>
 	<result column="baseid" property="baseid"/>
+	<result column="fowleryid" property="fowleryid"/>
 	<result column="greenhouseid" property="greenhouseid"/>
 	<result column="samplingtime" property="samplingtime"/>
 	<result column="remark" property="remark"/>
 	<result column="sysid" property="sysid"/>
 	<result column="baseName" property="baseName"/>
 	<result column="greenhousename" property="greenhousename"/>
+	<result column="fowleryName" property="fowleryName"/>
 	<result column="createTime" property="createTime"/>
 	<result column="variety" property="variety"/>
 	<result column="ID" property="ID"/>
@@ -21,11 +23,12 @@
 	<result column="Url" property="Url"/>
 	<result column="TableName" property="TableName"/>
 	<result column="CreateTime" property="CreateTime"/>
+	<result column="uuid" property="uuid"/>
 </resultMap>
 
 <sql id="Base_Column_List" >
 	m.id,m.sampleno,m.sampname,m.samplingcount,m.samplingpeople,m.baseid,m.greenhouseid,m.samplingtime,m.createTime,m.remark,
-	m.sysid
+	m.sysid,m.uuid,m.fowleryid
 </sql>
 
 <sql id="Example_Where_Clause">
@@ -48,6 +51,9 @@
 		</if>
 		<if test="greenhouseid != null and greenhouseid > 0">
 			and m.greenhouseid = #{greenhouseid}
+		</if>
+		<if test="fowleryid != null and fowleryid > 0">
+			and m.fowleryid = #{fowleryid}
 		</if>
 		<if test="samplingtime != null and samplingtime !=''">
 			and m.samplingtime = #{samplingtime}
@@ -72,9 +78,9 @@
 
 <insert id="add" parameterType="Object" >
 	insert into sys_testmanage(sampleno,sampname,samplingcount,samplingpeople,baseid,greenhouseid,samplingtime,createTime,
-	remark,sysid)
+	remark,sysid,uuid,fowleryid)
 	values(#{sampleno},#{sampname},#{samplingcount},#{samplingpeople},#{baseid},#{greenhouseid},#{samplingtime},#{createTime},
-	#{remark},#{sysid})
+	#{remark},#{sysid},#{uuid},#{fowleryid})
 </insert>
 
 <insert id="addFile" parameterType="Object" >
@@ -90,6 +96,9 @@
 		</if>
 		<if test="greenhouseid != null and greenhouseid > 0 ">
 			greenhouseid=#{greenhouseid},
+		</if>
+		<if test="fowleryid != null and fowleryid > 0 ">
+			fowleryid=#{fowleryid},
 		</if>
 		<if test="sampleno != null and sampleno != '' ">
 			sampleno=#{sampleno},
@@ -124,10 +133,10 @@
 </delete>
 
 <select id="queryById" resultMap="BaseResultMap" parameterType="Object">
-	select <include refid="Base_Column_List"/>,baseName,name as greenhousename,variety from sys_testmanage m 
+	select <include refid="Base_Column_List"/>,baseName,name as greenhousename,p.varietyName as variety from sys_testmanage m 
 	left join sys_base b on b.id = m.baseid
-	left join sys_greenhouse  wa on wa.id = m.greenhouseid
-	left join sys_plant p on p.id = m.sampname
+	left join sys_fowlery  wa on wa.id = m.fowleryid
+	left join sys_variety p on p.id = m.sampname
 	where m.id = #{id}
 </select>
 
@@ -142,18 +151,18 @@
 </update>
 
 <select id="queryByList" resultMap="BaseResultMap" parameterType="Object">
-	select <include refid="Base_Column_List"/>,baseName,name as greenhousename,variety from sys_testmanage m 
+	select <include refid="Base_Column_List"/>,baseName,name as greenhousename,p.varietyName as variety from sys_testmanage m 
 	left join sys_base b on b.id = m.baseid
-	left join sys_greenhouse  wa on wa.id = m.greenhouseid
-	left join sys_plant p on p.id = m.sampname
+	left join sys_fowlery  wa on wa.id = m.fowleryid
+	left join sys_variety p on p.id = m.sampname
 	<include refid="Example_Where_Clause"/>
 </select>
 
 <select id="queryDataByList" resultMap="BaseResultMap" parameterType="Object">
-	select <include refid="Base_Column_List"/>,baseName,name as greenhousename,variety from sys_testmanage m 
+	select <include refid="Base_Column_List"/>,baseName,name as greenhousename,p.varietyName as variety from sys_testmanage m 
 	left join sys_base b on b.id = m.baseid
-	left join sys_greenhouse  wa on wa.id = m.greenhouseid
-	left join sys_plant p on p.id = m.sampname
+	left join sys_fowlery  wa on wa.id = m.fowleryid
+	left join sys_variety p on p.id = m.sampname
 	<include refid="Example_Where_Clause"/> order by id desc
 </select>
 </mapper>

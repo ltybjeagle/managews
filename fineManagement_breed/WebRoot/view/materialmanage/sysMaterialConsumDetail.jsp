@@ -55,7 +55,7 @@
   	   			<tr><td><label>负责人:</label></td><td><span id="principal"></span></td>
   	   			<td><label>使用人:</label></td><td><span id="materialuser"></span></td></tr>
   	   			<tr><td><label>所属基地:</label></td><td><span id="baseName"></span></td>
-  	   			<td><label>所属大棚:</label></td><td><span id="greenhousename"></span></td></tr>
+  	   			<td><label>所属禽舍:</label></td><td><span id="greenhousename"></span></td></tr>
   	   			<tr><td><label>备注:</label></td><td><span id="remark"></span></td></tr>
   	   		</table>    
       </div>

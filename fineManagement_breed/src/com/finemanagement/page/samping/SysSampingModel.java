@@ -1,11 +1,12 @@
 package com.finemanagement.page.samping;
 
-import com.base.page.BasePage;
+import com.base.page.AttachmentModel;
 
-public class SysSampingModel extends BasePage {
+public class SysSampingModel extends AttachmentModel {
 	private Integer id;//主键
 	private int baseid;//基地
 	private int greenhouseid;//大棚
+	private int fowleryid;
 	private String samplingpeople;//抽样人
 	private String sampleno;//样品编号
 	private String sampname;//样品名称
@@ -16,6 +17,18 @@ public class SysSampingModel extends BasePage {
 	private String createTime; // 创建时间
 	private String startSamplingtime;
 	private String endSamplingtime;
+	/**
+	 * @return the fowleryid
+	 */
+	public int getFowleryid() {
+		return fowleryid;
+	}
+	/**
+	 * @param fowleryid the fowleryid to set
+	 */
+	public void setFowleryid(int fowleryid) {
+		this.fowleryid = fowleryid;
+	}
 	/**
 	 * @return the startSamplingtime
 	 */

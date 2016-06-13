@@ -71,7 +71,7 @@ $(function () {
 			multiple: false
 		});
 	   $("#inputid").combobox({
-			url: '../sysInputs/loadinputsList.do',
+			url: '../sysProduct/loadSysProductList.do',
 			valueField: 'id',
 			textField: 'inputName',
 			multiple: false

@@ -107,14 +107,16 @@
 </delete>
 
 <select id="queryById" resultMap="BaseResultMap" parameterType="Object">
-	select <include refid="Base_Column_List"/>,b.variety as breedName from sys_cattleSlaughter m 
-	left join sys_breed b on m.breedid = b.id 
+	select <include refid="Base_Column_List"/>,var.varietyName as breedName from sys_cattleSlaughter m 
+	left join sys_breed b on m.breedid = b.id
+	left join sys_variety var on var.id = b.varietyid
 	where m.id = #{id}
 </select>
 
 <select id="queryByList" resultMap="BaseResultMap" parameterType="Object">
-	select <include refid="Base_Column_List"/>,b.variety as breedName from sys_cattleSlaughter m 
+	select <include refid="Base_Column_List"/>,var.varietyName as breedName from sys_cattleSlaughter m 
 	left join sys_breed b on m.breedid = b.id
+	left join sys_variety var on var.id = b.varietyid
 	<include refid="Example_Where_Clause"/> 
 </select>
 

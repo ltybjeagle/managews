@@ -19,15 +19,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.base.util.BeanUtil;
 import com.base.web.BaseAction;
-import com.finemanagement.entity.pick.SysPick;
 import com.finemanagement.entity.production.SysInputs;
 import com.finemanagement.entity.production.SysPlant;
 import com.finemanagement.entity.slaughter.SysSlaughter;
-import com.finemanagement.page.pick.SysPickModel;
 import com.finemanagement.page.production.SysInputsModel;
 import com.finemanagement.page.production.SysPlantModel;
 import com.finemanagement.page.slaughter.SysSlaughterModel;
-import com.finemanagement.service.pick.SysPickService;
 import com.finemanagement.service.production.SysInputsService;
 import com.finemanagement.service.production.SysPlantService;
 import com.finemanagement.service.slaughter.SysSlaughterService;
@@ -44,9 +41,6 @@ public class AppStatisticsController extends BaseAction {
 
 	@Autowired(required = false)
 	private SysInputsService<SysInputs> sysInputsService; // 投入品
-
-	@Autowired(required = false)
-	private SysPickService<SysPick> sysPickService; // 采摘
 
 	@Autowired(required = false)
 	private SysSlaughterService<SysSlaughter> sysSlaughterService; // 出栏
@@ -74,29 +68,6 @@ public class AppStatisticsController extends BaseAction {
 			sendAppSuccess(rep, dataList);
 		} catch (Exception e) {
 			sendAppFailure(rep, "查询投入品使用统计异常!");
-		}
-	}
-
-	/**
-	 * json 采摘列表页面
-	 * 
-	 * @param model
-	 * @param response
-	 * @throws Exception
-	 */
-	@RequestMapping("/appQueryPickingData")
-	public void appQueryPickingData(SysPickModel model, HttpServletRequest req, HttpServletResponse rep) {
-		try {
-			String start_date = req.getParameter("start_date");
-			String end_date = req.getParameter("end_date");
-			Map<String, Object> map = BeanUtil.transBean2Map(model);
-			map.put("start_date", start_date);
-			map.put("end_date", end_date);
-			List<SysPick> dataList = sysPickService.queryByStatistics(map);
-			log.debug("APP查询采摘统计成功!");
-			sendAppSuccess(rep, dataList);
-		} catch (Exception e) {
-			sendAppFailure(rep, "查询采摘统计异常!");
 		}
 	}
 

@@ -65,10 +65,10 @@ $(function () {
 	   var chart = new Highcharts.Chart(options);
 	   
 	   
-	   $("#slaughterBatchIds").combobox({
-			url: '../sysSlaughter/loadSlaughterList.do',
+	   $("#breedids").combobox({
+			url: '../sysBreed/loadBreedList.do',
 			valueField: 'id',
-			textField: 'slaughterBatch',
+			textField: 'variety',
 			multiple: false
 			});
 	   $("#baseid").combobox({
@@ -121,7 +121,7 @@ $(function () {
 
 $('#btn-search').bind('click',function(){
 	var te=new Object();
-	te.text="产品名称:"+$('#inputid').combobox('getText')+"\n统计时间:"+$('#sd').val()+"至"+$('#ed').val()+"  基地："+$('#baseid').combobox('getText')+"  禽舍："+$('#fowleryid').combobox('getText');
+	te.text="产品名称:"+$('#breedids').combobox('getValue')+"\n统计时间:"+$('#sd').val()+"至"+$('#ed').val()+"  基地："+$('#baseid').combobox('getText')+"  禽舍："+$('#fowleryid').combobox('getText');
 	options.title=te;	
     var dec= $("#searchForm").serializeObject();
 	var ss=$("#easyui-datebox").val();

@@ -71,14 +71,14 @@ $(function () {
 			multiple: false
 		});
 	   $("#inputid").combobox({
-			url: '../sysInputs/loadinputsList.do',
+			url: '../sysProduct/loadSysProductList.do',
 			valueField: 'id',
 			textField: 'inputName',
 			multiple: false
 		});
 	   
-		$("#greehouseids").combobox({
-			url: '../sysGreenhouse/loadGreenhouseList.do',
+		$("#fowleryids").combobox({
+			url: '../sysFowlery/loadFowlerList.do',
 			valueField: 'id',
 			textField: 'name',
 			multiple: false
@@ -110,7 +110,7 @@ $(function () {
           {field:'startTime',title:'时间',width:100},
           {field:'baseid',title:'基地',width:100}, 
           {field:'inputName',title:'商品名称',width:100},
-          {field:'greenhousename',title:'大棚',width:100},
+          {field:'fowleryname',title:'禽舍',width:100},
 	      {field:'purchaseCount',title:'使用数量',width:100},   
 	      {field:'unitPrice',title:'平均单价（元）',width:100,align:'right'},   
 	      {field:'totalprice',title:'总价（元）',width:100,align:'right'},  
@@ -133,7 +133,7 @@ $('#btn-search').bind('click',function(){
 	var te=new Object();
 	var subtitle=new Object();
 	te.text="商品编号:"+$('#productid').val()+"投放品名称:"+$('#inputid').combobox('getText')+"\n统计时间:"+$('#sd').val()+"至"+$('#ed').val();
-	subtitle.text="使用基地："+$('#baseid').combobox('getText')+"  使用大棚："+$('#greehouseids').combobox('getText');
+	subtitle.text="使用基地："+$('#baseid').combobox('getText')+"  使用禽舍："+$('#fowleryids').combobox('getText');
 	options.title=te;
 	options.subtitle=subtitle;
     var url =  "../statisticsInputs/inputtable.do";

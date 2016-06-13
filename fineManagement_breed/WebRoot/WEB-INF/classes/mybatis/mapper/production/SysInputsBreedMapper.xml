@@ -44,7 +44,7 @@
 		<if test="productid != null and productid != ''" >
 		    and m.productid = #{productid}
 		</if>
-		<if test="inputName != null" >
+		<if test="inputName != null and inputName != ''" >
 		    and m.inputName = #{inputName}
 		</if>
 		<if test="classname != null and classname != ''" >

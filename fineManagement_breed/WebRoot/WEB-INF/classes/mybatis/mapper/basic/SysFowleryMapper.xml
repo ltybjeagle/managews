@@ -13,10 +13,11 @@
 	<result column="technician" property="technician"/>
 	<result column="baseName" property="baseName"/>
 	<result column="fowleryName" property="fowleryName"/>
+	<result column="coordinate" property="coordinate"/>
 </resultMap>
 
 <sql id="Base_Column_List" >
-	m.id,m.name,m.breedArea,m.baseid,m.ftype,m.createTime,m.breeder,m.remark,m.technician
+	m.id,m.name,m.breedArea,m.baseid,m.ftype,m.createTime,m.breeder,m.remark,m.technician,m.coordinate
 </sql>
 
 <sql id="Example_Where_Clause">
@@ -53,8 +54,8 @@
 </sql>
 
 <insert id="add" parameterType="Object" >
-	insert into sys_fowlery(name,breedArea,baseid,ftype,breeder,createTime,remark,technician)
-	values(#{name},#{breedArea},#{baseid},#{ftype},#{breeder},#{createTime},#{remark},#{technician})
+	insert into sys_fowlery(name,breedArea,baseid,ftype,breeder,createTime,remark,technician,coordinate)
+	values(#{name},#{breedArea},#{baseid},#{ftype},#{breeder},#{createTime},#{remark},#{technician},#{coordinate})
 </insert>
 
 <update id="update" parameterType="Object" >
@@ -85,6 +86,9 @@
 		</if>
 		<if test="remark != null  and remark != '' ">
 			remark=#{remark},
+		</if>
+		<if test="coordinate != null and coordinate != ''">
+			coordinate=#{coordinate},
 		</if>
 		<if test="technician != null  and technician != '' ">
 			technician=#{technician},

@@ -36,6 +36,24 @@ finems.sysInstore = function() {
 										var record = _box.utils.getCheckedRows();
 										if (_box.utils.checkSelectOne(record)) {
 											$("#purchaseid").val(record[0]['id']);
+											$("#warehouseid").combobox({
+												url: '../sysWarehouse/loadWarehouseList.do',
+												valueField: 'id',
+												textField: 'whName',
+												multiple: false
+											});
+											$("#principals").combobox({
+												url: '../sysEmployees/loadEmployeeList.do',
+												valueField: 'id',
+												textField: 'employeeName',
+												multiple: false
+											});
+											$("#technicalstaffs").combobox({
+												url: '../sysEmployees/loadEmployeeList.do',
+												valueField: 'id',
+												textField: 'employeeName',
+												multiple: false
+											});
 											_box.win.edit.dialog('open');
 										}
 									}
@@ -58,12 +76,6 @@ finems.sysInstore = function() {
 					url: '../sysClassify/loadClassifyList.do',
 					valueField: 'classname',
 					textField: 'classname',
-					multiple: false
-				});
-				$("#warehouseid").combobox({
-					url: '../sysWarehouse/loadWarehouseList.do',
-					valueField: 'id',
-					textField: 'whName',
 					multiple: false
 				});
 				_box = new YDataGrid(_this.config);

@@ -14,7 +14,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.base.util.HtmlUtil;
 import com.base.web.BaseAction;
-import com.finemanagement.entity.inputs.SysProduct;
 import com.finemanagement.entity.materialmanage.sysMaterialmanage;
 import com.finemanagement.page.materialmanage.sysMaterialmanageModel;
 import com.finemanagement.service.materialmanage.sysMaterialService;

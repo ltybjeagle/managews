@@ -18,8 +18,8 @@ finems.sysEmployees = function() {
 					           {field: 'employeeName', title: '职员名称', width: 120, sortable: true},
 					           {field: 'phone', title: '联系方式', width: 150, sortable: true},
 					           {field: 'department', title: '部门', width: 300, sortable: true},
-					           {field: 'remark', title: '建设时间', width: 150, sortable: true},
-					           {field: 'operate', title: '备注', width: 180, align: 'center', formatter: function(value, row, index) {
+					           {field: 'remark', title: '备注', width: 150, sortable: true},
+					           {field: 'operate', title: '操作', width: 180, align: 'center', formatter: function(value, row, index) {
 									var html = "<a class='query_cls' href='javascript:queryOne(" + row.id + ");'>查看</a>" +
 											"<a class='edit_cls' href='javascript:editOne(" + row.id + ");'>编辑</a>" +
 											"<a class='del_cls' href='javascript:removeOne(" + row.id + ");'>删除</a>";

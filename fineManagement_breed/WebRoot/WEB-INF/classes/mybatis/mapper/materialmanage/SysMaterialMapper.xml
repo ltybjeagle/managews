@@ -9,6 +9,7 @@
 	<result column="mfid" property="mfid"/>
 	<result column="baseid" property="baseid"/>
 	<result column="greehouseid" property="greehouseid"/>
+	<result column="fowleryid" property="fowleryid"/>
 	<result column="materialno" property="materialno"/>
 	<result column="materialname" property="materialname"/>
 	<result column="specifications" property="specifications"/>
@@ -31,6 +32,7 @@
 	<result column="backuser" property="backuser"/>
 	<result column="whName" property="whName"/>
 	<result column="brandName" property="brandName"/>
+	<result column="fowleryName" property="fowleryName"/>
 	<result column="mfName" property="mfName"/>
 	<result column="stocktalingno" property="stocktalingno"/>
 </resultMap>
@@ -38,41 +40,44 @@
 <sql id="Base_Column_List" >
 	m.id,m.principal,m.materialuser,m.backuser,m.warehouseid,m.brandId,m.mfid,m.materialno,m.materialname,m.specifications,
 	m.unit,m.storecount,m.consumcount,m.returncount,m.unitPrice,m.totalprice,m.consumtime,m.returntime,m.instoretime,m.remark,
-	m.profitloss,m.firm,m.differences,m.sysid,m.syssign,m.brandName,m.mfName,m.greehouseid,m.baseid
+	m.profitloss,m.firm,m.differences,m.sysid,m.syssign,m.brandName,m.mfName,m.greehouseid,m.baseid,m.fowleryid
 </sql>
 
 <sql id="Example_Where_Clause">
 	where 1=1
 	<trim suffixOverrides="," >
 		<if test="id != null and id > 0" >
-			and id = #{id}
+			and m.id = #{id}
 		</if>
 		<if test="materialno != null and materialno != ''" >
-		    and materialno like '%'+#{materialno}+'%'
+		    and m.materialno like '%'+#{materialno}+'%'
+		</if>
+		<if test="stocktalingno != null and stocktalingno != ''" >
+		    and m.stocktalingno like '%'+#{stocktalingno}+'%'
 		</if>
 		<if test="materialname != null and materialname != ''" >
-		    and materialname like '%'+#{materialname}+'%'
+		    and m.materialname like '%'+#{materialname}+'%'
 		</if>
 		<if test="instoretimeend != null and instoretimeend != ''" >
-		    and instoretime &lt;= #{instoretimeend}
+		    and m.instoretime &lt;= #{instoretimeend}
 		</if>
 		<if test="instoretimestart != null and instoretimestart != ''" >
-		    and instoretime &gt;= #{instoretimestart}
+		    and m.instoretime &gt;= #{instoretimestart}
 		</if>
 		<if test="consumtimestart != null and consumtimestart != ''" >
-		    and consumtime &gt;= #{consumtimestart}
+		    and m.consumtime &gt;= #{consumtimestart}
 		</if>
 		<if test="consumtimeend != null and consumtimeend != ''" >
-		    and consumtime &lt;= #{consumtimeend}
+		    and m.consumtime &lt;= #{consumtimeend}
 		</if>
 		<if test="returntimestart != null and returntimestart != ''" >
-		    and returntime &gt;= #{returntimestart}
+		    and m.returntime &gt;= #{returntimestart}
 		</if>
 		<if test="returntimeend != null and returntimeend != ''" >
-		    and returntime &lt;= #{returntimeend}
+		    and m.returntime &lt;= #{returntimeend}
 		</if>
 		<if test="syssign != null and syssign != ''" >
-		    and syssign = #{syssign}
+		    and m.syssign = #{syssign}
 		</if>
 		<if test="sysid != null and sysid !=''" >
 			and m.sysid = #{sysid}
@@ -110,11 +115,11 @@
 <insert id="add" parameterType="Object" >
 	insert into sys_materialmanage(m.profitloss,m.firm,m.differences,m.principal,warehouseid,brandId,mfid,
 	materialno,materialname,specifications,unit,storecount,consumcount,returncount,unitPrice,totalprice,returntime,
-	consumtime,instoretime,remark,syssign,sysid,brandName,mfName,materialuser,baseid,greehouseid,backuser,stocktalingno)
+	consumtime,instoretime,remark,syssign,sysid,brandName,mfName,materialuser,baseid,greehouseid,backuser,stocktalingno,fowleryid)
 	values(#{profitloss},#{firm},#{differences},#{principal},#{warehouseid},#{brandId},#{mfid},#{materialno},
 	#{materialname},#{specifications},#{unit},#{storecount},#{consumcount},#{returncount},#{unitPrice},#{totalprice},
 	#{returntime},#{consumtime},#{instoretime},#{remark},#{syssign},#{sysid},#{brandName},#{mfName},#{materialuser},#{baseid},
-	#{greehouseid},#{backuser},#{stocktalingno})
+	#{greehouseid},#{backuser},#{stocktalingno},#{fowleryid})
 </insert>
 
 <delete id="delete" parameterType="Object">
@@ -125,7 +130,7 @@
 	select <include refid="Base_Column_List" /> ,whName baseName,name as greenhousename from sys_materialmanage m
 	left join sys_warehouse wa on wa.id = m.warehouseid
 	left join sys_base b on b.id = m.baseid
-	left join sys_greenhouse gr on gr.id = m.greehouseid
+	left join sys_fowlery gr on gr.id = m.fowleryid
 	where m.id = #{id}
 </select>
 
@@ -138,7 +143,7 @@
 	select <include refid="Base_Column_List"/>,whName,baseName,name as greenhousename from sys_materialmanage m 
 	left join sys_warehouse  wa on wa.id = m.warehouseid
 	left join sys_base b on b.id = m.baseid
-	left join sys_greenhouse gr on gr.id = m.greehouseid 
+	left join sys_fowlery gr on gr.id = m.fowleryid
 	<include refid="Example_Where_Clause"/> 
 </select>
 
@@ -146,13 +151,20 @@
 	select <include refid="Base_Column_List"/>,whName,baseName,name as greenhousename from sys_materialmanage m 
 	left join sys_warehouse  wa on wa.id = m.warehouseid
 	left join sys_base b on b.id = m.baseid
-	left join sys_greenhouse gr on gr.id = m.greehouseid 
+	left join sys_fowlery gr on gr.id = m.fowleryid
 	<include refid="Example_Where_Clause"/> order by id desc
 </select>
 
-<select id="queryByUniteList" resultMap="BaseResultMap" parameterType="Object">
-	select <include refid="Base_Column_List"/>,whName from sys_materialmanage m 
-	left join sys_warehouse  wa on wa.id = m.warehouseid
-	<include refid="Example_Where_Clause"/> and m.syssign in('0','1','2','3')
+<select id="unitequeryByList" resultMap="BaseResultMap" parameterType="Object">
+	select m.materialno,m.materialname,m.specifications,m.unit,m.brandName,m.mfName,sum(storecount) as storecount from (
+	select n.materialno,n.materialname,n.specifications,n.unit,n.brandName,n.mfName,n.syssign,n.sysid,
+	CASE n.syssign  
+	      WHEN '0' THEN 0  
+	      WHEN '1' THEN n.storecount  
+	      WHEN '2' THEN n.consumcount * -1
+	      WHEN '3' THEN n.returncount  
+	      END AS storecount
+	 from sdlh.dbo.sys_materialmanage n ) m <include refid="Example_Where_Clause"/> and m.syssign in('0','1','2','3')
+	 group by m.materialno,m.materialname,m.specifications,m.unit,m.brandName,mfName
 </select>
 </mapper>

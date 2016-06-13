@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.finemanagement.dao.common.SysNumberRulesDao" > 
+<resultMap id="BaseResultMap" type="com.finemanagement.entity.common.SysNumberRules" >
+	<result column="ruleIden" property="ruleIden"/>
+	<result column="ruleNum" property="ruleNum"/>
+	<result column="sysid" property="sysid"/>
+</resultMap>
+
+<sql id="Base_Column_List" >
+	m.ruleIden,m.ruleNum,m.sysid
+</sql>
+
+<sql id="Example_Where_Clause">
+	where 1=1
+	<trim suffixOverrides="," >
+		<if test="ruleIden != null and ruleIden !=''">
+			and m.ruleIden = #{ruleIden}
+		</if>
+		<if test="sysid != null and sysid !=''">
+			and m.sysid = #{sysid}
+		</if>
+	</trim>
+</sql>
+
+<insert id="add" parameterType="Object" >
+	insert into sys_numberrules(ruleIden, ruleNum, sysid)
+	values(#{ruleIden}, #{ruleNum}, #{sysid})
+</insert>
+
+<update id="updateBySelective" parameterType="Object" >
+	update sys_numberrules set 
+	<trim suffixOverrides="," >
+		<if test="ruleNum != null and ruleNum != '' ">
+			ruleNum=#{ruleNum},
+		</if>
+	</trim> where ruleIden=#{ruleIden} and sysid = #{sysid}
+</update>
+
+<select id="queryDataByList" resultMap="BaseResultMap" parameterType="Object">
+	select <include refid="Base_Column_List"/> from sys_numberrules m 
+	<include refid="Example_Where_Clause"/>
+</select>
+</mapper>

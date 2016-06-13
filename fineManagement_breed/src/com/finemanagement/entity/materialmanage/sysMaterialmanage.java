@@ -3,6 +3,10 @@ package com.finemanagement.entity.materialmanage;
 import com.base.entity.BaseEntity;
 
 public class sysMaterialmanage extends BaseEntity {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3124933751432543609L;
 	private Integer id; // id主键
 	private String principal; // 负责人
 	private String materialuser;//使用人
@@ -12,6 +16,7 @@ public class sysMaterialmanage extends BaseEntity {
 	private int mfid; // 厂家
 	private int baseid; // 基地
 	private int greehouseid; // 大棚
+	private int fowleryid; // 禽舍
 	private String materialno; // 物资编号
 	private String materialname; // 物资名称
 	private String specifications; // 规格
@@ -35,9 +40,34 @@ public class sysMaterialmanage extends BaseEntity {
 	private String whName;
 	private String baseName;
 	private String greenhousename;
+	private String fowleryName;
 	private String stocktalingno;
 	private String type;
 	
+	/**
+	 * @return the fowleryid
+	 */
+	public int getFowleryid() {
+		return fowleryid;
+	}
+	/**
+	 * @param fowleryid the fowleryid to set
+	 */
+	public void setFowleryid(int fowleryid) {
+		this.fowleryid = fowleryid;
+	}
+	/**
+	 * @return the fowleryName
+	 */
+	public String getFowleryName() {
+		return fowleryName;
+	}
+	/**
+	 * @param fowleryName the fowleryName to set
+	 */
+	public void setFowleryName(String fowleryName) {
+		this.fowleryName = fowleryName;
+	}
 	public String getType() {
 		return type;
 	}

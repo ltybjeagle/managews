@@ -16,16 +16,13 @@ import com.base.util.BeanUtil;
 import com.base.util.HtmlUtil;
 import com.base.web.BaseAction;
 import com.finemanagement.entity.inputs.SysProduct;
-import com.finemanagement.entity.pick.SysPick;
 import com.finemanagement.entity.production.SysInputs;
 import com.finemanagement.entity.slaughter.SysSlaughter;
 import com.finemanagement.page.inputs.SysProductModel;
-import com.finemanagement.page.pick.SysPickModel;
 import com.finemanagement.page.production.SysInputsModel;
 import com.finemanagement.page.production.SysPlantModel;
 import com.finemanagement.page.slaughter.SysSlaughterModel;
 import com.finemanagement.service.inputs.SysProductService;
-import com.finemanagement.service.pick.SysPickService;
 import com.finemanagement.service.production.SysInputsService;
 import com.finemanagement.service.production.SysPlantService;
 import com.finemanagement.service.slaughter.SysSlaughterService;
@@ -39,9 +36,6 @@ public class StatisticsInputsAction<T> extends BaseAction {
 
 	@Autowired(required = false)
 	private SysInputsService<SysInputs> sysInputsService; // 投入品
-
-	@Autowired(required = false)
-	private SysPickService<SysPick> sysPickService; // 采摘
 
 	@Autowired(required = false)
 	private SysSlaughterService<SysSlaughter> sysSlaughterService; // 出栏
@@ -198,37 +192,6 @@ public class StatisticsInputsAction<T> extends BaseAction {
 			dataList = sysInputsService.queryByMonthList(model);
 		} else if ("date".equals(state)) {
 			dataList = sysInputsService.queryByDateList(model);
-		}
-		// 设置页面数据
-		Map<String, Object> jsonMap = new HashMap<String, Object>();
-		jsonMap.put("total", model.getPager().getRowCount());
-		jsonMap.put("rows", dataList);
-		HtmlUtil.writerJson(response, jsonMap);
-	}
-
-	/**
-	 * json 采摘列表页面
-	 * 
-	 * @param model
-	 * @param response
-	 * @throws Exception
-	 */
-	@RequestMapping("/pickingtable")
-	public void pickingDataList(SysPickModel model, String state, String start_date, String end_date,
-			HttpServletResponse response) throws Exception {
-
-		Map<String, Object> map = BeanUtil.transBean2Map(model);
-		map.put("start_date", start_date);
-		map.put("end_date", end_date);
-		List<SysPick> dataList = null;
-		if (state == null)
-			return;
-		if ("year".equals(state)) {
-			dataList = sysPickService.queryByYearList(model);
-		} else if ("month".equals(state)) {
-			dataList = sysPickService.queryByMonthList(model);
-		} else if ("date".equals(state)) {
-			dataList = sysPickService.queryByDateList(model);
 		}
 		// 设置页面数据
 		Map<String, Object> jsonMap = new HashMap<String, Object>();

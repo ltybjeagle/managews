@@ -11,15 +11,15 @@ function editOne(reaordId) {
 			textField: 'baseName',
 			multiple: false,
 			onHidePanel: function(){
-				$("#greenhouseid").combobox("setValue", '');
+				$("#fowleryid").combobox("setValue", '');
 				var baseid = $('#baseid').combobox('getValue');		
 				$.ajax({
 					type: "POST",
-					url: "../sysGreenhouse/loadGreenhouseList.do?baseid="+baseid,
+					url: "../sysFowlery/loadFowlerList.do?baseid="+baseid,
 					cache: false,
 					dataType : "json",
 					success: function(data) {
-						$("#greenhouseid").combobox("loadData", data);
+						$("#fowleryid").combobox("loadData", data);
 					}
 				}); 	
 			},
@@ -27,17 +27,17 @@ function editOne(reaordId) {
 				$("#baseName").val(record.id);
 			}
 		});
-		$("#greenhouseid").combobox({
-			url: '../sysGreenhouse/loadGreenhouseList.do?baseid=' + result.data.baseid,
+		$("#fowleryid").combobox({
+			url: '../sysFowlery/loadFowlerList.do?baseid=' + result.data.baseid,
 			valueField: 'id',
 			textField: 'name',
 			multiple: false,
 			onHidePanel: function(){
 				$("#sampname").combobox("setValue", '');
-				var greenhouseid = $('#greenhouseid').combobox('getValue');		
+				var fowleryid = $('#fowleryid').combobox('getValue');		
 				$.ajax({
 					type: "POST",
-					url: "../sysPlant/loadPlantList.do?greenhouseid="+greenhouseid,
+					url: "../sysBreed/loadBreedList.do?fowleryid="+fowleryid,
 					cache: false,
 					dataType : "json",
 					success: function(data) {
@@ -50,7 +50,7 @@ function editOne(reaordId) {
 			}
 		});
 		$("#sampname").combobox({
-			url: '../sysPlant/loadPlantList.do?greenhouseid=' + result.data.greenhouseid,
+			url: '../sysBreed/loadBreedList.do?fowleryid=' + result.data.fowleryid,
 			valueField: 'id',
 			textField: 'variety',
 			multiple: false
@@ -58,9 +58,9 @@ function editOne(reaordId) {
 		$("#editForm").form('load', result.data);
 		$("#sampname").combobox('select', result.data.sampname);
 		$("#baseid").combobox('select', result.data.baseid);
-		$("#greenhouseid").combobox('select', result.data.greenhouseid);
+		$("#fowleryid").combobox('select', result.data.fowleryid);
 		$("#baseName").val(result.data.baseid);
-		$("#greenhousename").val(result.data.greenhouseid);
+		$("#greenhousename").val(result.data.fowleryid);
 		$("#samplingtime").datebox("setValue", result.data.samplingtime);
 		$("#filecontrol").hide();
 		$("#edit-win").dialog({title: "编辑"});
@@ -83,6 +83,13 @@ function queryOne(reaordId) {
 		$("#samplingtime_q").text(result.data.samplingtime);
 		$("#samplingpeople_q").text(result.data.samplingpeople);
 		$("#remark_q").text(result.data.remark);
+		var list = result.data.list;
+		var html = "<table>";
+		for (var i = 0; i < list.length; i++) {
+			html = html + "<tr><td><a href='" + urls['msPath'] + urls['msUrl'] + list[i].url + "' download>" + list[i].fileName + "</a></td></tr>"
+		}
+		html = html + "</table>";
+		$("#fileMsg").html(html);
 		$("#query-win").dialog('open'); 
 	});
 }

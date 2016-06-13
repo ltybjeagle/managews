@@ -48,7 +48,57 @@ public class SysStore extends BaseEntity {
 	private String whName;
 	private String outremark ;//出库说明
 	private String processInstanceId; // 零时使用
-	
+	private String principalName;
+	private String technicalstaffName;
+	private String outuserName;
+	/**
+	 * @return the technicalstaffName
+	 */
+	public String getTechnicalstaffName() {
+		return technicalstaffName;
+	}
+
+
+	/**
+	 * @param technicalstaffName the technicalstaffName to set
+	 */
+	public void setTechnicalstaffName(String technicalstaffName) {
+		this.technicalstaffName = technicalstaffName;
+	}
+
+
+	/**
+	 * @return the outuserName
+	 */
+	public String getOutuserName() {
+		return outuserName;
+	}
+
+
+	/**
+	 * @param outuserName the outuserName to set
+	 */
+	public void setOutuserName(String outuserName) {
+		this.outuserName = outuserName;
+	}
+
+
+	/**
+	 * @return the principalName
+	 */
+	public String getPrincipalName() {
+		return principalName;
+	}
+
+
+	/**
+	 * @param principalName the principalName to set
+	 */
+	public void setPrincipalName(String principalName) {
+		this.principalName = principalName;
+	}
+
+
 	public Integer getId() {
 		return id;
 	}

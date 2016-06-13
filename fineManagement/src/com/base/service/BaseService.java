@@ -121,7 +121,7 @@ public abstract class BaseService<T> {
 	}
 	
 	public List<T> queryByUniteList(BasePage page) throws Exception {
-		return getDao().queryByList(getMapperObj() + ".queryByUniteList", page);
+		return getDao().queryByList(getMapperObj() + ".unitequeryByList", page);
 	}
 
 	public List<T> queryByYearList(BasePage page) {

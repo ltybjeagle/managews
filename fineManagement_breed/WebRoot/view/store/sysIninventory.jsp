@@ -58,7 +58,7 @@
   	   			<td><label>入库时间:</label></td><td><span id="instoretime"></span></td></tr>
   	   			<tr><td><label>单价:</label></td><td><span id="unitPrice"></span></td>
   	   			<td><label>仓库:</label></td><td><span id="whName"></span></td></tr>
-  	   			<tr><td><label>负责人:</label></td><td><span id="principal"></span></td><tr>
+  	   			<tr><td><label>负责人:</label></td><td><span id="principalName"></span></td><tr>
   	   			<tr><td><label>备注:</label></td><td><span id="remark"></span></td></tr>
   	   		</table>    
       </div>

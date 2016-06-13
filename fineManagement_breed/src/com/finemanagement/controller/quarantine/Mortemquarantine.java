@@ -16,8 +16,11 @@ import com.base.util.DateUtil;
 import com.base.util.HtmlUtil;
 import com.base.util.StringUtil;
 import com.base.web.BaseAction;
+import com.finemanagement.entity.common.SysNumberRules;
 import com.finemanagement.entity.quarantine.SysQuarantine;
+import com.finemanagement.page.common.SysNumberRulesModel;
 import com.finemanagement.page.puarantine.SysQuarantineModel;
+import com.finemanagement.service.common.SysNumberRulesService;
 import com.finemanagement.service.puarantine.QuarantineService;
 
 @Controller
@@ -26,6 +29,9 @@ public class Mortemquarantine extends BaseAction{
 	
 	@Autowired(required = false)
 	private QuarantineService<SysQuarantine> quarantineService;
+	
+	@Autowired(required = false)
+	private SysNumberRulesService<SysNumberRules> sysNumberRulesService;
 	  
 	/**
 	 * ilook 首页
@@ -63,13 +69,28 @@ public class Mortemquarantine extends BaseAction{
 	
 	@RequestMapping("/getSerializId")
 	public void getSerializId(HttpServletResponse response) throws Exception {
-		SysQuarantineModel model = new SysQuarantineModel();
-		model.setCreateTime(DateUtil.getNowShortDate());
-		List<SysQuarantine> dataList = quarantineService.queryByList(model);
+		String iden = "zhjypc";
+		SysNumberRulesModel model = new SysNumberRulesModel();
+		super.indiModel(model);
+		model.setRuleIden(iden);
+		List<SysNumberRules> dataList = sysNumberRulesService.queryDataByList(model);
+		int mno = 1;
+		if (dataList != null && dataList.size() > 0) {
+			SysNumberRules sysNumberRules = dataList.get(0);
+			mno = sysNumberRules.getRuleNum();
+			mno++;
+			sysNumberRules.setRuleNum(mno);
+			sysNumberRulesService.updateBySelective(sysNumberRules);
+		} else {
+			SysNumberRules sysNumberRules = new SysNumberRules();
+			super.saveBean(sysNumberRules);
+			sysNumberRules.setRuleIden(iden);
+			sysNumberRules.setRuleNum(mno);
+			sysNumberRulesService.add(sysNumberRules);
+		}
 		Map<String, Object> context = getRootMap();
 		SysQuarantine bean = new SysQuarantine();
-		String quarantineBatch = "zhjypc" + DateUtil.getNowShortDate() + StringUtil.fillZero((dataList.size() 
-				+ 1) + "", 3);
+		String quarantineBatch = iden + DateUtil.getNowShortDate() + StringUtil.fillZero(mno + "", 6);
 		bean.setQuarantineBatch(quarantineBatch);
 		context.put(SUCCESS, true);
 		context.put("data", bean);

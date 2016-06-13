@@ -70,8 +70,8 @@ finems.sysMaterialConsum = function() {
 					textField: 'baseName',
 					multiple: false
 				});
-				$("#greehouseid").combobox({
-					url: '../sysMaterialConsum/loadgreehouseidList.do',
+				$("#fowleryid").combobox({
+					url: '../sysFowlery/loadFowlerList.do',
 					valueField: 'id',
 					textField: 'name',
 					multiple: false

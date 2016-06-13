@@ -16,8 +16,11 @@ import com.base.util.DateUtil;
 import com.base.util.HtmlUtil;
 import com.base.util.StringUtil;
 import com.base.web.BaseAction;
+import com.finemanagement.entity.common.SysNumberRules;
 import com.finemanagement.entity.process.SysProcess;
+import com.finemanagement.page.common.SysNumberRulesModel;
 import com.finemanagement.page.process.SysProcessModel;
+import com.finemanagement.service.common.SysNumberRulesService;
 import com.finemanagement.service.process.ProessService;
 
 @Controller
@@ -26,6 +29,10 @@ public class Segmentationprocess extends BaseAction{
 	
   @Autowired(required = false)
   private ProessService<SysProcess> proessService;
+  
+  @Autowired(required = false)
+  private SysNumberRulesService<SysNumberRules> sysNumberRulesService;
+  
   /**
    * ilook 首页
    * @param model
@@ -67,13 +74,28 @@ public class Segmentationprocess extends BaseAction{
 	
 	@RequestMapping("/getSerializId")
 	public void getSerializId(HttpServletResponse response) throws Exception {
-		SysProcessModel model = new SysProcessModel();
-		model.setCreateTime(DateUtil.getNowShortDate());
-		List<SysProcess> dataList = proessService.queryByList(model);
+		String iden = "jgpc";
+		SysNumberRulesModel model = new SysNumberRulesModel();
+		super.indiModel(model);
+		model.setRuleIden(iden);
+		List<SysNumberRules> dataList = sysNumberRulesService.queryDataByList(model);
+		int mno = 1;
+		if (dataList != null && dataList.size() > 0) {
+			SysNumberRules sysNumberRules = dataList.get(0);
+			mno = sysNumberRules.getRuleNum();
+			mno++;
+			sysNumberRules.setRuleNum(mno);
+			sysNumberRulesService.updateBySelective(sysNumberRules);
+		} else {
+			SysNumberRules sysNumberRules = new SysNumberRules();
+			super.saveBean(sysNumberRules);
+			sysNumberRules.setRuleIden(iden);
+			sysNumberRules.setRuleNum(mno);
+			sysNumberRulesService.add(sysNumberRules);
+		}
 		Map<String, Object> context = getRootMap();
 		SysProcess bean = new SysProcess();
-		String batchprocessing = "jgpc" + DateUtil.getNowShortDate() + StringUtil.fillZero((dataList.size() 
-				+ 1) + "", 3);
+		String batchprocessing = iden + DateUtil.getNowShortDate() + StringUtil.fillZero(mno + "", 6);
 		bean.setBatchprocessing(batchprocessing);
 		context.put(SUCCESS, true);
 		context.put("data", bean);

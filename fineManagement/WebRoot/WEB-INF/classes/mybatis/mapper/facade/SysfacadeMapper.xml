@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.finemanagement.dao.facade.SysfacadeDao" > 
+
+<!-- 查询条件 -->
+<sql id="Example_Where_Clause">
+where 1=1
+<trim suffixOverrides="," >
+	<if test="greenhouseid != null and greenhouseid > 0" >
+	    and v.greenhouseid = #{greenhouseid}
+	</if>
+	<if test="baseid != null and baseid > 0" >
+	    and v.baseid = #{baseid}
+	</if>
+</trim>
+</sql>
+
+<!-- 查询系统角色列表 -->
+<select id="queryGreenhouseList" parameterType="Object" resultType="hashmap">
+  select g.*,b.baseName from sys_greenhouse g
+  left join sys_base b on g.baseid=b.id
+</select>
+<select id="querSensorTypeList" parameterType="Object" resultType="hashmap">
+  select s.* from MonitorInfo m,SensorType s where m.MonitorType=s.MonitorType and m.MonitorNum=#{MonitorNum}
+</select>
+<select id="querMonitorTypeList" parameterType="Object" resultType="hashmap">
+  select s.* from SensorType s where s.MonitorType=#{MonitorType}
+</select>
+
+<select id="queryVideoList" parameterType="Object" resultType="hashmap">
+select * from   sys_video_config c 
+left join sys_video v on v.config_id=c.id
+left join sys_plant p on v.greenhouseid=p.greenhouseid and v.baseid=p.baseid 
+left join sys_base  b on b.id=v.baseid
+left join sys_greenhouse g on g.id=v.greenhouseid
+left join sys_variety va on va.id=p.plantationMember
+<include refid="Example_Where_Clause"/> 
+</select>
+
+</mapper>

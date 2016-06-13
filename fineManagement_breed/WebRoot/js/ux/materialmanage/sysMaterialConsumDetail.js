@@ -21,7 +21,7 @@ finems.sysMaterialConsumDetail = function() {
 					           {field: 'materialuser', title: '使用人', width: 80, sortable: true},
 					           {field: 'whName', title: '仓库', width: 80, sortable: true},
 					           {field: 'baseName', title: '基地', width: 80, sortable: true},
-					           {field: 'greenhousename', title: '大棚', width: 80, sortable: true},
+					           {field: 'greenhousename', title: '禽舍', width: 80, sortable: true},
 					           {field: 'mfName', title: '厂家', width: 220, sortable: true},
 					           {field: 'xiangqing', title: '操作', width: 80, align: 'center', formatter: function(value, row, index) {
 									var html = "<a href='#' onclick='showConsumDetail(" + row.id + ");'>[详情]</a>";

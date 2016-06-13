@@ -45,34 +45,37 @@
 	where 1=1
 	<trim suffixOverrides="," >
 		<if test="id != null and id > 0" >
-			and id = #{id}
+			and m.id = #{id}
 		</if>
 		<if test="materialno != null and materialno != ''" >
-		    and materialno like '%'+#{materialno}+'%'
+		    and m.materialno like '%'+#{materialno}+'%'
+		</if>
+		<if test="stocktalingno != null and stocktalingno != ''" >
+		    and m.stocktalingno like '%'+#{stocktalingno}+'%'
 		</if>
 		<if test="materialname != null and materialname != ''" >
-		    and materialname like '%'+#{materialname}+'%'
+		    and m.materialname like '%'+#{materialname}+'%'
 		</if>
 		<if test="instoretimeend != null and instoretimeend != ''" >
-		    and instoretime &lt;= #{instoretimeend}
+		    and m.instoretime &lt;= #{instoretimeend}
 		</if>
 		<if test="instoretimestart != null and instoretimestart != ''" >
-		    and instoretime &gt;= #{instoretimestart}
+		    and m.instoretime &gt;= #{instoretimestart}
 		</if>
 		<if test="consumtimestart != null and consumtimestart != ''" >
-		    and consumtime &gt;= #{consumtimestart}
+		    and m.consumtime &gt;= #{consumtimestart}
 		</if>
 		<if test="consumtimeend != null and consumtimeend != ''" >
-		    and consumtime &lt;= #{consumtimeend}
+		    and m.consumtime &lt;= #{consumtimeend}
 		</if>
 		<if test="returntimestart != null and returntimestart != ''" >
-		    and returntime &gt;= #{returntimestart}
+		    and m.returntime &gt;= #{returntimestart}
 		</if>
 		<if test="returntimeend != null and returntimeend != ''" >
-		    and returntime &lt;= #{returntimeend}
+		    and m.returntime &lt;= #{returntimeend}
 		</if>
 		<if test="syssign != null and syssign != ''" >
-		    and syssign = #{syssign}
+		    and m.syssign = #{syssign}
 		</if>
 		<if test="sysid != null and sysid !=''" >
 			and m.sysid = #{sysid}
@@ -150,9 +153,16 @@
 	<include refid="Example_Where_Clause"/> order by id desc
 </select>
 
-<select id="queryByUniteList" resultMap="BaseResultMap" parameterType="Object">
-	select <include refid="Base_Column_List"/>,whName from sys_materialmanage m 
-	left join sys_warehouse  wa on wa.id = m.warehouseid
-	<include refid="Example_Where_Clause"/> and m.syssign in('0','1','2','3')
+<select id="unitequeryByList" resultMap="BaseResultMap" parameterType="Object">
+	select m.materialno,m.materialname,m.specifications,m.unit,m.brandName,m.mfName,sum(storecount) as storecount from (
+	select n.materialno,n.materialname,n.specifications,n.unit,n.brandName,n.mfName,n.syssign,n.sysid,
+	CASE n.syssign  
+	      WHEN '0' THEN 0  
+	      WHEN '1' THEN n.storecount  
+	      WHEN '2' THEN n.consumcount * -1
+	      WHEN '3' THEN n.returncount  
+	      END AS storecount
+	 from sdlh.dbo.sys_materialmanage n ) m <include refid="Example_Where_Clause"/> and m.syssign in('0','1','2','3')
+	 group by m.materialno,m.materialname,m.specifications,m.unit,m.brandName,mfName
 </select>
 </mapper>

@@ -22,8 +22,11 @@ import com.base.util.DateUtil;
 import com.base.util.HtmlUtil;
 import com.base.util.StringUtil;
 import com.base.web.BaseAction;
+import com.finemanagement.entity.common.SysNumberRules;
 import com.finemanagement.entity.slaughter.SysWeighing;
+import com.finemanagement.page.common.SysNumberRulesModel;
 import com.finemanagement.page.slaughter.SysWeighingModel;
+import com.finemanagement.service.common.SysNumberRulesService;
 import com.finemanagement.service.slaughter.SysWeighingService;
 
 /**
@@ -36,6 +39,9 @@ public class SysWeighingAction extends BaseAction {
 
 	@Autowired(required = false)
 	private SysWeighingService<SysWeighing> sysWeighingService;
+	
+	@Autowired(required = false)
+	private SysNumberRulesService<SysNumberRules> sysNumberRulesService;
 	
 	/**
 	 * ilook 首页
@@ -70,13 +76,28 @@ public class SysWeighingAction extends BaseAction {
 	
 	@RequestMapping("/getSerializId")
 	public void getSerializId(HttpServletResponse response) throws Exception {
-		SysWeighingModel model = new SysWeighingModel();
-		model.setCreateTime(DateUtil.getNowShortDate());
-		List<SysWeighing> dataList = sysWeighingService.queryByList(model);
+		String iden = "btcz";
+		SysNumberRulesModel model = new SysNumberRulesModel();
+		super.indiModel(model);
+		model.setRuleIden(iden);
+		List<SysNumberRules> dataList = sysNumberRulesService.queryDataByList(model);
+		int mno = 1;
+		if (dataList != null && dataList.size() > 0) {
+			SysNumberRules sysNumberRules = dataList.get(0);
+			mno = sysNumberRules.getRuleNum();
+			mno++;
+			sysNumberRules.setRuleNum(mno);
+			sysNumberRulesService.updateBySelective(sysNumberRules);
+		} else {
+			SysNumberRules sysNumberRules = new SysNumberRules();
+			super.saveBean(sysNumberRules);
+			sysNumberRules.setRuleIden(iden);
+			sysNumberRules.setRuleNum(mno);
+			sysNumberRulesService.add(sysNumberRules);
+		}
 		Map<String, Object> context = getRootMap();
 		SysWeighing bean = new SysWeighing();
-		String weightNo = "btcz" + DateUtil.getNowShortDate() + StringUtil.fillZero((dataList.size() 
-				+ 1) + "", 3);
+		String weightNo = iden + DateUtil.getNowShortDate() + StringUtil.fillZero(mno + "", 6);
 		bean.setWeightNo(weightNo);
 		context.put(SUCCESS, true);
 		context.put("data", bean);
@@ -91,7 +112,9 @@ public class SysWeighingAction extends BaseAction {
 	 */
 	@RequestMapping("/save")
 	public void save(SysWeighing bean, String[] slaughterBatchIds, HttpServletResponse response) throws Exception {
-		bean.setSlaughterBatchId(Integer.parseInt(slaughterBatchIds[0]));
+		if (slaughterBatchIds != null && slaughterBatchIds.length > 0) {
+			bean.setSlaughterBatchId(Integer.parseInt(slaughterBatchIds[0]));
+		}
 		if (bean.getId() == null) {
 			bean.setCreateTime(DateUtil.getNowShortDate());
 			sysWeighingService.add(bean);

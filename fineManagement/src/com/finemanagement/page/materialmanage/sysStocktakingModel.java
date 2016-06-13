@@ -1,7 +1,5 @@
 package com.finemanagement.page.materialmanage;
 
-import java.util.List;
-
 import com.base.page.BasePage;
 
 public class sysStocktakingModel extends BasePage {

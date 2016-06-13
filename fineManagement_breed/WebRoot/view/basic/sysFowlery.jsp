@@ -59,6 +59,10 @@
            		<input class="easyui-datebox" type="text" id="createTime" name="createTime"/>
        		</div>
        		<div class="fitem">  
+           		<label>地图:</label>  
+           		<input class="easyui-validatebox" type="text" name="coordinate" id="coordinate"/><a href="javascript:void(0)" class="easyui-linkbutton" onclick="$('#allmap').dialog('open')">标注地图</a>
+       		</div>
+       		<div class="fitem">  
            		<label>备注:</label>  
            		<input class="easyui-validatebox" type="text" name="remark"/>
        		</div>
@@ -80,13 +84,44 @@
   	   			<tr><td><label>建设时间:</label></td><td><span id="createDate"></span></td></tr>
   	   			<tr><td><label>备注:</label></td><td><span id="remark"></span></td></tr>
   	   		</table>
+  	   		<div class="ftitle">地图</div>
+  	   		<img style="margin:10px" width="300" height="130" id="imgArea" src="" />
       </div>
  	</form>
  	<div id="querybtn" class="dialog-button">
         <a href="#" class="easyui-linkbutton" id="btn-query-close">关闭</a>  
     </div>
 </div>
+<div id="allmap" class="easyui-dialog" title="地图" data-options="closed:true,iconCls:'icon-save'" 
+	style="width:500px;height:400px;padding:10px">
+	</div>
 <script type="text/javascript" src="<%=basePath%>/js/ux/basic/sysFowlery.js"></script>
 <script type="text/javascript" src="<%=basePath%>/js/ux/basic/changedataFowlery.js"></script>
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=uta1DHlFNK5OVcdPphhzuoEkM79qqEcm"></script>
+<script type="text/javascript">
+	// 百度地图API功能
+	var map = new BMap.Map("allmap");
+	var point = new BMap.Point(117.253347,31.840769);
+	map.centerAndZoom(point,15);
+	var menu = new BMap.ContextMenu();
+	var txtMenuItem = [
+		{
+			text:'放大',
+			callback:function(){map.zoomIn()}
+		},
+		{
+			text:'缩小',
+			callback:function(){map.zoomOut()}
+		}
+	];
+	for(var i=0; i < txtMenuItem.length; i++){
+		menu.addItem(new BMap.MenuItem(txtMenuItem[i].text,txtMenuItem[i].callback,100));
+	}
+	map.addContextMenu(menu);
+	map.addEventListener("click",function(e){
+		$('#coordinate').val(e.point.lng + "," + e.point.lat);
+		$('#allmap').dialog('close');
+	});
+</script>
 </body>
 </html>

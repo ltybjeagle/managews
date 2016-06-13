@@ -63,10 +63,24 @@ $(function () {
 	                   series: []//数据来源(多个对比的)
 	                  };
 	   var chart = new Highcharts.Chart(options);
-  //  $('#data_month').datebox({
- //       formatter: function(date){ return date.getFullYear()+'-'+(date.getMonth()+1);},
- //       parser: function(date){ return new Date(Date.parse(date.replace(/-/g,"/")));}
-  //  });
+	   $("#brandName2").combobox({
+			url: '../sysBase/loadbaseList.do',
+			valueField: 'id',
+			textField: 'baseName',
+			multiple: false
+		});
+	   $("#brandName1").combobox({
+			url: '../sysProduct/loadSysProductList.do',
+			valueField: 'id',
+			textField: 'inputName',
+			multiple: false
+		});
+		$("#brandName3").combobox({
+			url: '../sysGreenhouse/loadGreenhouseList.do',
+			valueField: 'id',
+			textField: 'name',
+			multiple: false
+		});
    
 
    $('#data-list').datagrid({   

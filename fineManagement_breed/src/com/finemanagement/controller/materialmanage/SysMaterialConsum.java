@@ -89,8 +89,7 @@ public class SysMaterialConsum extends BaseAction {
 	 * @throws Exception
 	 */
 	@RequestMapping("/save")
-	public void save(sysMaterialmanage bean, 
-			HttpServletResponse response) throws Exception {  
+	public void save(sysMaterialmanage bean, HttpServletResponse response) throws Exception {  
 		sysMaterialmanage sysMaterialmanage = sysMaterialService.queryById(bean.getSyssign());
 		BigDecimal unitprice = new BigDecimal(bean.getUnitPrice()+"");
 		BigDecimal consumcount = new BigDecimal(bean.getConsumcount()+"");
@@ -105,7 +104,7 @@ public class SysMaterialConsum extends BaseAction {
 		SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
 		bean.setConsumtime(df.format(new Date())+"");
 		bean.setSyssign("2");//领用
-		bean.setSysid("plantsys");
+		bean.setSysid(super.getSysid());
 		sysMaterialService.add(bean);
 		sendSuccessMessage(response, "领用成功~");
 	}

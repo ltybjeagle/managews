@@ -46,6 +46,8 @@ function queryOne(reaordId) {
 				$("#" + spanVal).text(resObj);
 			}
 		}
+		$("#imgArea").attr("src", "http://api.map.baidu.com/staticimage/v2?ak=uta1DHlFNK5OVcdPphhzuoEkM79qqEcm&width=260&height=106&center=" 
+				+ result.data.coordinate + "&zoom=15&markers=" + result.data.coordinate);
 		$("#query-win").dialog('open'); 
 	});
 }

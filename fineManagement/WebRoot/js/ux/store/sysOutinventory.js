@@ -20,7 +20,7 @@ finems.sysOutinventory = function() {
 					           {field: 'unitPrice', title: '单价(元)', width: 80, sortable: true},
 					           {field: 'totalprice', title: '总价(元)', width: 80, sortable: true},
 					           {field: 'purchaseCount', title: '出库数量', width: 80, sortable: true},
-					           {field: 'outuser', title: '使用人', width: 80, sortable: true},
+					           {field: 'outuserName', title: '使用人', width: 80, sortable: true},
 					           {field: 'outstoretime', title: '出库时间', width: 80, sortable: true},
 					           {field: 'brandName', title: '品牌', width: 100, sortable: true},
 					           {field: 'mfName', title: '生产厂家', width: 220, sortable: true},

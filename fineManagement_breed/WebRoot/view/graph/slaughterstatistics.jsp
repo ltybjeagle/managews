@@ -22,7 +22,7 @@
 				<input id="sd"  class="Wdate" name="start_date"  type="text"/>
 			<label class="ui-label">结束时间：</label>
 			    <input id="ed"  class="Wdate" name="end_date"  type="text" />	
-			<label class="ui-label">产品名称:</label><input id="slaughterBatchIds" name="slaughterBatchIds" class="easyui-combobox" style="width:100px;">
+			<label class="ui-label">产品名称:</label><input id="breedids" name="breedids" class="easyui-combobox" style="width:100px;">
 			<label class="ui-label">使用基地:</label><input id="baseid" name="baseid" class="easyui-combobox" style="width:100px;">
 			<label class="ui-label">使用禽舍:</label><input name="fowleryid" id="fowleryid"  class="easyui-combobox" style="width:100px;">
 	   	</p>

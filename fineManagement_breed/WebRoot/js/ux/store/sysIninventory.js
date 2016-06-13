@@ -19,7 +19,7 @@ finems.sysIninventory = function() {
 					           {field: 'unit', title: '单位', width: 80, sortable: true},
 					           {field: 'purchaseCount', title: '入库数量', width: 80, sortable: true},
 					           {field: 'instoretime', title: '入库时间', width: 100, sortable: true},
-					           {field: 'principal', title: '入库负责人', width: 80, sortable: true},
+					           {field: 'principalName', title: '入库负责人', width: 80, sortable: true},
 					           {field: 'unitPrice', title: '单价', width: 80, sortable: true},
 					           {field: 'totalprice', title: '总价', width: 80, sortable: true},
 					           {field: 'brandName', title: '品牌', width: 100, sortable: true},

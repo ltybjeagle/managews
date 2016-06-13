@@ -1,5 +1,4 @@
 $package('finems.sysMaterialStockDetail');
-
 finems.sysMaterialStockDetail = function() {
 	var _box = null;
 	var _this = {
@@ -19,10 +18,21 @@ finems.sysMaterialStockDetail = function() {
 					           {field: 'differences', title: '差异数', width: 220, sortable: true},
 					           {field: 'profitloss', title: '盈亏', width: 220, sortable: true},
 					           {field: 'mfName', title: '厂家', width: 220, sortable: true},
-					           ]]
+					           ]],
+					           toolbar: [       
+								          {id: 'btnback',
+								        	  text: '返回',
+								        	  disabled: false,
+								        	  iconCls: 'icon-back',
+								        	  handler: function() {
+								        		  window.location.href = '../SysStocktakingAction/list.shtml';
+								        	  }
+								          },
+								          ]
 				}
 			},
 			init: function () {
+				_this.config.dataGrid.url = _this.config.dataGrid.url + '?stocktalingno=' + $("#stocktalingno").val();
 				_box = new YDataGrid(_this.config);
 				_box.init();
 			}

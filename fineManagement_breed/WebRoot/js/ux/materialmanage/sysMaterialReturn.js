@@ -28,7 +28,6 @@ finems.sysMaterialReturn = function() {
 					           toolbar: [
 					                     	{id: 'btnadd', text: '归还', btnType: 'add',
 					                     		handler:function(){
- 	
 					                     			var arrs = _box.utils.getCheckedRows();
 					                     			if(arrs.length == 0){
 					                     				finems.alert('警告', '请选择要归还的数据!', 'warning');
@@ -72,8 +71,8 @@ finems.sysMaterialReturn = function() {
 					textField: 'baseName',
 					multiple: false
 				});
-				$("#greehouseid").combobox({
-					url: '../sysMaterialReturn/loadgreehouseidList.do',
+				$("#fowleryid").combobox({
+					url: '../sysFowlery/loadFowlerList.do',
 					valueField: 'id',
 					textField: 'name',
 					multiple: false

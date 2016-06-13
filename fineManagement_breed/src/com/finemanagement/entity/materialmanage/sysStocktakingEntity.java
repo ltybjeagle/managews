@@ -3,6 +3,10 @@ package com.finemanagement.entity.materialmanage;
 import com.base.entity.BaseEntity;
 
 public class sysStocktakingEntity extends BaseEntity {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7612378539470801729L;
 	private Integer id; // id主键
 	private String principal; // 负责人
 	private String stocktalingno; // 盘点单号

@@ -1,5 +1,7 @@
 package com.finemanagement.entity.samping;
 
+import java.util.List;
+
 import org.springframework.web.multipart.MultipartFile;
 
 import com.base.entity.Attachment;
@@ -11,8 +13,10 @@ public class SysSampingEntity extends Attachment {
 	 */
 	private static final long serialVersionUID = -4099112798363145069L;
 	private Integer id;//主键
+	private String uuid;
 	private int baseid;//基地
 	private int greenhouseid;//大棚
+	private int fowleryid;//禽舍
 	private String samplingpeople;//抽样人
 	private String sampleno;//样品编号
 	private String sampname;//样品名称
@@ -22,10 +26,60 @@ public class SysSampingEntity extends Attachment {
 	private String sysid;//
 	private String baseName;
     private String greenhousename;
+    private String fowleryName;
     private String createTime; // 创建时间
     private String variety;
     private MultipartFile file;
     private String filePath;
+    List<SysSampingEntity> list;
+	/**
+	 * @return the fowleryid
+	 */
+	public int getFowleryid() {
+		return fowleryid;
+	}
+	/**
+	 * @param fowleryid the fowleryid to set
+	 */
+	public void setFowleryid(int fowleryid) {
+		this.fowleryid = fowleryid;
+	}
+	/**
+	 * @return the fowleryName
+	 */
+	public String getFowleryName() {
+		return fowleryName;
+	}
+	/**
+	 * @param fowleryName the fowleryName to set
+	 */
+	public void setFowleryName(String fowleryName) {
+		this.fowleryName = fowleryName;
+	}
+	/**
+	 * @return the list
+	 */
+	public List<SysSampingEntity> getList() {
+		return list;
+	}
+	/**
+	 * @param list the list to set
+	 */
+	public void setList(List<SysSampingEntity> list) {
+		this.list = list;
+	}
+	/**
+	 * @return the uuid
+	 */
+	public String getUuid() {
+		return uuid;
+	}
+	/**
+	 * @param uuid the uuid to set
+	 */
+	public void setUuid(String uuid) {
+		this.uuid = uuid;
+	}
 	/**
 	 * @return the filePath
 	 */

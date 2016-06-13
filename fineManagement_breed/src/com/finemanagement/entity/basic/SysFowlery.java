@@ -29,6 +29,19 @@ public class SysFowlery extends BaseEntity {
 	private String technician; // 技术员
 	private String baseName;
 	private String fowleryName;
+	private String coordinate;// 地图坐标
+	/**
+	 * @return the coordinate
+	 */
+	public String getCoordinate() {
+		return coordinate;
+	}
+	/**
+	 * @param coordinate the coordinate to set
+	 */
+	public void setCoordinate(String coordinate) {
+		this.coordinate = coordinate;
+	}
 	/**
 	 * @return the baseName
 	 */

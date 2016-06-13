@@ -25,7 +25,8 @@ import com.finemanagement.service.materialmanage.sysStocktakingService;
 public class SysStocktakingAction extends BaseAction {
 	
 	@Autowired(required = false)
-	private sysStocktakingService<sysStocktakingEntity>sysStocktakingService;
+	private sysStocktakingService<sysStocktakingEntity> sysStocktakingService;
+	
 	/**
 	 * ilook 首页
 	 * @param model
@@ -34,6 +35,7 @@ public class SysStocktakingAction extends BaseAction {
 	 */
 	@RequestMapping("/list")
 	public ModelAndView list(sysStocktakingModel model, HttpServletRequest request)throws Exception{
+		super.indiModel(model);
 		Map<String, Object> context = getRootMap();
 		List<sysStocktakingEntity> dataList = sysStocktakingService.queryByList(model);
 		// 设置页面数据
@@ -49,6 +51,7 @@ public class SysStocktakingAction extends BaseAction {
 	 */
 	@RequestMapping("/dataList") 
 	public void dataList(sysStocktakingModel model, HttpServletResponse response) throws Exception {
+		super.indiModel(model);
 		List<sysStocktakingEntity> dataList = sysStocktakingService.queryByList(model);
 		// 设置页面数据
 		Map<String, Object> jsonMap = new HashMap<String, Object>();
@@ -64,8 +67,7 @@ public class SysStocktakingAction extends BaseAction {
 	 * @throws Exception
 	 */
 	@RequestMapping("/save")
-	public void save(sysStocktakingEntity bean, 
-			HttpServletResponse response) throws Exception { 
+	public void save(sysStocktakingEntity bean, HttpServletResponse response) throws Exception { 
 		super.saveBean(bean);
 		if(bean.getId()==null){
 			SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");

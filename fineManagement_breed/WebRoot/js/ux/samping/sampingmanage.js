@@ -1,26 +1,26 @@
 $package('finems.sampingmanage');
-
 finems.sampingmanage = function() {
 	var _box = null;
 	var _this = {
 			config: {
 				event: {
 					add: function() {
+						$("#edit-win").dialog({title: "添加"});
 						$("#baseid").combobox({
 							url: '../sysBase/loadbaseList.do',
 							valueField: 'id',
 							textField: 'baseName',
 							multiple: false,
 							onHidePanel: function(){
-								$("#greenhouseid").combobox("setValue", '');
+								$("#fowleryid").combobox("setValue", '');
 								var baseid = $('#baseid').combobox('getValue');		
 								$.ajax({
 									type: "POST",
-									url: "../sysGreenhouse/loadGreenhouseList.do?baseid="+baseid,
+									url: "../sysFowlery/loadFowlerList.do?baseid="+baseid,
 									cache: false,
 									dataType : "json",
 									success: function(data) {
-										$("#greenhouseid").combobox("loadData", data);
+										$("#fowleryid").combobox("loadData", data);
 									}
 								}); 	
 							},
@@ -28,16 +28,16 @@ finems.sampingmanage = function() {
 								$("#baseName").val(record.id);
 							}
 						});
-						$("#greenhouseid").combobox({
+						$("#fowleryid").combobox({
 							valueField: 'id',
 							textField: 'name',
 							multiple: false,
 							onHidePanel: function(){
 								$("#sampname").combobox("setValue", '');
-								var greenhouseid = $('#greenhouseid').combobox('getValue');		
+								var fowleryid = $('#fowleryid').combobox('getValue');		
 								$.ajax({
 									type: "POST",
-									url: "../sysPlant/loadPlantList.do?greenhouseid="+greenhouseid,
+									url: "../sysBreed/loadBreedList.do?fowleryid="+fowleryid,
 									cache: false,
 									dataType : "json",
 									success: function(data) {
@@ -81,7 +81,7 @@ finems.sampingmanage = function() {
 					           {field: 'samplingpeople', title: '抽样人', width: 100, sortable: true},
 					           {field: 'samplingtime', title: '抽样时间', width: 150, sortable: true},
 					           {field: 'baseName', title: '基地', width: 120, sortable: true},
-					           {field: 'greenhousename', title: '大棚', width: 120, sortable: true},
+					           {field: 'greenhousename', title: '禽舍', width: 120, sortable: true},
 					           {field: 'operate', title: '操作', width: 180, align: 'center', formatter: function(value, row, index) {
 									var html = "<a class='query_cls' href='javascript:queryOne(" + row.id + ");'>查看</a>" +
 											"<a class='edit_cls' href='javascript:editOne(" + row.id + ");'>编辑</a>" +
@@ -109,14 +109,14 @@ finems.sampingmanage = function() {
 					textField: 'baseName',
 					multiple: false
 				});
-				$("#greehouseids").combobox({
-					url: '../sysGreenhouse/loadGreenhouseList.do',
+				$("#fowleryids").combobox({
+					url: '../sysFowlery/loadFowlerList.do',
 					valueField: 'id',
 					textField: 'name',
 					multiple: false
 				});
 				$("#plantids").combobox({
-					url: '../sysPlant/loadPlantList.do',
+					url: '../sysBreed/loadBreedList.do',
 					valueField: 'id',
 					textField: 'variety',
 					multiple: false

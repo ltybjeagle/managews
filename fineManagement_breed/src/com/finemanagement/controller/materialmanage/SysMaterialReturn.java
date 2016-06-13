@@ -53,7 +53,7 @@ public class SysMaterialReturn extends BaseAction {
 	@RequestMapping("/list")
 	public ModelAndView list(sysMaterialmanageModel model, HttpServletRequest request)throws Exception{
 		Map<String, Object> context = getRootMap();
-		model.setSyssign("2");//物资领用
+		model.setSyssign("0");//物资领用
 		model.setSysid(super.getSysid());
 		List<sysMaterialmanage> dataList = sysMaterialService.queryByList(model);
 		// 设置页面数据
@@ -69,7 +69,7 @@ public class SysMaterialReturn extends BaseAction {
 	 */
 	@RequestMapping("/dataList") 
 	public void dataList(sysMaterialmanageModel model, HttpServletResponse response) throws Exception {
-		model.setSyssign("2");
+		model.setSyssign("0");
 		model.setSysid(super.getSysid());
 		List<sysMaterialmanage> dataList = sysMaterialService.queryByList(model);
 		// 设置页面数据
@@ -86,8 +86,7 @@ public class SysMaterialReturn extends BaseAction {
 	 * @throws Exception
 	 */
 	@RequestMapping("/save")
-	public void save(sysMaterialmanage bean, 
-			HttpServletResponse response) throws Exception {  
+	public void save(sysMaterialmanage bean, HttpServletResponse response) throws Exception {  
 		sysMaterialmanage sysMaterialmanage = sysMaterialService.queryById(bean.getSyssign());
 		BigDecimal unitprice = new BigDecimal(bean.getUnitPrice()+"");
 		BigDecimal returncount = new BigDecimal(bean.getReturncount()+"");
@@ -102,7 +101,7 @@ public class SysMaterialReturn extends BaseAction {
 		SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
 		bean.setReturntime(df.format(new Date())+"");
 		bean.setSyssign("3");//归还
-		bean.setSysid("plantsys");
+		bean.setSysid(super.getSysid());
 		sysMaterialService.add(bean);
 		sendSuccessMessage(response, "归还成功~");
 	}

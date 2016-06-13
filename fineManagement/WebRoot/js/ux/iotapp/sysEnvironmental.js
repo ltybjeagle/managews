@@ -68,7 +68,7 @@ finems.environmental = function() {
 				event: {
 					edit: function() {
 						_box.handler.edit(function(result) {
-							debugger;
+					
 							$("#MonitorNum").combobox('select', result.data.name);
 						});
 					}

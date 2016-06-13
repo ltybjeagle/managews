@@ -24,6 +24,9 @@
 	<result column="classname" property="classname"/>
 	<result column="brandName" property="brandName"/>
 	<result column="mfName" property="mfName"/>
+	<result column="principalName" property="principalName"/>
+	<result column="technicalstaffName" property="technicalstaffName"/>
+	<result column="outuserName" property="outuserName"/>
 </resultMap>
 
 <sql id="Base_Column_List" >
@@ -90,7 +93,10 @@
 
 <select id="queryById" resultMap="BaseResultMap" parameterType="Object">
 	select <include refid="Base_Column_List"/>,whName,m.classname,m.brandName,m.mfName,b.baseName,g.name as greenhouseName 
-	from sys_store m 
+	,em.employeeName as principalName,em1.employeeName as outuserName,em2.employeeName as technicalstaffName from sys_store m 
+	left join sys_employees em on em.id = m.principal
+	left join sys_employees em1 on em1.id = m.outuser
+	left join sys_employees em2 on em2.id = m.technicalstaff
 	left join sys_warehouse wa on wa.id = m.warehouseid 
 	left join sys_base b on m.baseid = b.id
 	left join sys_greenhouse g on m.greenhouseid = g.id
@@ -152,17 +158,29 @@
 
 <select id="queryByIninventoryList" resultMap="BaseResultMap" parameterType="Object">
 	select <include refid="Base_Column_List"/>,whName,m.classname,m.brandName,m.mfName,m.principal,m.instoretime,
-	m.processInstanceId from sys_store m left join sys_warehouse wa on wa.id = m.warehouseid where m.syssign='1'
+	m.processInstanceId,em.employeeName as principalName from sys_store m left join sys_warehouse wa on wa.id = m.warehouseid 
+	left join sys_employees em on em.id = m.principal
+	where m.syssign='1'
 </select>
 
 <select id="queryByOutinventoryList" resultMap="BaseResultMap" parameterType="Object">
 	select <include refid="Base_Column_List"/>,whName,m.classname,m.brandName,m.mfName,m.outpurchaseCount,m.outuser,
-	m.outuser,m.processInstanceId from sys_store m left join sys_warehouse  wa on wa.id = m.warehouseid where m.syssign='-1'
+	m.outuser,m.processInstanceId,em.employeeName as principalName,em1.employeeName as outuserName,
+	em2.employeeName as technicalstaffName from sys_store m 
+	left join sys_warehouse wa on wa.id = m.warehouseid 
+	left join sys_employees em on em.id = m.principal
+	left join sys_employees em1 on em1.id = m.outuser
+	left join sys_employees em2 on em2.id = m.technicalstaff
+	where m.syssign='-1'
 </select>
 
 <select id="queryByList" resultMap="BaseResultMap" parameterType="Object">
-	select <include refid="Base_Column_List"/>,whName,m.classname,m.brandName,m.mfName from sys_store m 
-	left join sys_warehouse wa on wa.id = m.warehouseid  
+	select <include refid="Base_Column_List"/>,whName,m.classname,m.brandName,m.mfName,em.employeeName as principalName 
+	,em1.employeeName as outuserName,em2.employeeName as technicalstaffName
+	from sys_store m left join sys_warehouse wa on wa.id = m.warehouseid  
+	left join sys_employees em on em.id = m.principal
+	left join sys_employees em1 on em1.id = m.outuser
+	left join sys_employees em2 on em2.id = m.technicalstaff
 	<include refid="Example_Where_Clause"/>
 </select>
 

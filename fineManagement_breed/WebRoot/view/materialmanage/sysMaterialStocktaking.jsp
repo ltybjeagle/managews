@@ -18,8 +18,9 @@
        		</div>
        		<div class="fitem">  
            		<label>盘点仓库:</label>
-           		<input class="easyui-validatebox" type="text" readonly="true" id="warehouseid" name="warehouseid" 
-           			style="background-color:#d0d0d0"/>
+           		<select class="easyui-combobox" id="warehouseid" name="warehouseid" 
+           			validType="comboxRequired" data-options="width:141">
+           		</select>
        		</div>
        		<div class="fitem">  
            		<label>负责人:</label>  

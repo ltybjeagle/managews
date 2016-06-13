@@ -29,7 +29,6 @@ public class SysStore extends BaseEntity {
     private String unitPrice;//单价
     private String totalprice;//总价
     private int warehouseid ;//库房
-    private String sysid ;//系统
     private String technicalstaff ;//技术人员
     private String principal ;//负责人
     private String remark ;//说明
@@ -38,7 +37,7 @@ public class SysStore extends BaseEntity {
     private String outuser;//使用人
     private int baseid;//基地
     private int greenhouseid;//大棚
-    private int fowleryid; // 禽舍
+    private int fowleryid;//禽舍
     private String outpurchaseCount;//出库数量
     private String syssign;//
     private String baseName;
@@ -49,7 +48,26 @@ public class SysStore extends BaseEntity {
 	private String whName;
 	private String outremark ;//出库说明
 	private String processInstanceId; // 零时使用
-	private String fowleryName; // 禽舍名称
+	private String principalName;
+	private String technicalstaffName;
+	private String outuserName;
+	private String fowleryName;
+	/**
+	 * @return the fowleryid
+	 */
+	public int getFowleryid() {
+		return fowleryid;
+	}
+
+
+	/**
+	 * @param fowleryid the fowleryid to set
+	 */
+	public void setFowleryid(int fowleryid) {
+		this.fowleryid = fowleryid;
+	}
+
+
 	/**
 	 * @return the fowleryName
 	 */
@@ -67,18 +85,50 @@ public class SysStore extends BaseEntity {
 
 
 	/**
-	 * @return the fowleryid
+	 * @return the technicalstaffName
 	 */
-	public int getFowleryid() {
-		return fowleryid;
+	public String getTechnicalstaffName() {
+		return technicalstaffName;
 	}
 
 
 	/**
-	 * @param fowleryid the fowleryid to set
+	 * @param technicalstaffName the technicalstaffName to set
 	 */
-	public void setFowleryid(int fowleryid) {
-		this.fowleryid = fowleryid;
+	public void setTechnicalstaffName(String technicalstaffName) {
+		this.technicalstaffName = technicalstaffName;
+	}
+
+
+	/**
+	 * @return the outuserName
+	 */
+	public String getOutuserName() {
+		return outuserName;
+	}
+
+
+	/**
+	 * @param outuserName the outuserName to set
+	 */
+	public void setOutuserName(String outuserName) {
+		this.outuserName = outuserName;
+	}
+
+
+	/**
+	 * @return the principalName
+	 */
+	public String getPrincipalName() {
+		return principalName;
+	}
+
+
+	/**
+	 * @param principalName the principalName to set
+	 */
+	public void setPrincipalName(String principalName) {
+		this.principalName = principalName;
 	}
 
 
@@ -200,17 +250,6 @@ public class SysStore extends BaseEntity {
 	public void setWarehouseid(int warehouseid) {
 		this.warehouseid = warehouseid;
 	}
-
-
-	public String getSysid() {
-		return sysid;
-	}
-
-
-	public void setSysid(String sysid) {
-		this.sysid = sysid;
-	}
-
 
 	public String getClassname() {
 		return classname;

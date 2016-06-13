@@ -46,12 +46,16 @@
            		<input class="easyui-validatebox" name="purchaseCount" data-options="required:true,width:282"/>
        		</div>
        		<div class="fitem">  
-           		<label>入库负责人:</label>  
-           		<input class="easyui-validatebox" name="principal" data-options="width:282"/>
+           		<label>入库负责人:</label>
+           		<select class="easyui-combobox" id="principals" name="principals" data-options="required:true,editable:false,panelHeight:'auto'" 
+           			style="padding:2px;width:141px;">
+           		</select> 
        		</div>
        		<div class="fitem">  
            		<label>技术人员:</label>  
-           		<input class="easyui-validatebox" name="technicalstaff" data-options="width:282"/>
+           		<select class="easyui-combobox" id="technicalstaffs" name="technicalstaffs" data-options="required:true,editable:false,panelHeight:'auto'" 
+           			style="padding:2px;width:141px;">
+           		</select> 
        		</div>
        		<div class="fitem">  
             	<label>备注:</label>  

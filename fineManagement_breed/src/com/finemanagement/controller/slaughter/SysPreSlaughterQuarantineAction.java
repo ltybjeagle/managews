@@ -22,8 +22,11 @@ import com.base.util.DateUtil;
 import com.base.util.HtmlUtil;
 import com.base.util.StringUtil;
 import com.base.web.BaseAction;
+import com.finemanagement.entity.common.SysNumberRules;
 import com.finemanagement.entity.slaughter.SysPreSlaughterQuarantine;
+import com.finemanagement.page.common.SysNumberRulesModel;
 import com.finemanagement.page.slaughter.SysPreSlaughterQuarantineModel;
+import com.finemanagement.service.common.SysNumberRulesService;
 import com.finemanagement.service.slaughter.SysPreSlaughterQuarantineService;
 
 /**
@@ -36,6 +39,9 @@ public class SysPreSlaughterQuarantineAction extends BaseAction {
 
 	@Autowired(required = false)
 	private SysPreSlaughterQuarantineService<SysPreSlaughterQuarantine> sysPreSlaughterQuarantineService;
+	
+	@Autowired(required = false)
+	private SysNumberRulesService<SysNumberRules> sysNumberRulesService;
 	
 	/**
 	 * ilook 首页
@@ -81,15 +87,29 @@ public class SysPreSlaughterQuarantineAction extends BaseAction {
 	
 	@RequestMapping("/getSerializId")
 	public void getSerializId(HttpServletResponse response) throws Exception {
-		SysPreSlaughterQuarantineModel model = new SysPreSlaughterQuarantineModel();
-		model.setCreateTime(DateUtil.getNowShortDate());
-		List<SysPreSlaughterQuarantine> dataList = sysPreSlaughterQuarantineService.queryByList(model);
+		String iden = "jypc";
+		SysNumberRulesModel model = new SysNumberRulesModel();
+		super.indiModel(model);
+		model.setRuleIden(iden);
+		List<SysNumberRules> dataList = sysNumberRulesService.queryDataByList(model);
+		int mno = 1;
+		if (dataList != null && dataList.size() > 0) {
+			SysNumberRules sysNumberRules = dataList.get(0);
+			mno = sysNumberRules.getRuleNum();
+			mno++;
+			sysNumberRules.setRuleNum(mno);
+			sysNumberRulesService.updateBySelective(sysNumberRules);
+		} else {
+			SysNumberRules sysNumberRules = new SysNumberRules();
+			super.saveBean(sysNumberRules);
+			sysNumberRules.setRuleIden(iden);
+			sysNumberRules.setRuleNum(mno);
+			sysNumberRulesService.add(sysNumberRules);
+		}
 		Map<String, Object> context = getRootMap();
 		SysPreSlaughterQuarantine bean = new SysPreSlaughterQuarantine();
-		String quarantineBatch = "jypc" + DateUtil.getNowShortDate() + StringUtil.fillZero((dataList.size() 
-				+ 1) + "", 3);
-		String breedingBatch = "yzpc" + DateUtil.getNowShortDate() + StringUtil.fillZero((dataList.size() 
-				+ 1) + "", 3);
+		String quarantineBatch = iden + DateUtil.getNowShortDate() + StringUtil.fillZero(mno + "", 6);
+		String breedingBatch = "yzpc" + DateUtil.getNowShortDate() + StringUtil.fillZero(mno + "", 6);
 		bean.setQuarantineBatch(quarantineBatch);
 		bean.setBreedingBatch(breedingBatch);
 		context.put(SUCCESS, true);

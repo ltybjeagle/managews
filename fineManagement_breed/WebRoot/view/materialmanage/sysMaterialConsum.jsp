@@ -71,8 +71,8 @@
            		<select class="easyui-combobox" id="baseid" name="baseid" data-options="width:141"></select>
        		</div>
        		<div class="fitem">  
-           		<label>大棚:</label>  
-           		<select class="easyui-combobox" id="greehouseid" name="greehouseid" data-options="width:141"></select>
+           		<label>禽舍:</label>  
+           		<select class="easyui-combobox" id="fowleryid" name="fowleryid" data-options="width:141"></select>
        		</div>
        		<div class="fitem">  
            		<label>备注:</label>  
