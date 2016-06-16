@@ -38,6 +38,45 @@ public class SysInputs extends BaseEntity {
 	private String productNo;
 	private String startTime; // 开始时间
 	private String isoutstore;
+	private String baseName;
+	private String greenhouseName;
+	private String totalprice;
+	/**
+	 * @return the totalprice
+	 */
+	public String getTotalprice() {
+		return totalprice;
+	}
+	/**
+	 * @param totalprice the totalprice to set
+	 */
+	public void setTotalprice(String totalprice) {
+		this.totalprice = totalprice;
+	}
+	/**
+	 * @return the baseName
+	 */
+	public String getBaseName() {
+		return baseName;
+	}
+	/**
+	 * @param baseName the baseName to set
+	 */
+	public void setBaseName(String baseName) {
+		this.baseName = baseName;
+	}
+	/**
+	 * @return the greenhouseName
+	 */
+	public String getGreenhouseName() {
+		return greenhouseName;
+	}
+	/**
+	 * @param greenhouseName the greenhouseName to set
+	 */
+	public void setGreenhouseName(String greenhouseName) {
+		this.greenhouseName = greenhouseName;
+	}
 	/**
 	 * @return the isoutstore
 	 */

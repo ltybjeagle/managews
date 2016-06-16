@@ -34,11 +34,11 @@ import com.finemanagement.service.production.SysPlantService;
  * @author liutianyang
  */
 @Controller
-@RequestMapping(value="/appStatistics")
+@RequestMapping(value = "/appStatistics")
 public class AppStatisticsController extends BaseAction {
-	
+
 	private final static Logger log = Logger.getLogger(AppStatisticsController.class);
-	
+
 	@Autowired(required = false)
 	private SysInputsService<SysInputs> sysInputsService; // 投入品
 
@@ -68,9 +68,11 @@ public class AppStatisticsController extends BaseAction {
 			sendAppSuccess(rep, dataList);
 		} catch (Exception e) {
 			sendAppFailure(rep, "查询投入品使用统计异常!");
+			log.error(e.getMessage());
+			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * json 采摘列表页面
 	 * 
@@ -91,9 +93,11 @@ public class AppStatisticsController extends BaseAction {
 			sendAppSuccess(rep, dataList);
 		} catch (Exception e) {
 			sendAppFailure(rep, "查询采摘统计异常!");
+			log.error(e.getMessage());
+			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * json 采收列表页面
 	 * 
@@ -114,9 +118,11 @@ public class AppStatisticsController extends BaseAction {
 			sendAppSuccess(rep, dataList);
 		} catch (Exception e) {
 			sendAppFailure(rep, "查询采收统计异常!");
+			log.error(e.getMessage());
+			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * json 投入产出列表页面
 	 * 
@@ -137,6 +143,8 @@ public class AppStatisticsController extends BaseAction {
 			sendAppSuccess(rep, dataList);
 		} catch (Exception e) {
 			sendAppFailure(rep, "查询投入产出统计异常!");
+			log.error(e.getMessage());
+			e.printStackTrace();
 		}
 	}
 }

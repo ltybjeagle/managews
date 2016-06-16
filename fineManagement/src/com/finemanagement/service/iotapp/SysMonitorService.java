@@ -42,4 +42,8 @@ public class SysMonitorService<T> extends BaseService<T> {
 	public List<T> queryByDateList(BasePage page) {
 		return sysMonitorDao.queryByMonitorList(getMapperObj() + ".queryByDateList", page);
 	}
+
+	public List<T> querByAppList(BasePage page) {
+		return sysMonitorDao.queryByList(getMapperObj() + ".querByAppList", page);
+	}
 }

@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -57,6 +58,10 @@ public class MainAction extends BaseAction {
 	@Autowired(required = false) 
 	private SysUserService<SysUser> sysUserService; 
 	
+	// 系统标识
+	@Value("#{applicationProperties['system.login']}")
+	private String sysLogin;
+	
 	/**
 	 * 登录页面
 	 * @param url
@@ -66,8 +71,12 @@ public class MainAction extends BaseAction {
 	@Auth(verifyLogin = false, verifyURL = false)
 	@RequestMapping("/login")
 	public ModelAndView  login(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		Map<String, Object> context = getRootMap();
-		return forword("login", context);
+		if (sysLogin == null || "".equals(sysLogin)) {
+			Map<String, Object> context = getRootMap();
+			return forword("login", context);
+		} else {
+			return new ModelAndView("redirect:" + sysLogin);
+		}
 	}
 	
 	/**

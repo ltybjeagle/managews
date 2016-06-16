@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper
-  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.finemanagement.dao.iot.SysSensorDao" > 
-<!-- Result Map-->
 <resultMap id="BaseResultMap" type="com.finemanagement.entity.iot.SysSensor" >
 	<result column="id" property="id"/>
 	<result column="equipmentNumber" property="equipmentNumber"/>
@@ -14,31 +11,29 @@
 	<result column="greenhouseName" property="greenhouseName"/>
 </resultMap>
 
-<!-- sys_base table all fields -->
 <sql id="Base_Column_List" >
 	m.id,m.equipmentNumber,m.acquisitionPoint,m.greenhouseid,m.baseid
 </sql>
 
-<!-- 查询条件 -->
 <sql id="Example_Where_Clause">
-where 1=1
-<trim suffixOverrides="," >
-	<if test="id != null" >
-		and id = #{id}
-	</if>
-	<if test="equipmentNumber != null and equipmentNumber != ''" >
-	    and equipmentNumber = #{equipmentNumber}
-	</if>
-	<if test="acquisitionPoint != null and acquisitionPoint != ''" >
-	    and acquisitionPoint = #{acquisitionPoint}
-	</if>
-	<if test="greenhouseid != null and greenhouseid > 0" >
-	    and greenhouseid = #{greenhouseid}
-	</if>
-	<if test="baseid != null and baseid > 0" >
-	    and baseid = #{baseid}
-	</if>
-</trim>
+	where 1=1
+	<trim suffixOverrides="," >
+		<if test="id != null" >
+			and m.id = #{id}
+		</if>
+		<if test="equipmentNumber != null and equipmentNumber != ''" >
+		    and m.equipmentNumber = #{equipmentNumber}
+		</if>
+		<if test="acquisitionPoint != null and acquisitionPoint != ''" >
+		    and m.acquisitionPoint = #{acquisitionPoint}
+		</if>
+		<if test="greenhouseid != null and greenhouseid > 0" >
+		    and m.greenhouseid = #{greenhouseid}
+		</if>
+		<if test="baseid != null and baseid > 0" >
+		    and m.baseid = #{baseid}
+		</if>
+	</trim>
 </sql>
 
 <!-- 插入记录 -->

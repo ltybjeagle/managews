@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.base.web.BaseAction;
 import com.finemanagement.entity.basic.SysBase;
 import com.finemanagement.entity.basic.SysEmployees;
-import com.finemanagement.entity.basic.SysGreenhouse;
 import com.finemanagement.entity.basic.SysGreenhouseType;
 import com.finemanagement.entity.basic.SysWarehouse;
 import com.finemanagement.entity.inputs.SysClassify;
@@ -30,7 +29,6 @@ import com.finemanagement.entity.inputs.SysProduct;
 import com.finemanagement.entity.production.SysTask;
 import com.finemanagement.page.basic.SysBaseModel;
 import com.finemanagement.page.basic.SysEmployeesModel;
-import com.finemanagement.page.basic.SysGreenhouseModel;
 import com.finemanagement.page.basic.SysGreenhouseTypeModel;
 import com.finemanagement.page.basic.SysWarehouseModel;
 import com.finemanagement.page.inputs.SysClassifyModel;
@@ -38,7 +36,6 @@ import com.finemanagement.page.inputs.SysProductModel;
 import com.finemanagement.page.production.SysTaskModel;
 import com.finemanagement.service.basic.SysBaseService;
 import com.finemanagement.service.basic.SysEmployeesService;
-import com.finemanagement.service.basic.SysGreenhouseService;
 import com.finemanagement.service.basic.SysGreenhouseTypeService;
 import com.finemanagement.service.basic.SysWarehouseService;
 import com.finemanagement.service.inputs.SysClassifyService;
@@ -50,36 +47,33 @@ import com.finemanagement.service.production.SysTaskService;
  * @author liutianyang
  */
 @Controller
-@RequestMapping(value="/appBase")
+@RequestMapping(value = "/appBase")
 public class AppBaseController extends BaseAction {
-	
+
 	private final static Logger log = Logger.getLogger(AppBaseController.class);
 
 	@Autowired(required = false)
 	private SysBaseService<SysBase> sysBaseService;
-	
+
 	@Autowired(required = false)
 	private SysClassifyService<SysClassify> sysClassifyService;
-	
+
 	@Autowired(required = false)
 	private SysWarehouseService<SysWarehouse> sysWarehouseService;
-	
+
 	@Autowired(required = false)
 	private SysProductService<SysProduct> sysProductService;
-	
-	@Autowired(required = false)
-	private SysGreenhouseService<SysGreenhouse> sysGreenhouseService;
-	
+
 	@Autowired(required = false)
 	private SysGreenhouseTypeService<SysGreenhouseType> sysGreenhouseTypeService;
-	
+
 	@Autowired(required = false)
 	private SysTaskService<SysTask> sysTaskService;
-	
+
 	@Autowired(required = false)
 	private SysEmployeesService<SysEmployees> sysEmployeesService;
-	
-	@RequestMapping("/appQuerybaseList") 
+
+	@RequestMapping("/appQuerybaseList")
 	public void appQuerybaseList(SysBaseModel model, HttpServletResponse rep) {
 		try {
 			super.indiModel(model);
@@ -100,39 +94,19 @@ public class AppBaseController extends BaseAction {
 			sendAppSuccess(rep, resList);
 		} catch (Exception e) {
 			sendAppFailure(rep, "查询基地异常!");
+			log.error(e.getMessage());
+			e.printStackTrace();
 		}
 	}
-	
-	@RequestMapping("/appQueryGreenhouseList") 
-	public void appQueryGreenhouseList(SysGreenhouseModel model, HttpServletResponse rep) {
-		try {
-			List<SysGreenhouse> dataList = sysGreenhouseService.queryByList(model);
-			List<Map<String, Object>> resList = new ArrayList<Map<String, Object>>();
-			for (SysGreenhouse bean : dataList) {
-				Map<String, Object> resMap = new HashMap<String, Object>();
-				resMap.put("id", bean.getId());
-				resMap.put("name", bean.getName());
-				resMap.put("ghArea", bean.getGhArea());
-				resMap.put("baseid", bean.getBaseid());
-				resMap.put("baseName", bean.getBaseName());
-				resMap.put("greenhouseName", bean.getGreenhouseName());
-				resMap.put("createTime", bean.getCreateTime());
-				resList.add(resMap);
-			}
-			log.debug("APP查询大棚成功!");
-			sendAppSuccess(rep, resList);
-		} catch (Exception e) {
-			sendAppFailure(rep, "查询大棚异常!");
-		}
-	}
-	
+
 	/**
 	 * json 列表页面
+	 * 
 	 * @param model
 	 * @param response
 	 * @throws Exception
 	 */
-	@RequestMapping("/appQueryGHTypeList") 
+	@RequestMapping("/appQueryGHTypeList")
 	public void appQueryGHTypeList(SysGreenhouseTypeModel model, HttpServletRequest req, HttpServletResponse rep) {
 		try {
 			List<SysGreenhouseType> dataList = sysGreenhouseTypeService.queryByList(model);
@@ -148,10 +122,12 @@ public class AppBaseController extends BaseAction {
 			sendAppSuccess(rep, resList);
 		} catch (Exception e) {
 			sendAppFailure(rep, "查询大棚类型异常!");
+			log.error(e.getMessage());
+			e.printStackTrace();
 		}
 	}
-	
-	@RequestMapping("/appQueryTaskTypeList") 
+
+	@RequestMapping("/appQueryTaskTypeList")
 	public void appQueryTaskTypeList(SysTaskModel model, HttpServletRequest req, HttpServletResponse rep) {
 		try {
 			super.indiModel(model);
@@ -167,10 +143,12 @@ public class AppBaseController extends BaseAction {
 			sendAppSuccess(rep, resList);
 		} catch (Exception e) {
 			sendAppFailure(rep, "查询任务类型异常!");
+			log.error(e.getMessage());
+			e.printStackTrace();
 		}
 	}
-	
-	@RequestMapping("/appQueryProductList") 
+
+	@RequestMapping("/appQueryProductList")
 	public void appQueryProductList(SysProductModel model, HttpServletResponse rep) {
 		try {
 			super.indiModel(model);
@@ -192,16 +170,19 @@ public class AppBaseController extends BaseAction {
 			sendAppSuccess(rep, resList);
 		} catch (Exception e) {
 			sendAppFailure(rep, "查询投入品异常!");
+			log.error(e.getMessage());
+			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * ilook 首页
+	 * 
 	 * @param model
 	 * @param request
 	 * @return
 	 */
-	@RequestMapping("/appQueryClassifyList") 
+	@RequestMapping("/appQueryClassifyList")
 	public void appQueryClassifyList(SysClassifyModel model, HttpServletResponse rep) {
 		try {
 			List<SysClassify> dataList = sysClassifyService.queryByList(model);
@@ -209,16 +190,19 @@ public class AppBaseController extends BaseAction {
 			sendAppSuccess(rep, dataList);
 		} catch (Exception e) {
 			sendAppFailure(rep, "查询商品类型异常!");
+			log.error(e.getMessage());
+			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * ilook 首页
+	 * 
 	 * @param model
 	 * @param request
 	 * @return
 	 */
-	@RequestMapping("/appQueryWhList") 
+	@RequestMapping("/appQueryWhList")
 	public void appQueryWhList(SysWarehouseModel model, HttpServletResponse rep) {
 		try {
 			List<SysWarehouse> dataList = sysWarehouseService.queryByList(model);
@@ -226,10 +210,12 @@ public class AppBaseController extends BaseAction {
 			sendAppSuccess(rep, dataList);
 		} catch (Exception e) {
 			sendAppFailure(rep, "查询仓库异常!");
+			log.error(e.getMessage());
+			e.printStackTrace();
 		}
 	}
-	
-	@RequestMapping("/appQueryEmployeeList") 
+
+	@RequestMapping("/appQueryEmployeeList")
 	public void appQueryEmployeeList(SysEmployeesModel model, HttpServletResponse rep) throws Exception {
 		try {
 			super.indiModel(model);
@@ -238,6 +224,8 @@ public class AppBaseController extends BaseAction {
 			sendAppSuccess(rep, dataList);
 		} catch (Exception e) {
 			sendAppFailure(rep, "查询员工信息异常!");
+			log.error(e.getMessage());
+			e.printStackTrace();
 		}
 	}
 }

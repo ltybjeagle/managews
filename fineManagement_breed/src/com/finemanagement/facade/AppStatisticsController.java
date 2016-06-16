@@ -68,6 +68,8 @@ public class AppStatisticsController extends BaseAction {
 			sendAppSuccess(rep, dataList);
 		} catch (Exception e) {
 			sendAppFailure(rep, "查询投入品使用统计异常!");
+			log.error(e.getMessage());
+			e.printStackTrace();
 		}
 	}
 
@@ -91,6 +93,8 @@ public class AppStatisticsController extends BaseAction {
 			sendAppSuccess(rep, dataList);
 		} catch (Exception e) {
 			sendAppFailure(rep, "查询采收统计异常!");
+			log.error(e.getMessage());
+			e.printStackTrace();
 		}
 	}
 
@@ -114,6 +118,8 @@ public class AppStatisticsController extends BaseAction {
 			sendAppSuccess(rep, dataList);
 		} catch (Exception e) {
 			sendAppFailure(rep, "查询投入产出统计异常!");
+			log.error(e.getMessage());
+			e.printStackTrace();
 		}
 	}
 
@@ -136,8 +142,8 @@ public class AppStatisticsController extends BaseAction {
 			log.debug("APP查询出栏统计成功!");
 			sendAppSuccess(rep, dataList);
 		} catch (Exception e) {
-			log.error(e.getMessage());
 			sendAppFailure(rep, "查询出栏统计异常!");
+			log.error(e.getMessage());
 			e.printStackTrace();
 		}
 	}

@@ -3,6 +3,10 @@ package com.finemanagement.entity.materialmanage;
 import com.base.entity.BaseEntity;
 
 public class sysMaterialmanage extends BaseEntity {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3124933751432543609L;
 	private Integer id; // id主键
 	private String principal; // 负责人
 	private String materialuser;//使用人

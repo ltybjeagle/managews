@@ -30,7 +30,7 @@
 	   	<a href="#" id="btn-search" class="easyui-linkbutton" iconCls="icon-search">查询</a>
 	</form>  
 </div> 
-<div  region="center" border="false" style="overflow:auto">
+<div  region="center" border="false">
 <div>
 			    <input type="checkbox" name="xz" value="airTemperature"   />空气温度℃&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <input type="checkbox" name="xz" value="airHumidity"  />空气湿度%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -42,9 +42,9 @@
                 <input type="checkbox" name="xz" value="diameterWidth"  />茎秆直径微变化
 </div>
 <div id="container" style="height:380px; margin: 15 auto;"></div>
-<div style="height:340px;" >
-	<table id="data-list"></table>
 </div>
+<div region="south" style="height:340px;" >
+	<table id="data-list"></table>
 </div>
 <script type="text/javascript" src="<%=basePath%>/js/ux/iotapp/sysEnvironmental.js"></script>
 	</body>

@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper
-  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.finemanagement.dao.iotapp.SysMonitorDao" > 
-<!-- Result Map-->
 <resultMap id="BaseResultMap" type="com.finemanagement.entity.iotapp.SysMonitor" >
 	<result column="id" property="id"/>
 	<result column="MonitorNum" property="MonitorNum"/>
@@ -27,6 +24,7 @@
 	<result column="start_date" property="start_date"/>
 	<result column="end_date" property="end_date"/>
 </resultMap>
+
 <resultMap type="com.finemanagement.entity.iotapp.SysMonitorInfo" id="MonitorInfoMap">
     <result column="id" property="id"/>
 	<result column="MonitorNum" property="MonitorNum"/>
@@ -35,59 +33,59 @@
 	<result column="BlockID" property="BlockID"/>
     <result column="IsDelete" property="IsDelete"/>
 </resultMap>
-<sql id="Example_Where_Clause">
-where 1=1
-<trim suffixOverrides="," >
-	<if test="ReceivedTime != null and ReceivedTime != ''" >
-	    and m.ReceivedTime &gt;= #{ReceivedTime}
-	</if>
-	<if test="MonitorNum != null and MonitorNum != ''" >
-	    and m.MonitorNum = #{MonitorNum}
-	</if>
-		<if test="start_date != null and start_date != '' ">
-		and m.ReceivedTime &gt;= #{start_date}
-	</if>
-	<if test="end_date != null and end_date != '' ">
-		and m.ReceivedTime &lt;= #{end_date}
-	</if>
-</trim>
 
+<sql id="Example_Where_Clause">
+	where 1=1
+	<trim suffixOverrides="," >
+		<if test="ReceivedTime != null and ReceivedTime != ''" >
+		    and m.ReceivedTime &gt;= #{ReceivedTime}
+		</if>
+		<if test="MonitorNum != null and MonitorNum != ''" >
+		    and m.MonitorNum = #{MonitorNum}
+		</if>
+			<if test="start_date != null and start_date != '' ">
+			and m.ReceivedTime &gt;= #{start_date}
+		</if>
+		<if test="end_date != null and end_date != '' ">
+			and m.ReceivedTime &lt;= #{end_date}
+		</if>
+	</trim>
 </sql>
-<!-- sys_base table all fields -->
+
 <sql id="Base_Column_List" >
 	m.MonitorNum,m.AirHumidity,m.PhotosyntheticRadiation,m.SoilTemperature,m.SoilHumidity,m.SoilEC,m.InfraredTemperature,m.DissolvedOxygenCon,m.WaterPH,m.LightIntensity,
 	m.RainFall,m.WindSpeed,m.WindDirection,m.DiameterWidth,m.FruitSize,m.ReceivedTime
 </sql>
 
-<!-- 删除记录 -->
 <delete id="delete" parameterType="Object">
 	delete from SensorHistory where id = #{id}
 </delete>
 
 <select id="queryById" resultMap="BaseResultMap" parameterType="Object">
-select <include refid="Base_Column_List" /> from SensorHistory m  where id = #{id}
+	select <include refid="Base_Column_List" /> from SensorHistory m  where id = #{id}
 </select>
 
 <select id="queryByList" resultMap="BaseResultMap" parameterType="Object">
-select <include refid="Base_Column_List"/> from SensorHistory m 
-<include refid="Example_Where_Clause"/> 
+	select <include refid="Base_Column_List"/> from SensorHistory m 
+	<include refid="Example_Where_Clause"/> 
 </select>
+
 <select id="queryByMonitorNumList" resultMap="MonitorInfoMap" parameterType="object">
-select * from MonitorInfo m;
+	select * from MonitorInfo m;
 </select>
 
 <select id="queryByYearList" resultMap="BaseResultMap" parameterType="Object">
-select <include refid="Base_Column_List" /> from vw_monitor_environmental_year m  
-<include refid="Example_Where_Clause"/> 
+	select <include refid="Base_Column_List" /> from vw_monitor_environmental_year m  
+	<include refid="Example_Where_Clause"/> 
 </select>
 
 <select id="queryByMonthList" resultMap="BaseResultMap" parameterType="Object">
-select <include refid="Base_Column_List" /> from vw_monitor_environmental_month m  
-<include refid="Example_Where_Clause"/> 
+	select <include refid="Base_Column_List" /> from vw_monitor_environmental_month m  
+	<include refid="Example_Where_Clause"/> 
 </select>
 
 <select id="queryByDateList" resultMap="BaseResultMap" parameterType="Object">
-select <include refid="Base_Column_List" /> from vw_monitor_environmental_date m  
-<include refid="Example_Where_Clause"/> 
+	select <include refid="Base_Column_List" /> from vw_monitor_environmental_date m  
+	<include refid="Example_Where_Clause"/> 
 </select>
 </mapper>

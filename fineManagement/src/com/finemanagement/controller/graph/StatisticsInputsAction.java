@@ -118,10 +118,8 @@ public class StatisticsInputsAction<T> extends BaseAction {
 	 * @throws Exception
 	 */
 	@RequestMapping("/inputtable")
-	public void dataList(SysInputsModel model, String state, String start_date, String end_date,
+	public void dataList(SysInputsModel model, String state, String start_date, String end_date, 
 			HttpServletResponse response) throws Exception {
-
-		// Map<String, Object> map = BeanUtil.transBean2Map(model);
 		List<SysInputs> dataList = null;
 		if (state == null)
 			return;

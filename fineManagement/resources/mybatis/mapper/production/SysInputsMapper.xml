@@ -22,6 +22,9 @@
 	<result column="plantationMemberName" property="plantationMemberName"/>
 	<result column="technicianName" property="technicianName"/>
 	<result column="isoutstore" property="isoutstore"/>
+	<result column="baseName" property="baseName"/>
+	<result column="greenhouseName" property="greenhouseName"/>
+	<result column="totalprice" property="totalprice"/>
 </resultMap>
 
 <sql id="Base_Column_List" >
@@ -190,11 +193,7 @@ ${pager.orderCondition}
 </select>
 
 <select id="queryByMonthList" resultMap="BaseResultMap" parameterType="Object">
-select * from vw_graph_inputs_month m  
-<include refid="Example_Where_Clause"/> 
-<if test="pager.orderCondition != null and pager.orderCondition != ''" >
-${pager.orderCondition}
-</if>
+	select * from vw_graph_inputs_month m <include refid="Example_Where_Clause"/> 
 </select>
 
 <select id="queryByDateList" resultMap="BaseResultMap" parameterType="Object">

@@ -37,22 +37,23 @@ import com.finemanagement.service.store.SysStoreService;
  * @author liutianyang
  */
 @Controller
-@RequestMapping(value="/appStore")
+@RequestMapping(value = "/appStore")
 public class AppStoreController extends BaseAction {
 
 	private final static Logger log = Logger.getLogger(AppStoreController.class);
-	
+
 	@Autowired(required = false)
 	private SysStoreService<SysStore> sysStoreService;
-	
+
 	@Autowired(required = false)
 	private SysPurchaseService<SysPurchase> sysPurchaseService;
-	
+
 	@Autowired(required = false)
 	private SysInputsService<SysInputs> sysInputsService;
-	
+
 	/**
 	 * json 列表页面
+	 * 
 	 * @param model
 	 * @param response
 	 * @throws Exception
@@ -83,16 +84,19 @@ public class AppStoreController extends BaseAction {
 			sendAppSuccess(rep, resList);
 		} catch (Exception e) {
 			sendAppFailure(rep, "查询库存异常!");
+			log.error(e.getMessage());
+			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * json 列表页面
+	 * 
 	 * @param model
 	 * @param response
 	 * @throws Exception
 	 */
-	@RequestMapping("/appQueryPurchaseList") 
+	@RequestMapping("/appQueryPurchaseList")
 	public void appQueryPurchaseList(SysPurchaseModel model, HttpServletRequest req, HttpServletResponse rep) {
 		try {
 			super.indiModel(model);
@@ -103,11 +107,13 @@ public class AppStoreController extends BaseAction {
 			sendAppSuccess(rep, dataList);
 		} catch (Exception e) {
 			sendAppFailure(rep, "查询待入库信息异常!");
+			log.error(e.getMessage());
+			e.printStackTrace();
 		}
 	}
-	
+
 	@RequestMapping("/appSavePurchaseToStore")
-	public void appSavePurchaseToStore(SysStore bean, HttpServletRequest req, HttpServletResponse rep) {  
+	public void appSavePurchaseToStore(SysStore bean, HttpServletRequest req, HttpServletResponse rep) {
 		try {
 			super.saveBean(bean);
 			String purchaseid = req.getParameter("purchaseid");
@@ -134,16 +140,19 @@ public class AppStoreController extends BaseAction {
 			sendAppSuccess(rep, bean);
 		} catch (Exception e) {
 			sendAppFailure(rep, "保存入库信息异常!");
+			log.error(e.getMessage());
+			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * json 列表页面
+	 * 
 	 * @param model
 	 * @param response
 	 * @throws Exception
 	 */
-	@RequestMapping("/appQueryIninventoryList") 
+	@RequestMapping("/appQueryIninventoryList")
 	public void appQueryIninventoryList(SysStoreModel model, HttpServletRequest req, HttpServletResponse rep) {
 		try {
 			super.indiModel(model);
@@ -152,16 +161,19 @@ public class AppStoreController extends BaseAction {
 			sendAppSuccess(rep, dataList);
 		} catch (Exception e) {
 			sendAppFailure(rep, "查询入库清单异常!");
+			log.error(e.getMessage());
+			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * json 列表页面
+	 * 
 	 * @param model
 	 * @param response
 	 * @throws Exception
 	 */
-	@RequestMapping("/appQueryInputsList") 
+	@RequestMapping("/appQueryInputsList")
 	public void appQueryInputsList(SysInputsModel model, HttpServletRequest req, HttpServletResponse rep) {
 		try {
 			model.setIsoutstore("0");
@@ -170,17 +182,20 @@ public class AppStoreController extends BaseAction {
 			sendAppSuccess(rep, dataList);
 		} catch (Exception e) {
 			sendAppFailure(rep, "查询出库投入品异常!");
+			log.error(e.getMessage());
+			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * 入库数据
+	 * 
 	 * @param bean
 	 * @param response
 	 * @throws Exception
 	 */
 	@RequestMapping("/appSaveInputsToStore")
-	public void appSaveInputsToStore(SysStore bean, HttpServletRequest req, HttpServletResponse rep) {  
+	public void appSaveInputsToStore(SysStore bean, HttpServletRequest req, HttpServletResponse rep) {
 		try {
 			super.saveBean(bean);
 			String inputid = req.getParameter("inputid");
@@ -201,7 +216,7 @@ public class AppStoreController extends BaseAction {
 			bean.setTotalprice(unitprice.multiply(purchaseCount).toString());
 			bean.setOutstoretime(DateUtil.getNowFormateDate());
 			bean.setSyssign("-1");
-			bean.setSysid("plantsys");
+			// bean.setSysid("plantsys");
 			bean.setProcessInstanceId(inputid + "");
 			sysStoreService.add(bean);
 			// 更新投入品表
@@ -210,16 +225,19 @@ public class AppStoreController extends BaseAction {
 			sendAppSuccess(rep, bean);
 		} catch (Exception e) {
 			sendAppFailure(rep, "保存投入品出库信息异常!");
+			log.error(e.getMessage());
+			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * json 列表页面
+	 * 
 	 * @param model
 	 * @param response
 	 * @throws Exception
 	 */
-	@RequestMapping("/appQueryOutinventoryList") 
+	@RequestMapping("/appQueryOutinventoryList")
 	public void appQueryOutinventoryList(SysStoreModel model, HttpServletRequest req, HttpServletResponse rep) {
 		try {
 			super.indiModel(model);
@@ -228,6 +246,8 @@ public class AppStoreController extends BaseAction {
 			sendAppSuccess(rep, dataList);
 		} catch (Exception e) {
 			sendAppFailure(rep, "查询出库清单异常!");
+			log.error(e.getMessage());
+			e.printStackTrace();
 		}
 	}
 }

@@ -53,45 +53,46 @@ import com.finemanagement.service.production.SysTaskService;
  * @author liutianyang
  */
 @Controller
-@RequestMapping(value="/appProduction")
+@RequestMapping(value = "/appProduction")
 public class AppProductionController extends BaseAction {
 
 	private final static Logger log = Logger.getLogger(AppProductionController.class);
-	
+
 	@Autowired(required = false)
 	private SysGreenhouseService<SysGreenhouse> sysGreenhouseService;
-	
+
 	@Autowired(required = false)
 	private SysPlantService<SysPlant> sysPlantService;
-	
+
 	@Autowired(required = false)
 	private SysTaskService<SysTask> sysTaskService;
-	
+
 	@Autowired(required = false)
 	private SysInputsService<SysInputs> sysInputsService;
-	
+
 	@Autowired(required = false)
 	private SysFowleryTypeService<SysFowleryType> sysFowleryTypeService;
-	
+
 	@Autowired(required = false)
 	private SysFowleryService<SysFowlery> sysFowleryService;
-	
+
 	@Autowired(required = false)
 	private SysBreedService<SysBreed> sysBreedService;
-	
+
 	@Autowired(required = false)
 	private SysTaskBreedService<SysTaskBreed> sysTaskBreedService;
-	
+
 	@Autowired(required = false)
 	private SysInputsBreedService<SysInputsBreed> sysInputsBreedService;
-	
+
 	/**
 	 * json 列表页面
+	 * 
 	 * @param model
 	 * @param response
 	 * @throws Exception
 	 */
-	@RequestMapping("/appQueryFowleryTypeList") 
+	@RequestMapping("/appQueryFowleryTypeList")
 	public void appQueryFowleryTypeList(SysFowleryTypeModel model, HttpServletRequest req, HttpServletResponse rep) {
 		try {
 			List<SysFowleryType> dataList = sysFowleryTypeService.queryByList(model);
@@ -104,11 +105,12 @@ public class AppProductionController extends BaseAction {
 
 	/**
 	 * json 列表页面
+	 * 
 	 * @param model
 	 * @param response
 	 * @throws Exception
 	 */
-	@RequestMapping("/appQueryGHList") 
+	@RequestMapping("/appQueryGHList")
 	public void appQueryGHList(SysGreenhouseModel model, HttpServletRequest req, HttpServletResponse rep) {
 		try {
 			List<SysGreenhouse> dataList = sysGreenhouseService.queryByList(model);
@@ -118,14 +120,15 @@ public class AppProductionController extends BaseAction {
 			sendAppFailure(rep, "查询大棚异常!");
 		}
 	}
-	
+
 	/**
 	 * json 列表页面
+	 * 
 	 * @param model
 	 * @param response
 	 * @throws Exception
 	 */
-	@RequestMapping("/appQueryFowleryList") 
+	@RequestMapping("/appQueryFowleryList")
 	public void appQueryFowleryList(SysFowleryModel model, HttpServletRequest req, HttpServletResponse rep) {
 		try {
 			List<SysFowlery> dataList = sysFowleryService.queryByList(model);
@@ -135,14 +138,15 @@ public class AppProductionController extends BaseAction {
 			sendAppFailure(rep, "查询禽舍异常!");
 		}
 	}
-	
+
 	/**
 	 * json 列表页面
+	 * 
 	 * @param model
 	 * @param response
 	 * @throws Exception
 	 */
-	@RequestMapping("/appQueryPlantList") 
+	@RequestMapping("/appQueryPlantList")
 	public void appQueryPlantList(SysPlantModel model, HttpServletRequest req, HttpServletResponse rep) {
 		try {
 			List<SysPlant> dataList = sysPlantService.queryByList(model);
@@ -164,7 +168,7 @@ public class AppProductionController extends BaseAction {
 			sendAppFailure(rep, "查询种植记录异常!");
 		}
 	}
-	
+
 	@RequestMapping("/appSavePlantList")
 	public void appSavePlantList(SysPlant bean, HttpServletRequest req, HttpServletResponse rep) {
 		try {
@@ -173,16 +177,19 @@ public class AppProductionController extends BaseAction {
 			sendAppSuccess(rep, null);
 		} catch (Exception e) {
 			sendAppFailure(rep, "保存种植计划异常!");
+			log.error(e.getMessage());
+			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * json 列表页面
+	 * 
 	 * @param model
 	 * @param response
 	 * @throws Exception
 	 */
-	@RequestMapping("/appQueryBreedList") 
+	@RequestMapping("/appQueryBreedList")
 	public void appQueryBreedList(SysBreedModel model, HttpServletRequest req, HttpServletResponse rep) {
 		try {
 			List<SysBreed> dataList = sysBreedService.queryByList(model);
@@ -190,16 +197,19 @@ public class AppProductionController extends BaseAction {
 			sendAppSuccess(rep, dataList);
 		} catch (Exception e) {
 			sendAppFailure(rep, "查询养殖记录异常!");
+			log.error(e.getMessage());
+			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * json 列表页面
+	 * 
 	 * @param model
 	 * @param response
 	 * @throws Exception
 	 */
-	@RequestMapping("/appQueryTaskList") 
+	@RequestMapping("/appQueryTaskList")
 	public void appQueryTaskList(SysTaskModel model, HttpServletRequest req, HttpServletResponse rep) {
 		try {
 			List<SysTask> dataList = sysTaskService.queryByList(model);
@@ -218,16 +228,19 @@ public class AppProductionController extends BaseAction {
 			sendAppSuccess(rep, resList);
 		} catch (Exception e) {
 			sendAppFailure(rep, "查询种植任务异常!");
+			log.error(e.getMessage());
+			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * json 列表页面
+	 * 
 	 * @param model
 	 * @param response
 	 * @throws Exception
 	 */
-	@RequestMapping("/appQueryTaskBreed") 
+	@RequestMapping("/appQueryTaskBreed")
 	public void appQueryTaskBreed(SysTaskBreedModel model, HttpServletRequest req, HttpServletResponse rep) {
 		try {
 			List<SysTaskBreed> dataList = sysTaskBreedService.queryByList(model);
@@ -235,9 +248,11 @@ public class AppProductionController extends BaseAction {
 			sendAppSuccess(rep, dataList);
 		} catch (Exception e) {
 			sendAppFailure(rep, "查询养殖任务异常!");
+			log.error(e.getMessage());
+			e.printStackTrace();
 		}
 	}
-	
+
 	@RequestMapping("/appQueryInputsList")
 	public void appQueryInputsList(SysInputsModel model, HttpServletRequest req, HttpServletResponse rep) {
 		try {
@@ -262,9 +277,11 @@ public class AppProductionController extends BaseAction {
 			sendAppSuccess(rep, resList);
 		} catch (Exception e) {
 			sendAppFailure(rep, "查询种植投入品异常!");
+			log.error(e.getMessage());
+			e.printStackTrace();
 		}
 	}
-	
+
 	@RequestMapping("/appSaveTaskList")
 	public void appSaveTaskList(SysTask bean, HttpServletRequest req, HttpServletResponse rep) {
 		try {
@@ -273,9 +290,11 @@ public class AppProductionController extends BaseAction {
 			sendAppSuccess(rep, null);
 		} catch (Exception e) {
 			sendAppFailure(rep, "保存种植任务异常!");
+			log.error(e.getMessage());
+			e.printStackTrace();
 		}
 	}
-	
+
 	@RequestMapping("/appSaveTaskBreedList")
 	public void appSaveTaskBreedList(SysTaskBreed bean, HttpServletRequest req, HttpServletResponse rep) {
 		try {
@@ -284,9 +303,11 @@ public class AppProductionController extends BaseAction {
 			sendAppSuccess(rep, bean);
 		} catch (Exception e) {
 			sendAppFailure(rep, "保存养殖任务异常!");
+			log.error(e.getMessage());
+			e.printStackTrace();
 		}
 	}
-	
+
 	@RequestMapping("/appQueryInputsBreed")
 	public void appQueryInputsBreed(SysInputsBreedModel model, HttpServletRequest req, HttpServletResponse rep) {
 		try {
@@ -295,9 +316,11 @@ public class AppProductionController extends BaseAction {
 			sendAppSuccess(rep, dataList);
 		} catch (Exception e) {
 			sendAppFailure(rep, "查询养殖投入品异常!");
+			log.error(e.getMessage());
+			e.printStackTrace();
 		}
 	}
-	
+
 	@RequestMapping("/appSaveInputsList")
 	public void appSaveInputsList(SysInputs bean, HttpServletRequest req, HttpServletResponse rep) {
 		try {
@@ -306,9 +329,11 @@ public class AppProductionController extends BaseAction {
 			sendAppSuccess(rep, null);
 		} catch (Exception e) {
 			sendAppFailure(rep, "保存种植投入品异常!");
+			log.error(e.getMessage());
+			e.printStackTrace();
 		}
 	}
-	
+
 	@RequestMapping("/appSaveInputsBreed")
 	public void appSaveInputsBreed(SysInputsBreed bean, HttpServletRequest req, HttpServletResponse rep) {
 		try {
@@ -317,6 +342,8 @@ public class AppProductionController extends BaseAction {
 			sendAppSuccess(rep, bean);
 		} catch (Exception e) {
 			sendAppFailure(rep, "保存养殖投入品异常!");
+			log.error(e.getMessage());
+			e.printStackTrace();
 		}
 	}
 }
